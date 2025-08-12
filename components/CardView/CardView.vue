@@ -1,0 +1,52 @@
+<template>
+	<view class="card-view">
+		<up-image src="https://cdn.uviewui.com/uview/album/1.jpg" :lazy-load="true" width="100%" height="220rpx" radius="20rpx 20rpx 0 0 " mode="aspectFit"></up-image>
+		
+		<view class="desc">
+			<view class="title">男生组队打游戏时男生组队打游戏时男生组队打游戏时</view>
+			<view class="auther">
+				<up-avatar src="https://cdn.uviewui.com/uview/album/1.jpg" size="25"></up-avatar>
+				<view class="name">zovod</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script setup>
+	
+</script>
+
+<style lang="scss">
+.card-view{
+	width: 340rpx;
+	padding-bottom: 10rpx;
+	border-radius: 20rpx; 
+	background-color: rgba(255,255,255, .03);
+	
+	.desc{
+		padding: 10rpx 15rpx;
+		font-size: 15px;
+	}
+	
+	.title{
+		height: 80rpx;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display:-webkit-box; //作为弹性伸缩盒子模型显示。
+		-webkit-box-orient:vertical; //设置伸缩盒子的子元素排列方式--从上到下垂直排列
+		-webkit-line-clamp:2; 
+	}
+	
+	.auther{
+		margin-top: 20rpx;
+		font-size: 11px;
+		
+		display: flex;
+		align-items: center;
+		
+		.name{
+			margin-left: 20rpx;
+		}
+	}
+}
+</style>
