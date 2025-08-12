@@ -48,8 +48,8 @@
 		ref
 	} from 'vue'
 	import tabs from '@/components/tabs/tabs.vue'
-	import CardView from '@/components/CardView/CardView.vue'
-import BannerSwiper from '@/components/BannerSwiper/BannerSwiper.vue'
+	import CardView from './components/CardView/CardView.vue'
+	import BannerSwiper from './components/BannerSwiper/BannerSwiper.vue'
 
 	const list = ref([{
 			name: '发现'
@@ -133,19 +133,7 @@ import BannerSwiper from '@/components/BannerSwiper/BannerSwiper.vue'
 </script>
 
 <style lang="scss">
-	.search {
-		display: flex;
-		align-items: center;
-		background-color: var(--white-op-16);
-		padding: 10rpx;
-		border-radius: 100rpx;
 
-		text {
-			margin-left: 10rpx;
-			margin-right: 15rpx;
-			color: #fff;
-		}
-	}
 
 .content{
 	padding: 20rpx;

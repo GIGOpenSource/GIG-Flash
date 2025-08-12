@@ -24,6 +24,21 @@
 		color: #fff;
 	}
 
+// 导航栏搜索
+	.search {
+		display: flex;
+		align-items: center;
+		background-color: var(--white-op-16);
+		padding: 10rpx;
+		border-radius: 100rpx;
+
+		text {
+			margin-left: 10rpx;
+			margin-right: 15rpx;
+			color: #fff;
+		}
+	}
+	
 	/* #ifdef APP */
 	.navbar:before {
 		display: block;
