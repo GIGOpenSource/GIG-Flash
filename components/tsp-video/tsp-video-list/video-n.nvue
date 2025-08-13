@@ -2,16 +2,16 @@
 	<view class="page">
 		<view :style="{height:videoStyle.statusBarHeight}"></view>
 		<view class="contentBox" :style="{width:videoStyle.width,height:videoStyle.height}" v-if="contentShow" @touchmove="vodViewMove($event)" @touchend="vodViewEnd($event)">
-			<list @loadmore="lodData" @scroll="scrolls" :show-scrollbar="false" ref="listBox" :pagingEnabled="true">
+			<list @loadmore="lodData" @scroll="scrolls" :show-scrollbar="false" :loadmoreoffset="vodHeight*0" ref="listBox" :pagingEnabled="true">
 				<unirefresh class="refresh" ref="refresh" @refresh="refreshData" :bgStyle="'#000'" :fontColor="'#fff'" v-if="loadOpen"></unirefresh>
-				<cell v-for="(item,index) in vodList" :key="'myVideo'+index+swId">
-					<view :style="{width:videoStyle.width,height:videoStyle.height}" :ref="'myVideo'+index+swId">
+				<cell v-for="(item,index) in vodList" :key="'myVodEl'+index+swId">
+					<view :style="{width:videoStyle.width,height:videoStyle.height}" :ref="'myVodEl'+index+swId">
 						<!-- 底层图标 -->
 						<view class="vodLayer" :style="{width:videoStyle.width,height:videoStyle.height,opacity:item.coverShow?0:1}">
-							<image src="/static/icon/sound.png" mode="" class="vodLayer-img"></image>
+							<image src="/static/tsp-icon/sound.png" mode="" class="vodLayer-img"></image>
 						</view>
 						<view class="vodPlayer" v-if="Math.abs(vodIndex-index) <= 1" :style="{opacity:appoint?0:1}">
-							<video :style="{width:videoStyle.width,height:videoStyle.height}" :src="item.vodUrl"
+							<!-- <video :style="{width:videoStyle.width,height:videoStyle.height}" :src="item.vodUrl"
 							:controls="false"
 							:enable-progress-gesture="false"
 							:page-gesture="false"
@@ -27,16 +27,34 @@
 							:muted="(index == vodIndex && !changeVod && !muteSetup) ? false : true"
 							 :id="'myVideo'+index+swId" @play="startPlay(index)" @waiting="bufferVod(index)" @timeupdate="timeupdateVod($event,index)"
 							  @error="errVod(index)" @ended="endedVod(index)">
-							</video>
+							</video> -->
+							
+							<uniVideoPlayer :style="{width:videoStyle.width,height:videoStyle.height}"
+							:ref="'myVideo'+index+swId"
+							:src="item.vodUrl"
+							:videoStyle="videoStyle"
+							:item="item"
+							:loopPlay="loopVod"
+							:muteSetup="muteSetup"
+							:index="index"
+							:vodIndex="vodIndex"
+							:swId="swId"
+							:autoplay="autoplay"
+							:appoint="appoint"
+							:changeVod="changeVod"
+							:clickPlay="clickPlay"
+							@loadchange="loadchange(index)"
+							 @play="startPlay(index)" @waiting="bufferVod(index)" @timeupdate="timeupdateVod($event,index)" @error="errVod(index)" @ended="endedVod(index)"/>
+							
 						</view>
 						<!-- 视频封面-->
-						<view class="vodPause-img" v-if="item.coverShow" :style="{width:videoStyle.width,height:videoStyle.height,opacity:appoint?0:1}">
+						<!-- <view class="vodPause-img" v-if="item.coverShow" :style="{width:videoStyle.width,height:videoStyle.height,opacity:appoint?0:1}">
 							<image :src="item.coverImg" :mode="item.object_fit == 'cover'?'aspectFill':'widthFix'" class="cover-img"
 							 :style="{opacity:item.coverOpacity?1:0,width:videoStyle.width,height:item.object_fit == 'cover'?videoStyle.height:0}"></image>
-						</view>
+						</view> -->
 						<!-- 暂停图标 -->
 						<view class="vodPause-img" v-if="item.pauseShow" :style="{width:videoStyle.width,height:videoStyle.height}">
-							<image src="/static/icon/vod-play.png" class="vodPauseImage" ref="pauseRef" style="opacity: 0;"></image>
+							<image src="/static/tsp-icon/vod-play.png" class="vodPauseImage" ref="pauseRef" style="opacity: 0;"></image>
 						</view>
 						<!-- 暂停播放操作层 -->
 						<view @click="handClick($event,index)" @touchstart="handClick($event,index)" @longpress="longpress(item)" class="vodPlayView" :style="videoStyle">
@@ -46,6 +64,13 @@
 								 :sliderDrag="sliderDrag" :moveOpacity="moveOpacity" :style="{width:videoStyle.width,height:videoStyle.height}" @fabulousBtn="fabulousBtn"></videoMenu>
 							</view>
 						</view>
+						
+						<!-- 全屏观看 -->
+						<view class="fullScreen" v-if="item.fullScreenShow" @click="openScreen(index)" :style="{left: (screenWidth/2) - 46.5 + 'px', bottom: vodHeight / 3.4 + 'px'}">
+							<image src="/static/tsp-icon/tsp-qp.png" class="fullScreen-icon"></image>
+							<text class="fullScreen-text">全屏观看</text>
+						</view>
+						
 					</view>
 				</cell>
 			</list>
@@ -89,13 +114,17 @@
 			<!-- 点赞桃心 -->
 			<view class="doubleImage" v-for="(item,index) in likeList" :key="index" :ref="'peachRef'+item.id"
 			 :style="{width: item.width+20+'rpx',height:item.height+20+'rpx',top:item.top,left:item.left}">
-				<image src="/static/icon/selectTaoxin.png" v-if="item.isShow" :style="{width: item.width+'rpx',height:item.height+'rpx',transform: `rotate(${item.rotate})`}"/>
+				<image src="/static/tsp-icon/selectTaoxin.png" v-if="item.isShow" :style="{width: item.width+'rpx',height:item.height+'rpx',transform: `rotate(${item.rotate})`}"/>
 			</view>
+			
+			<!-- 视频倍数操作弹窗 -->
+			<operateMenu ref="bsczRef" v-model="showVodMenu" :longDataInfo="longDataInfo" @updateMultiplier="updateMultiplier"></operateMenu>
+			
 		</view>
 	</view>
 </template>
 <script>
-	import videoJs from './video-n-encipher.js'
+	import videoJs from './video-n.js'
 	export default videoJs
 </script>
 <style>
@@ -146,6 +175,7 @@
 		position: absolute;
 		top: 0;
 		left: 0;
+		background-color: rgba(0,0,0,0.1);
 	}
 	.vodPause-img{
 		position: absolute;
@@ -274,5 +304,29 @@
 		opacity: 0;
 		/* width: 170rpx;
 		height: 170rpx; */
+	}
+	.fullScreen{
+		position: absolute;
+		width: 93px;
+		/* left: 0;
+		right: 0;
+		bottom: 30%;
+		margin: auto; */
+		z-index: 21;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		padding: 7px 0;
+		border-radius: 30px;
+	}
+	.fullScreen-icon{
+		width: 16px;
+		height: 16px;
+	}
+	.fullScreen-text{
+		font-size: 12px;
+		color: #FFFFFF;
+		margin-left: 5px;
 	}
 </style>

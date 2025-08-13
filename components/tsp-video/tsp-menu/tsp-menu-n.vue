@@ -4,7 +4,7 @@
 		<view @click.stop.prevent="moveHandle" class="footTitle" :class="[vodIndex == index?(sliderDrag?'vodMenu-bright1':(moveOpacity?'vodMenu-bright2':'vodMenu-bright0')):'']">
 			<view class="footTitle-commodity">
 				<view class="footTitle-commodity-icon">
-					<image src="/static/icon/cart.png" class="footTitle-commodity-icon-img"></image>
+					<image src="/static/tsp-icon/cart.png" class="footTitle-commodity-icon-img"></image>
 				</view>
 				<text class="footTitle-commodity-name text_one">商品商品商品商品商品商品商品商品商品商品商品商品商品</text>
 			</view>
@@ -23,35 +23,35 @@
 				<!-- 头像 -->
 				<view class="vodMenu-top">
 					<view class="menu-avatar" @click="JumpBtn(1)">
-						<image src="/static/icon/touxiang.jpg" mode="" class="avatar-image"></image>
+						<image src="/static/tsp-icon/touxiang.jpg" mode="" class="avatar-image"></image>
 					</view>
 					<view class="follow" @click="followBtn(index)" v-if="!item.followReally" :class="{followHide:followShow==2}">
-						<image src="/static/icon/gou.png" mode="" class="follow-guanzhu guanzhu-gou" v-if="followShow == 1 || followShow == 2"></image>
-						<image src="/static/icon/guanzhu.png" mode="" class="follow-guanzhu" v-if="followShow==null || followShow==0"></image>
+						<image src="/static/tsp-icon/gou.png" mode="" class="follow-guanzhu guanzhu-gou" v-if="followShow == 1 || followShow == 2"></image>
+						<image src="/static/tsp-icon/guanzhu.png" mode="" class="follow-guanzhu" v-if="followShow==null || followShow==0"></image>
 					</view>
 				</view>
 				<!-- 点赞 -->
-				<view class="fabulous" @click="JumpBtn(2)" style="position: relative;padding-top: 5rpx;">
+				<view class="fabulous" style="position: relative;padding-top: 5rpx;">
 					<view class="likeBox" :ref="'pelRef'+index">
 						<view class="like-pellet" :class="'like-pellet'+j" v-for="(lt,j) in 8" :key="j"></view>
 					</view>
 					<view class="fabulous-image" @click="fabulousBtn" :ref="'likeRef'+index">
-						<image src="/static/icon/selectTaoxin.png" mode="" class="fabulous-image" v-if="item.fabulousShow"></image>
-						<image src="/static/icon/taoxin.png" mode="" class="fabulous-image" v-else></image>
+						<image src="/static/tsp-icon/selectTaoxin.png" mode="" class="fabulous-image" v-if="item.fabulousShow"></image>
+						<image src="/static/tsp-icon/taoxin.png" mode="" class="fabulous-image" v-else></image>
 					</view>
 					<text class="fabulous-num">{{vodIndex}}</text>
 				</view>
 				<!-- 评论 -->
-				<view class="fabulous" style="margin-top: 30rpx;" @click="JumpBtn(3)">
+				<view class="fabulous" style="margin-top: 30rpx;" @click="JumpBtn(2)">
 					<view class="fabulous-image">
-						<image src="/static/icon/pinlun.png" mode="" class="fabulous-image"></image>
+						<image src="/static/tsp-icon/pinlun.png" mode="" class="fabulous-image"></image>
 					</view>
 					<text class="fabulous-num">{{discussNum}}</text>
 				</view>
 				<!-- 转发 -->
-				<view class="fabulous" style="margin-top: 30rpx;" @click="JumpBtn(4)">
+				<view class="fabulous" style="margin-top: 30rpx;" @click="JumpBtn(3)">
 					<view class="fabulous-image">
-						<image src="/static/icon/ward.png" mode="" class="fabulous-image"></image>
+						<image src="/static/tsp-icon/ward.png" mode="" class="fabulous-image"></image>
 					</view>
 					<text class="fabulous-num" style="font-size: 26rpx;">转发</text>
 				</view>
@@ -59,15 +59,15 @@
 		</view>
 		<!-- 旋转头像 -->
 		<view @click.stop.prevent="moveHandle" class="avatarMenu" v-if="item.rotateImgShow" :class="[vodIndex == index?(sliderDrag?'vodMenu-bright1':(moveOpacity?'vodMenu-bright2':'vodMenu-bright0')):'']">
-			<view style="position: relative;width: 95rpx;height: 95rpx;" @click="JumpBtn(5)">
+			<view style="position: relative;width: 95rpx;height: 95rpx;" @click="JumpBtn(4)">
 				<view :ref="'rotateImg'+ index">
 					<view class="rotate-avatar">
-						<image src="/static/icon/touxiang.jpg" mode="" class="rotate-image"></image>
+						<image src="/static/tsp-icon/touxiang.jpg" mode="" class="rotate-image"></image>
 					</view>
 				</view>
 				<view :style="`position: absolute;top: 0;left: 0;opacity:${item.vodPaly? 0 : 1}`">
 					<view class="rotate-avatar">
-						<image src="/static/icon/touxiang.jpg" mode="" class="rotate-image"></image>
+						<image src="/static/tsp-icon/touxiang.jpg" mode="" class="rotate-image"></image>
 					</view>
 				</view>
 			</view>
@@ -220,8 +220,13 @@
 					},50)
 				},300)
 			},
-			/* 点击右侧菜单选项 1头像 2点赞 3评论 4转发 5旋转头像 */
+			/* 点击右侧菜单选项 1头像 2评论 3转发 4旋转头像 */
 			JumpBtn(index){
+				let obj = {
+					vodIndex: this.vodIndex,
+					vodCurIndex: this.vodIndex,
+					item: this.item
+				}
 				switch(index){
 					case 1 :
 						console.log('点击头像')
@@ -230,15 +235,14 @@
 						})
 					break;
 					case 2 :
-						console.log('点击点赞')
+						console.log('点击3评论')
+						uni.$emit('updateOpenComment',obj) //触发全局事件
 					break;
 					case 3 :
-						console.log('点击3评论')
+						console.log('点击4转发')
+						uni.$emit('updateOpenForward', obj) //触发全局事件
 					break;
 					case 4 :
-						console.log('点击4转发')
-					break;
-					case 5 :
 						console.log('5旋转头像')
 					break;
 				}

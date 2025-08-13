@@ -16,9 +16,9 @@
 				</template>
 			</up-navbar>
 		</template>
+		
 
 		<view class="content">
-			
 			<SocialPost :postData="item" v-for="(item,index) in dataList" :key="index" />
 		</view>
 	</z-paging>

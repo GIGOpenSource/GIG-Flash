@@ -1,7 +1,10 @@
 <template>
 	<view class="uni-load-more" @click="onClick">
 		<!-- #ifdef APP-NVUE -->
-		<loading-indicator v-if="!webviewHide && status === 'loading' && showIcon" :style="{color: color,width:iconSize+'px',height:iconSize+'px'}" :animating="true" class="uni-load-more__img uni-load-more__img--nvue"></loading-indicator>
+		<!-- <loading-indicator v-if="!webviewHide && status === 'loading' && showIcon" :style="{color: color,width:iconSize+'px',height:iconSize+'px'}" :animating="true" class="uni-load-more__img uni-load-more__img--nvue"></loading-indicator> -->
+		<view style="margin-right: 5px;" v-if="!webviewHide && status === 'loading' && showIcon">
+			<tspLoading :loadingType="4" :loaderSize="17"></tspLoading>
+		</view>
 		<!-- #endif -->
 		<!-- #ifdef H5 -->
 		<svg width="24" height="24" viewBox="25 25 50 50" v-if="!webviewHide && (iconType==='circle' || iconType==='auto' && platform === 'android') && status === 'loading' && showIcon"
@@ -28,8 +31,9 @@
 </template>
 
 <script>
+	import tspLoading from './tsp-loading.vue'
 	const platform = uni.getSystemInfoSync().platform
-
+	
 	/**
 	 * LoadMore 加载更多
 	 * @description 用于列表中，做滚动加载使用，展示 loading 的各种状态
@@ -49,6 +53,9 @@
 	 * @event {Function} clickLoadMore 点击加载更多时触发
 	 */
 	export default {
+		components:{
+			tspLoading
+		},
 		name: 'UniLoadMore',
 		props: {
 			status: {
@@ -66,7 +73,7 @@
 			},
 			iconSize: {
 				type: Number,
-				default: 24
+				default: 22
 			},
 			color: {
 				type: String,

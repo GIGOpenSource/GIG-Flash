@@ -52,7 +52,7 @@
         },
         computed: {
             isShow() {
-                if (this.display === "show" || this.pulling === true) {
+                if (this.pulling === true) {
                     return true;
                 }
                 return false;
