@@ -62,7 +62,7 @@ export default {
 		/* 是否有显示 statusBarHeight 状态栏适配 */
 		showBarHeight: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 		/* 前后保留多少个视频数量节点 */
 		keepVodNum: {

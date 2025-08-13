@@ -2,12 +2,12 @@
 	<view>
 		<!-- 底部标题 -->
 		<view @click.stop.prevent="moveHandle" class="footTitle" :class="[vodIndex == index?(sliderDrag?'vodMenu-bright1':(moveOpacity?'vodMenu-bright2':'vodMenu-bright0')):'']">
-			<view class="footTitle-commodity">
+			<!-- <view class="footTitle-commodity">
 				<view class="footTitle-commodity-icon">
 					<image src="/static/tsp-icon/cart.png" class="footTitle-commodity-icon-img"></image>
 				</view>
 				<text class="footTitle-commodity-name text_one">商品商品商品商品商品商品商品商品商品商品商品商品商品</text>
-			</view>
+			</view> -->
 			<view><text class="foot-name">@卧槽无情</text></view>
 			<view style="width: 500rpx;position: relative;" v-if="item.desc">
 				<text style="width: 450rpx;" class="foot-cont" :class="[(item.desc.length > 33 && !expandDesc) ?'text_two':'']">{{item.desc}}</text>
@@ -47,6 +47,14 @@
 						<image src="/static/tsp-icon/pinlun.png" mode="" class="fabulous-image"></image>
 					</view>
 					<text class="fabulous-num">{{discussNum}}</text>
+				</view>
+				<!-- 收藏 -->
+				<view class="fabulous" style="margin-top: 30rpx;" @click="JumpBtn(3)">
+					<view class="fabulous-image">
+						<!-- <image src="/static/tsp-icon/ward.png" mode="" class="fabulous-image"></image> -->
+						<up-icon name="star-fill" color="#fff" size="45" class="fabulous-image"></up-icon>
+					</view>
+					<text class="fabulous-num" style="font-size: 26rpx;">20</text>
 				</view>
 				<!-- 转发 -->
 				<view class="fabulous" style="margin-top: 30rpx;" @click="JumpBtn(4)">

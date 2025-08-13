@@ -70,7 +70,7 @@ export default {
 		/* 是否有显示 statusBarHeight 状态栏适配 */
 		showBarHeight: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 	},
 	data() {

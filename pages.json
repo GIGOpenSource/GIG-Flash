@@ -1,11 +1,11 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			
+
 			// #ifdef APP-PLUS 
-			"path" : "pages/index/index",
+			"path": "pages/index/index",
 			// #endif 
-			// #ifndef APP 
+			// #ifndef APP-PLUS
 			"path": "pages/index/index-v",
 			// #endif 
 			"style": {
@@ -48,9 +48,12 @@
 		"fontSize": "15px",
 		// #endif
 		"list": [{
-
+				// #ifdef APP-PLUS
 				"pagePath": "pages/index/index",
-
+				// #endif
+				// #ifndef APP-PLUS
+				"pagePath": "pages/index/index-v",
+				// #endif
 				"text": "首页"
 			}, {
 				"pagePath": "pages/discover/discover",
