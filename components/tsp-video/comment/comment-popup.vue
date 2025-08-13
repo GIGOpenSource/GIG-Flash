@@ -126,7 +126,7 @@
 								[图片]x{{plImgList.length}}
 							</text>
 							<text class="inputBox-input-text text_one" :style="{width: screenWidth / 2.2 + 'px',maxWidth: (screenWidth / 1.8) - phizWidth - sendWidth +'px'}">
-								{{remarkInput ? remarkInput : phizImg ? '' : plImgList.length > 0 ? '' :'善语结善缘，恶言伤人心'}}
+								{{remarkInput ? remarkInput : phizImg ? '' : plImgList.length > 0 ? '' :'输入评论内容'}}
 							</text>
 						</view>
 						<image src="/static/tsp-icon/upImg.png" mode="" class="inputBox-layer-img" @touchstart="openInput('img')"></image>
@@ -203,7 +203,7 @@
 				screenHeight: 0, //屏幕的高度
 				statusBarHeight: 0, // 状态栏高度
 				menuButtonWidth: 0, //小程序胶囊按钮的宽度
-				searchText: '小鬼', //推荐搜索文本
+				searchText: '', //推荐搜索文本
 				reviewHeight: 0, //有推荐搜索文本，评论数量就在下方的高度
 				commentHeight: 0, //评论内容区域的高度
 				enlarge: false, //评论去是否全屏放大

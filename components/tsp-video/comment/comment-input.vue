@@ -192,7 +192,7 @@
 				isFocus: true,
 				storagekeyHeight: 0,
 				sureSend: false,
-				placeholderText: '善语结善缘，恶言伤人心',
+				placeholderText: '输入评论内容',
 				turnOn: false,
 				chooseCount: 1
 			}
@@ -256,7 +256,7 @@
 					if(this.currReplyInfo.replyType){
 						this.placeholderText = '回复 @' + this.currReplyInfo.username
 					}else{
-						this.placeholderText = '善语结善缘，恶言伤人心'
+						this.placeholderText = '输入评论内容'
 					}
 					
 					if(this.openType == 'emoji'){
