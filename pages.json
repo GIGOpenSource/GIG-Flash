@@ -42,6 +42,13 @@
 			"style": {
 				"navigationBarTitleText": "长视频"
 			}
+		},
+		{
+			"path" : "pages/fresh/TaskPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "任务中心"
+			}
 		}
 	],
 
