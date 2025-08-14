@@ -1,22 +1,19 @@
 <template>
-	  <z-paging ref="paging" v-model="dataList" @query="queryList">
+	<z-paging ref="paging" v-model="dataList" @query="queryList">
 		<up-navbar bgColor="transparent" placeholder :autoBack="false" :fixed="false">
+			<template #left>
+				<up-icon name="arrow-left" color="#ffffff" size="20"></up-icon>
+			</template>
+			<template #center>
+				账单明细
+			</template>
 			<template #right>
-				<text class="">消息中心</text>
-				<text class="setup" @click ="toPath('/pages/my/setup')">设置</text>
+				<up-icon name="more-dot-fill" color="#ffffff" size="28"></up-icon>
 			</template>
 		</up-navbar>
-		<view class="content">
-			<userinfo />
-			<vip />
-			<!-- 动态，视频，互动 -->
-			<view class="tabs">
-				<view v-for="(item,index) in tarbar" :key="index" :class="current == index ? 'current':''"
-					@click="clicks(index)">{{item}}</view>
-			</view>
-			<active v-if="current == 0"/>
-			<myvideo v-if="current == 1"/>
-			<interact v-if="current == 2"/>
+		<view class="list" v-for="(item,index) in 10" :key="index">
+			<view class="">  <text class="name">任务编辑</text> <text>2025-01-10</text> </view>
+			<view class="">  <text class="money">-100金额</text> <text>18:00:00</text> </view>
 		</view>
 	</z-paging>
 </template>
@@ -25,19 +22,6 @@
 	import {
 		ref , reactive
 	} from 'vue';
-	import userinfo from './components/userinfo.vue'
-	import vip from './components/vip.vue'
-	import tabs from '@/components/tabs/tabs.vue'
-	const list = ref([{
-		name: '消息中心'
-	}, {
-		name: '设置'
-	}])
-	const tarbar = reactive(['动态','视频','互动'])
-	const current = ref(0)
-	const clicks = (index) => {
-		current.value = index
-	}
 	const paging = ref(null)
 		// v-model绑定的这个变量不要在分页请求结束中自己赋值，直接使用即可
 	  const dataList = ref([])
@@ -55,42 +39,24 @@
 				paging.value.complete([{title:'123'},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"}]);
 			// })
 	  }
-	  const onTabChange = (tab) => {
-	  	console.log(tab);
-	  }
-	  const toPath = (url) => {
-		   uni.navigateTo({
-		   	url
-		   })
-	  }
-	
 </script>
 
 <style lang="scss" scoped>
-	.content {
-		// background: pink;
-		margin: 30rpx;
-	}
-	.setup{
-		margin-left: 30rpx;
-	}
-	.tabs{
-		display: flex;
-		margin: 30rpx 0;
-		
-		view{
-			width: 33%;
-			text-align: center;
-			
-			height: 70rpx;
-			line-height: 70rpx;
-			border-radius: 80rpx;
+	.list{
+		padding: 20rpx 0;
+		margin: 0 30rpx;
+		border-bottom: 1rpx solid rgba(255, 255, 255, .1);
+		color: rgba(255, 255, 255, .4);
+		.name{
 			color: #fff;
-			
 		}
-		.current{
-			background: #ffffff;
-			color: #000;
+		.money{
+			font-size: 22rpx;
 		}
-	} 
+		view{
+			display: flex;
+			justify-content: space-between;
+			line-height: 50rpx;
+		}
+	}
 </style>
