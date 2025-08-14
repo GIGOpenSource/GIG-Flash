@@ -51,6 +51,11 @@
 			"style": {
 				"navigationBarTitleText": "账单明细"
 			}
+		},{
+			"path": "pages/my/recharge",
+			"style": {
+				"navigationBarTitleText": "消费与充值"
+			}
 		},
 		{
 			"path": "pages/video/video",

@@ -1,6 +1,6 @@
 <template>
 	<z-paging ref="paging" v-model="dataList" @query="queryList">
-		<up-navbar bgColor="transparent" placeholder :autoBack="false" :fixed="false">
+		<up-navbar bgColor="transparent" placeholder :autoBack="true" :fixed="false">
 			<template #left>
 				<up-icon name="arrow-left" color="#ffffff" size="20"></up-icon>
 			</template>
