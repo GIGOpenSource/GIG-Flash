@@ -19,7 +19,7 @@
 		
 
 		<view class="content">
-			<SocialPost :postData="item" v-for="(item,index) in dataList" :key="index" />
+			<active></active>                
 		</view>
 	</z-paging>
 </template>
@@ -74,3 +74,8 @@ const queryList = (pageNo, pageSize) => {
 	paging.value.complete(postData.value);
 }
 </script>
+<style lang="scss" scoped>
+	.content{
+		margin: 20rpx;
+	}
+</style>

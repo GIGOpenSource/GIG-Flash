@@ -2,7 +2,7 @@
 	  <z-paging ref="paging" v-model="dataList" @query="queryList">
 		<up-navbar bgColor="transparent" placeholder :autoBack="false" :fixed="false">
 			<template #right>
-				<text class="">消息中心</text>
+				<text class="" @click ="toPath('/pages/my/message')">消息中心</text>
 				<text class="setup" @click ="toPath('/pages/my/setup')">设置</text>
 			</template>
 		</up-navbar>

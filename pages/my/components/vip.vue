@@ -1,5 +1,5 @@
 <template>
-	<view class="page">
+	<view class="page" @click="uni.navigateTo({url:'/pages/my/recharge'})">
 		<view class="">
 			<view class="">
 				<text>VIP状态</text>
