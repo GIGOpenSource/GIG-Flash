@@ -1,5 +1,5 @@
 <template>
-	<z-paging ref="paging"  :loading-more-enabled="false" :refresher-enabled="false" v-model="dataList" @query="queryList">
+	<z-paging ref="paging" scroll-x  :loading-more-enabled="false" :refresher-enabled="false" v-model="dataList" @query="queryList">
 		<template #top>
 			
 			<!-- 导航栏 -->
@@ -40,7 +40,8 @@
 				<view class="tit">游戏截图</view>
 				 <scroll-view scroll-x="true"  style="white-space: nowrap;">
 					 <view class="scroll-shoot">
-						 <up-image :src="src" width="600rpx" height="320rpx" radius="30rpx" style="margin-right:40rpx ;" v-for="item in 3"></up-image>
+						 <up-image src="/static/images/1.png" width="600rpx" height="320rpx" radius="30rpx" style="margin-right:40rpx ;" ></up-image>
+						 <up-image src="/static/images/2.png" width="600rpx" height="320rpx" radius="30rpx" style="margin-right:40rpx ;"></up-image>
 					 </view>
 				 </scroll-view>
 						
@@ -60,7 +61,6 @@
 	import {
 		ref
 	} from 'vue'
-
 
 
 	// 定义方法  
