@@ -5,7 +5,7 @@
 		<view class="desc">
 			<view class="title">男生组队打游戏时男生组队打游戏时男生组队打游戏时</view>
 			<view class="auther">
-				<up-avatar src="https://cdn.uviewui.com/uview/album/1.jpg" size="25"></up-avatar>
+				<up-avatar src="/static/images/1.png" size="25"></up-avatar>
 				<view class="name">zovod</view>
 			</view>
 		</view>
@@ -19,9 +19,9 @@
 
 	// 使用 reactive 创建响应式数组  
 	const list1 = reactive([
-		'https://cdn.uviewui.com/uview/album/1.jpg',
-		'https://cdn.uviewui.com/uview/album/1.jpg',
-		'https://cdn.uviewui.com/uview/album/1.jpg',
+		'/static/images/1.png',
+		'/static/images/2.png',
+		'/static/images/3.png',
 	]);
 
 	const handleClickBanner = () => {}

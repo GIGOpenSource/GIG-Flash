@@ -13,6 +13,7 @@
 </script>
 
 <style lang="scss">
+	/* #ifndef APP-NVUE */
 	@import "@/uni_modules/uview-plus/index.scss";
 	/*每个页面公共css */
 
@@ -38,6 +39,7 @@
 			color: #fff;
 		}
 	}
+	/* #endif */
 	
 	/* #ifdef APP */
 	.navbar:before {

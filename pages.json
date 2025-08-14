@@ -112,6 +112,7 @@
 		"selectedColor": "#FFFFFF",
 		"borderStyle": "black",
 		"backgroundColor": "#000000",
+		"height":"60px",
 		// #ifdef APP-PLUS
 		"fontSize": "15px",
 		// #endif
@@ -122,20 +123,29 @@
 				// #ifndef APP-PLUS
 				"pagePath": "pages/index/index-v",
 				// #endif
+				"iconPath": "/static/images/home-1.png",
+				"selectedIconPath": "/static/images/home-2.png",
 				"text": "首页"
 			}, {
 				"pagePath": "pages/discover/discover",
+				"iconPath": "/static/images/discover-1.png",
+				"selectedIconPath": "/static/images/discover-2.png",
 				"text": "发现"
 			}, {
 				"pagePath": "pages/fresh/fresh",
+				"iconPath": "/static/images/fresh.png",
 				"text": "新鲜玩法"
 			},
 			{
 				"pagePath": "pages/community/community",
+				"iconPath": "/static/images/socia-1.png",
+				"selectedIconPath": "/static/images/socia-2.png",
 				"text": "社区"
 			},
 			{
 				"pagePath": "pages/my/my",
+				"iconPath": "/static/images/my-1.png",
+				"selectedIconPath": "/static/images/my-2.png",
 				"text": "我的"
 			}
 		]

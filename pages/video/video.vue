@@ -20,20 +20,13 @@
 
 
 		<template #bottom>
-			
-			<view class="comment-btn">
-				 <up-input
-				    placeholder="输入评论内容"
-				    border="surround"
-					shape="circle"
-					:customStyle="{
+
+			<view class="comment-btn" v-show="currentTab === 1">
+				<up-input placeholder="输入评论内容" border="surround" shape="circle" :customStyle="{
 						backgroundColor:'#fff',
-					}"
-				    v-model="value"
-				    @change="change"
-				  ></up-input>
-				  
-				  <up-button text="发表" shape="circle" class="custom-style"></up-button>
+					}" v-model="commenValue"></up-input>
+
+				<up-button text="发表" shape="circle" class="custom-style"></up-button>
 			</view>
 		</template>
 
@@ -57,7 +50,7 @@
 
 	const pagingRef = ref(null)
 	const dataList = ref([])
-	
+
 	const currentTab = ref(0)
 	const tabs = ref([{
 		name: '简介'
@@ -65,31 +58,33 @@
 		name: '评论'
 	}])
 
-const handleClickTab = (e) =>{
-	currentTab.value = e.index
-}
-	const queyList = () => {}
+	const commenValue = ref('')
+
+	const handleClickTab = (e) => {
+		currentTab.value = e.index
+	}
+	const queryList = () => {}
 </script>
 
 <style lang="scss" scoped>
-	.comment-btn{
+	.comment-btn {
 		padding: 24rpx 30rpx;
 		background: linear-gradient(175.26deg, #311F4F 14.46%, #1E1B33 122.11%);
 		display: flex;
 		align-items: center;
-		
-		.u-input--circle{
+
+		.u-input--circle {
 			padding: 3px 20rpx !important;
 		}
 	}
-		
-	.custom-style{
+
+	.custom-style {
 		width: 100rpx;
 		height: 64rpx;
 		background: linear-gradient(180deg, #5662E1 0%, #614793 100%);
 		color: #fff;
 		border: none;
 		margin-left: 20rpx;
-		
+
 	}
 </style>

@@ -37,7 +37,7 @@
 	    <view class="content">
 	    	<BannerSwiper />
 	    	<view class="card-list">
-	    		<card-view v-for="item in 10"></card-view>
+	    		<card-view v-for="item in 10" @click="handleToLongVideo"></card-view>
 	    	</view>
 	    </view>
 		
@@ -130,6 +130,12 @@
 			// 	// 在底层的网络请求抛出异常时，写uni.$emit('z-paging-error-emit');即可
 				paging.value.complete([{title:'123'},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"}]);
 			// })
+	  }
+	  
+	  const handleToLongVideo = ()=>{
+		  uni.navigateTo({
+		  	url:'/pages/video/video'
+		  })
 	  }
 </script>
 

@@ -4,7 +4,7 @@
 		
 		<view class="like-list">
 			<view class="like-item" v-for="item in 20">
-				<up-image :show-loading="true" src="https://qcloud.dpfile.com/pc/_vzQAXVr13f_7iwVuYMN-KZdECsM6WjeAFvnO_6J6g0hOLcGgiPlxc9FC8mAyrgC.jpg" width="150px" height="80px" radius="5px" @click="click"></up-image>
+				<up-image :show-loading="true" src="https://qcloud.dpfile.com/pc/_vzQAXVr13f_7iwVuYMN-KZdECsM6WjeAFvnO_6J6g0hOLcGgiPlxc9FC8mAyrgC.jpg" width="150px" height="80px" radius="5px"></up-image>
 				<view class="like-des">
 					<view class="like-name">
 						草青、花白、雪山巍，像走 进了宫崎骏动画里的夏天。

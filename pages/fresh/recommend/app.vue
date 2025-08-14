@@ -23,8 +23,8 @@
 		<!-- z-paging默认铺满全屏，此时页面所有view都应放在z-paging标签内，否则会被盖住 -->
 		<!-- 需要固定在页面顶部的view请通过slot="top"插入，包括自定义的导航栏 -->
 	    <view class="content">
-	    	<view class="app-item" v-for="item in 200">
-				 <up-image  :src="src" radius="32rpx" width="120rpx" height="120rpx" @click="handleClickApp"></up-image>
+	    	<view class="app-item" v-for="item in 200" @click="handleClickApp">
+				 <up-image  src="/static/images/2.png" radius="32rpx" width="120rpx" height="120rpx" ></up-image>
 				 <view class="app-name">app{{item}}</view>
 			</view>
 	    </view>
@@ -64,6 +64,10 @@
 			// 	// 在底层的网络请求抛出异常时，写uni.$emit('z-paging-error-emit');即可
 				paging.value.complete([{title:'123'},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"}]);
 			// })
+	  }
+	  
+	  const handleClickApp = ()=>{
+		  console.log('handleClickApp');
 	  }
 </script>
 

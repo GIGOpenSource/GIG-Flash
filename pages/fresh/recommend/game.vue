@@ -44,14 +44,14 @@
 			<view class="game-list">
 				<view class="game-item" v-for="item in 20">
 					<view class="game">
-						<up-image :src="src" width="120rpx" height="120rpx" radius="20rpx"></up-image>
+						<up-image src="/static/images/3.png" width="120rpx" height="120rpx" radius="20rpx"></up-image>
 						<view class="des">
-							<view class="name">APp name</view>
-							<view class="sub">游戏简介解决盼盼接就盘盘盘盘</view>
+							<view class="name">APp name{{ item }}</view>
+							<view class="sub">游戏简介{{item}}解决盼盼接就盘盘盘盘</view>
 						</view>
 					</view>
 
-					<up-button text="查看详情" shape="circle" class="custom-btn"></up-button>
+					<up-button text="查看详情" shape="circle" class="custom-btn" @click="handleToDetail"></up-button>
 				</view>
 			</view>
 		</view>
@@ -75,7 +75,7 @@
 		console.log('leftClick');
 	};
 
-	const bannerList = ref(['', '', ''])
+	const bannerList = ref(['/static/images/1.png', '/static/images/2.png', '/static/images/3.png'])
 
 	const categoryList = ref([{
 		name: "全部分类"
@@ -154,6 +154,12 @@
 			title: "2243"
 		}]);
 		// })
+	}
+	
+	const handleToDetail = ()=>{
+		uni.navigateTo({
+			url:'/pages/fresh/recommend/game-detail'
+		})
 	}
 </script>
 

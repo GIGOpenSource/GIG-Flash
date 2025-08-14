@@ -1,11 +1,11 @@
 <template>
 	<view class="card-view">
-		<up-image src="https://cdn.uviewui.com/uview/album/1.jpg" :lazy-load="true" width="100%" height="220rpx" radius="20rpx 20rpx 0 0 " mode="aspectFit"></up-image>
+		<up-image src="/static/images/1.png" :lazy-load="true" width="100%" height="220rpx" radius="20rpx 20rpx 0 0 " mode="aspectFill"></up-image>
 		
 		<view class="desc">
 			<view class="title">男生组队打游戏时男生组队打游戏时男生组队打游戏时</view>
 			<view class="auther">
-				<up-avatar src="https://cdn.uviewui.com/uview/album/1.jpg" size="25"></up-avatar>
+				<up-avatar src="/static/images/2.png" size="25"></up-avatar>
 				<view class="name">zovod</view>
 			</view>
 		</view>

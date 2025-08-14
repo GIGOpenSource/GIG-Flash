@@ -1,5 +1,5 @@
 <template>
-	<z-paging ref="paging" scroll-x  :loading-more-enabled="false" :refresher-enabled="false" v-model="dataList" @query="queryList">
+	<z-paging ref="paging" :loading-more-enabled="false" :refresher-enabled="false" v-model="dataList" @query="queryList">
 		<template #top>
 			
 			<!-- 导航栏 -->
@@ -28,7 +28,7 @@
 	    <view class="content">
 			
 			<view class="game-info">
-				<up-image :src="src" width="200rpx" height="200rpx" radius="30rpx"></up-image>
+				<up-image src="/static/images/3.png" width="200rpx" height="200rpx" radius="30rpx"></up-image>
 				
 				<view class="info">
 					<view class="name">App Name</view>
