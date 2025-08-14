@@ -81,7 +81,7 @@
 	const queryList = () => {}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.container {
 		padding: 20rpx;
 
@@ -128,7 +128,7 @@
 		}
 	}
 
-	::v-deep(.u-steps-item__wrapper) {
+	:deep(.u-steps-item__wrapper) {
 		background-color: transparent !important;
 	}
 
@@ -139,6 +139,7 @@
 		background: rgba(255, 255, 255, 0.03);
 
 		.tab-list {
+			margin-top: 20rpx;
 			display: flex;
 			background-color: #2d2d2d;
 			border-radius: 40rpx;
@@ -155,7 +156,7 @@
 		}
 
 		.tab-item.active {
-			background-color: #ffffff;
+			background-color: #ffffff !important;
 
 			.tab-text {
 				color: #3a3939;
@@ -171,7 +172,7 @@
 	}
 
 	.tasks{
-		
+		margin-top: 20rpx;
 		.task-item{
 			display: flex;
 			align-items: center;

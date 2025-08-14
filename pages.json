@@ -64,6 +64,27 @@
 			{
 				"navigationBarTitleText" : "任务中心"
 			}
+		},
+		{
+			"path" : "pages/fresh/recommend/app",
+			"style" : 
+			{
+				"navigationBarTitleText" : "推荐APP"
+			}
+		},
+		{
+			"path" : "pages/fresh/recommend/game",
+			"style" : 
+			{
+				"navigationBarTitleText" : "推荐游戏"
+			}
+		},
+		{
+			"path" : "pages/fresh/recommend/game-detail",
+			"style" : 
+			{
+				"navigationBarTitleText" : "游戏详情"
+			}
 		}
 	],
 	"tabBar": {
