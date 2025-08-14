@@ -1,6 +1,6 @@
 <template>
 	 <view class="">
-		 <view v-for="(item,index) in 8" :key="index" class="con">
+		 <view v-for="(item,index) in 1" :key="index" class="con" @click="uni.navigateTo({url:'/pages/community/details'})">
 		 	<view class="top">
 		 		<view class="left">
 		 			<up-avatar :src="src" size="40"></up-avatar>
