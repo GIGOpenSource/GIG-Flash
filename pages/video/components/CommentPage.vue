@@ -12,7 +12,8 @@
 						</view>
 					</view>
 					<view class="now" @click="give(index)">
-					<up-icon  :name="item.flag?'heart-fill':'heart'" :color="item.flag?'#ff0000':'#D9D9D9'" size="22" ></up-icon>
+						<up-icon :name="item.flag?'heart-fill':'heart'" :color="item.flag?'#ff0000':'#D9D9D9'"
+							size="22"></up-icon>
 						<text style="margin-left: 10rpx;">{{item.givenum}}</text>
 					</view>
 				</view>
@@ -28,19 +29,19 @@
 
 <script setup>
 	const props = defineProps({
-		list:{
-			type:Array,
+		list: {
+			type: Array,
 			default: []
 		}
 	})
 	const give = (index) => {
 		let list = props.list
-		 list[index].flag = !list[index].flag
-		 if(list[index].flag){
-		 			 list[index].givenum += 1
-		 } else{
-		 			 list[index].givenum -= 1
-		 }
+		list[index].flag = !list[index].flag
+		if (list[index].flag) {
+			list[index].givenum += 1
+		} else {
+			list[index].givenum -= 1
+		}
 	}
 </script>
 
@@ -48,8 +49,8 @@
 	.comment-page {
 		padding: 20rpx;
 	}
-	
-	.comment-item{
+
+	.comment-item {
 		padding-bottom: 40rpx;
 		border-bottom: 2rpx solid rgba(255, 255, 255, .1);
 		margin-bottom: 40rpx;
@@ -90,6 +91,4 @@
 		font-size: 17px;
 		margin-top: 20rpx;
 	}
-	
-
 </style>
