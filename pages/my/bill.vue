@@ -8,7 +8,9 @@
 				账单明细
 			</template>
 			<template #right>
-				<up-icon name="more-dot-fill" color="#ffffff" size="28"></up-icon>
+					<view class=""@click.stop="oparea">
+						<up-icon name="more-dot-fill" color="#ffffff" size="28" v-if="more" ></up-icon>
+					</view>
 			</template>
 		</up-navbar>
 		<view class="list" v-for="(item,index) in 10" :key="index">
@@ -23,6 +25,11 @@
 		ref , reactive
 	} from 'vue';
 	const paging = ref(null)
+	const show = ref(false)
+	 	const oparea = () => {
+		 show.value = true
+	}
+	
 		// v-model绑定的这个变量不要在分页请求结束中自己赋值，直接使用即可
 	  const dataList = ref([])
 	  
@@ -39,6 +46,7 @@
 				paging.value.complete([{title:'123'},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"},{title:"2243"}]);
 			// })
 	  }
+	 
 </script>
 
 <style lang="scss" scoped>

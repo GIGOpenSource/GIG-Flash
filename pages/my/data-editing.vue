@@ -8,7 +8,7 @@
 				资料编辑
 			</template>
 			<template #right>
-				保存
+				<view @click="save">保存</view>
 			</template>
 		</up-navbar>
 		<view class="avatar" @click="uploadImage">
@@ -33,15 +33,15 @@
 	const form = reactive([{
 		name: '昵称',
 		type: 'input',
-		key: 'nickname'
+		key: ''
 	}, {
 		name: 'ID',
 		type: 'input',
-		key: 'id'
+		key: ''
 	}, {
 		name: '签名',
 		type: 'textera',
-		key: 'sign'
+		key: ''
 	}])
 	const uploadImage = () => {
 		uni.chooseImage({
@@ -52,6 +52,16 @@
 			}
 		})
 	};
+	const save = () => {
+		uni.showToast({
+			title: '提交成功',
+			duration: 2000,
+			success:()=>{
+				 uni.navigateBack()
+			}
+		})
+		
+	}
 </script>
 
 <style lang="scss" scoped>

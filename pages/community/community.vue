@@ -9,7 +9,7 @@
 				</template>
 
 				<template #right>
-					<view class="search">
+					<view class="search" @click="uni.navigateTo({url: '/pages/search/search'})">
 						<up-icon name="search" color="#fff" size="22"></up-icon>
 						<text>搜索</text>
 					</view>

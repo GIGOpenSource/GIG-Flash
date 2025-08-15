@@ -24,11 +24,11 @@
 		 </view>
 		 <view style="height: 200rpx;"></view>
 		 <view class="bottom">
-			 <view class="pay">
+			 <view class="pay" @click="pay">
 				 <view class="zfb">支付宝</view>
 				  <view class="wx">微信支付</view>
 			 </view>
-			 <view class="vip">立即开通VIP</view>
+			 <view class="vip" @click="open">立即开通VIP</view>
 		 </view>
 	</view>
 </template>
@@ -56,6 +56,22 @@
 		uni.navigateTo({
 			url:'/pages/my/bill'
 		})
+	}
+	const pay = () => {
+		uni.showToast({
+			title: '支付成功',
+			success:()=>{
+				 
+			}
+		})
+	}
+	const open = () => {
+		 uni.showToast({
+		 	title: '开通成功',
+		 	success:()=>{
+		 		 
+		 	}
+		 })
 	}
 </script>
 
