@@ -9,7 +9,7 @@
 				<text> / </text>
 				<text :class="current == 1 ? 'current':''" @click="current = 1">最新</text>
 			</view>
-		</view> 
+		</view>
 		<view class="center" v-for="(item,index) in list" :key="index">
 			<up-avatar :src="src" size="40"></up-avatar>
 			<view class="right">
@@ -19,9 +19,10 @@
 						<text class="time">{{item.time}}</text>
 					</view>
 					<view class="give" @click.stop="give(index)">
-						
-						<up-icon  :name="item.flag?'heart-fill':'heart'" :color="item.flag?'#ff0000':'#D9D9D9'" size="22" ></up-icon>
-						<text>2.5w</text>
+
+						<up-icon :name="item.flag?'heart-fill':'heart'" :color="item.flag?'#ff0000':'#D9D9D9'"
+							size="22"></up-icon>
+						<text>{{item.givenum}}</text>
 					</view>
 				</view>
 				<view class="">
@@ -39,14 +40,19 @@
 	const src = ref('http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg')
 	const current = ref(0)
 	const props = defineProps({
-		list:{
-			type:Array,
+		list: {
+			type: Array,
 			default: []
 		}
 	})
 	const give = (index) => {
-		 console.log(index,'iondeifehb')
-		 props.list[index].flag = !props.list[index].flag
+		let list = props.list
+		list[index].flag = !list[index].flag
+		if (list[index].flag) {
+			list[index].givenum += 1
+		} else {
+			list[index].givenum -= 1
+		}
 	}
 </script>
 
@@ -57,9 +63,11 @@
 		padding: 20rpx;
 		font-size: 28rpx;
 		border-radius: 20rpx;
-		.tabs{
-			color: rgb(255, 255, 255,.5);
-			.current{
+
+		.tabs {
+			color: rgb(255, 255, 255, .5);
+
+			.current {
 				color: #fff;
 			}
 		}
@@ -74,24 +82,27 @@
 			margin-top: 20rpx;
 
 			.right {
-				width:600rpx;
+				width: 600rpx;
 				margin-left: 20rpx;
 				padding-bottom: 20rpx;
-                border-bottom: 1rpx solid rgba(255, 255, 255, .1);
+				border-bottom: 1rpx solid rgba(255, 255, 255, .1);
+
 				.r-top {
 					display: flex;
 					width: 100%;
 					justify-content: space-between;
 					margin-bottom: 20rpx;
-					color: rgb(255, 255, 255,.6);
+					color: rgb(255, 255, 255, .6);
 
 					.info {
 						display: flex;
 						flex-direction: column;
-						.name{
+
+						.name {
 							color: #fff;
 						}
-						.time{
+
+						.time {
 							font-size: 24rpx;
 						}
 					}
@@ -99,9 +110,10 @@
 					.give {
 						display: flex;
 						align-items: center;
-                       text{
-						   margin-left: 10rpx;
-					   }
+
+						text {
+							margin-left: 10rpx;
+						}
 					}
 				}
 

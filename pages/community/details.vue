@@ -38,11 +38,14 @@
 	  {
 		  con:'评价内容',
 		  time:'2025-05-05 18:00:00',
-		  flag:false
+		  flag:false,
+		  givenum:20
 	  }, {
 		  con:'评价内容',
 		  time:'2025-05-05 18:00:00',
-		  flag:true
+		  flag:true,
+		   givenum:10,
+		   
 	  },
    ])
 
@@ -72,6 +75,7 @@
 		 commentList.unshift({
 			 con:con.value,
 			 time:time,
+			  givenum:0
 		 })
 		 con.value = ''
 	}

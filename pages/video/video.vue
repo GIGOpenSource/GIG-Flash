@@ -29,7 +29,7 @@
 						backgroundColor:'#fff',
 					}" v-model="commenValue"></up-input>
 
-				<up-button text="发表" shape="circle" class="custom-style"></up-button>
+				<up-button text="发表" shape="circle" class="custom-style" @click="publish"></up-button>
 			</view>
 		</template>
 
@@ -37,12 +37,13 @@
 		<introduction v-show="currentTab === 0"></introduction>
 
 		<!-- 评论 -->
-		<comment-page v-show="currentTab === 1"></comment-page>
+		<comment-page v-show="currentTab === 1" :list="commentList"></comment-page>
 	</z-paging>
 </template>
 
 <script setup>
 	import {
+		reactive,
 		ref
 	} from 'vue'
 
@@ -60,6 +61,17 @@
 	}, {
 		name: '评论'
 	}])
+	const commentList = reactive([{
+		time:'2025-12-20 18:00:00',
+		con:'是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
+		givenum:102,
+		flag:false
+	},{
+		time:'2025-12-20 18:00:00',
+		con:'是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
+		givenum:10,
+		flag:true
+	}])
 
 	const commenValue = ref('')
 
@@ -71,6 +83,17 @@
 	}
 
 	const queryList = () => {}
+	
+	const publish = () => {
+			let time =  uni.$u.timeFormat(Date.now(), 'yyyy-mm-dd hh:MM:ss');
+			 commentList.unshift({
+				 con:commenValue.value,
+				 time:time,
+				 givenum:0
+			 })
+			 con.value = ''
+		}
+		
 </script>
 
 <style lang="scss" scoped>

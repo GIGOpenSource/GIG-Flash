@@ -17,13 +17,13 @@
 				<text>2.2万</text>
 			</view>
 			<view class="piece-item">
-				<up-icon name="heart" size="36" color="#A1A6AF"></up-icon>
+				<up-icon :name="give ? 'heart-fill':'heart'" size="36" :color="give ?'#ff0000':'#A1A6AF'" @click="give = !give"></up-icon>
 				<text>2.2万</text>
 			</view>
-			<view class="piece-item">
-				<up-icon name="star" size="36" color="#A1A6AF"></up-icon>
-				<text>2.2万</text>
-			</view>
+		<view class="piece-item">
+			<up-icon :name="iscollect ? 'star-fill':'star'" size="36" :color="iscollect ?'#ff0000':'#A1A6AF'" @click="collect"></up-icon>
+			<text>2.2万</text>
+		</view>
 			<view class="piece-item">
 				<up-icon name="share" size="36" color="#A1A6AF"></up-icon>
 				<text>2.2万</text>
@@ -35,7 +35,13 @@
 </template>
 
 <script setup>
+	import { ref } from 'vue'
 	const videoErrorCallback = () => {}
+	const give = ref(false)
+	const iscollect = ref(false)
+	const collect = ()=> {
+		iscollect.value = !iscollect.value
+	}
 </script>
 
 <style lang="scss" scoped>
