@@ -2,24 +2,23 @@
 	<view class="comment-page">
 
 		<view class="comment-list">
-			<view class="comment-item" v-for="item in 20">
+			<view class="comment-item" v-for="(item,index) in list" :key="index">
 				<view class="user-line">
 					<view class="user">
 						<up-avatar src="3"></up-avatar>
 						<view class="info">
 							<view class="name">路过人间</view>
-							<view class="nums">2025-3-512</view>
+							<view class="nums">{{item.name}}</view>
 						</view>
 					</view>
-					<view class="now">
-						<up-icon name="heart" color="rgba(255,255,255,.5)">
-						</up-icon>
-						<text style="margin-left: 10rpx;">2355</text>
+					<view class="now" @click="give(index)">
+					<up-icon  :name="item.flag?'heart-fill':'heart'" :color="item.flag?'#ff0000':'#D9D9D9'" size="22" ></up-icon>
+						<text style="margin-left: 10rpx;">{{item.givenum}}</text>
 					</view>
 				</view>
 
 				<view class="des">
-					湖是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满
+					{{item.con}}
 				</view>
 			</view>
 		</view>
@@ -28,6 +27,21 @@
 </template>
 
 <script setup>
+	const props = defineProps({
+		list:{
+			type:Array,
+			default: []
+		}
+	})
+	const give = (index) => {
+		let list = props.list
+		 list[index].flag = !list[index].flag
+		 if(list[index].flag){
+		 			 list[index].givenum += 1
+		 } else{
+		 			 list[index].givenum -= 1
+		 }
+	}
 </script>
 
 <style lang="scss" scoped>

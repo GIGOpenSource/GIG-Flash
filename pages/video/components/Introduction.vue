@@ -20,7 +20,7 @@
 
 		<!-- 标签 -->
 		<view class="tags">
-			<view class="tag" v-for="item in 8">#风景{{item}}</view>
+			<view  v-for="(item,index) in 8" :key="index" :class="current == index ? 'current':''" @click="current = index">#风景{{item}}</view>
 		</view>
 
 		<!-- 评分 -->
@@ -42,6 +42,7 @@
 
 	const rateCount = ref(5)
 	const countValue = ref(2)
+	const current = ref(0)
 </script>
 
 <style lang="scss" scoped>
@@ -89,13 +90,17 @@
 		flex-wrap: wrap;
 		margin-top: 40rpx;
 
-		.tag {
+		view{
 			padding: 10rpx 20rpx;
 			border-radius: 20px;
 			background: rgba(255, 255, 255, 0.15);
 			font-size: 11px;
 			margin-right: 10rpx;
 			margin-bottom: 10rpx;
+		}
+		.current{
+			background: #F3D4AB;
+			color: #000;
 		}
 	}
 
