@@ -8,7 +8,9 @@
 				这里是用户昵称
 			</template>
 			<template #right>
-				<up-icon name="more-dot-fill" color="#ffffff" size="28"></up-icon>
+					<view class=""@click.stop="oparea">
+						<up-icon name="more-dot-fill" color="#ffffff" size="28" v-if="more" ></up-icon>
+					</view>
 			</template>
 		</up-navbar>
 		<view class="con"  v-for="(item,index) in list" :key="index" :style="item.ismine == 1 ?'align-items: flex-end' :'align-items: flex-start;'">
@@ -34,6 +36,8 @@
 <script setup>
 	 import {reactive,ref} from 'vue'
 	 import Dialog from '@/components/Dialog.vue'
+	 const show = ref(false)
+	 
 	 const list = reactive([{
 		 con:'消息内容消息内容消息内容',
 		 time:'2025-07-29 18:00:00',
@@ -55,6 +59,9 @@
 		 })
 		 con.value = ''
 	 }
+	 	const oparea = () => {
+		 show.value = true
+	}
 </script>
 
 <style lang="scss" scoped>

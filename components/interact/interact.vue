@@ -1,6 +1,7 @@
 <template>
 	<view class="">
-		<view v-for="(item,index) in list" :key="index" class="con" @click="uni.navigateTo({url:'/pages/community/details'})">
+		<view v-for="(item,index) in list" :key="index" class="con"
+			@click="uni.navigateTo({url:'/pages/community/details'})">
 			<view class="desc">点赞了</view>
 			<view class="bg">
 				<view class="top">
@@ -11,8 +12,10 @@
 						</view>
 					</view>
 					<view class="follow">
-						<text v-if="item.isFollow == 1" @click="follow(index)">关注</text>
-						<up-icon name="more-dot-fill" color="#ffffff" size="28"></up-icon>
+						<text v-if="item.isFollow == 1" @click.stop="follow(index)">关注</text>
+						<view class="" @click.stop="oparea">
+							<up-icon name="more-dot-fill" color="#ffffff" size="28"></up-icon>
+						</view>
 					</view>
 				</view>
 				<view class="title">标题内容标题内容标题内容</view>
@@ -33,6 +36,7 @@
 				</view>
 			</view>
 		</view>
+		 <operation :show="show"  @update:show="val => show = val"/>
 	</view>
 </template>
 
@@ -42,12 +46,12 @@
 		reactive
 	} from 'vue'
 	const src = ref('http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg')
-
+    const show = ref(false)
 	const list = reactive([{
 		id: 1,
 		flag: false,
-		givenum:190,
-		isFollow:1
+		givenum: 190,
+		isFollow: 1
 	}])
 	const give = (index) => {
 		list[index].flag = !list[index].flag
@@ -58,10 +62,14 @@
 		}
 	}
 	const follow = (index) => {
-		 list[index].isFollow = 2
-		 uni.showToast({
-		 	title:"关注成功"
-		 })
+		list[index].isFollow = 2
+		uni.showToast({
+			title: "关注成功"
+		})
+	}
+	const oparea = () => {
+		console.log('ZOULEMA ')
+		 show.value = true
 	}
 </script>
 

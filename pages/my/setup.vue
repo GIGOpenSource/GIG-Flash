@@ -8,7 +8,9 @@
 				设置
 			</template>
 			<template #right>
-				<up-icon name="more-dot-fill" color="#ffffff" size="28"></up-icon>
+					<view class=""@click.stop="oparea">
+						<up-icon name="more-dot-fill" color="#ffffff" size="28" v-if="more" ></up-icon>
+					</view>
 			</template>
 		</up-navbar>
 		<view class="form" v-for="(item,index) in form" :key="index" @click="toPath(item.path)">
@@ -45,11 +47,15 @@
 		title: '创作者申请（后期上线）',
 		path: ''
 	}])
+	const show = ref(false)
 	const toPath = (url) => {
 		if(!url) return uni.showToast({title: '暂未开发',duration: 2000,icon:'none'});
 		uni.navigateTo({
 			url
 		})
+	}
+		 	const oparea = () => {
+		 show.value = true
 	}
 </script>
 

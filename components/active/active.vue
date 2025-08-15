@@ -10,8 +10,11 @@
 		 			</view>
 		 		</view>
 		 		<view class="follow">
-						<text v-if="follow && item.isFollow == 1" @click.stop="follow(index)">关注</text>
-		 			<up-icon name="more-dot-fill" color="#ffffff" size="28" v-if="more"></up-icon>
+					<text v-if="follow && item.isFollow == 1" @click.stop="follow(index)">关注</text>
+					<view class=""@click.stop="oparea">
+						<up-icon name="more-dot-fill" color="#ffffff" size="28" v-if="more" ></up-icon>
+					</view>
+		 			
 		 		</view>
 		 	</view>
 		 	<view class="title">标题内容标题内容标题内容</view>
@@ -36,6 +39,7 @@
 		 		</view>
 		 	</view>
 		 </view>
+		 <operation :show="show"  @update:show="val => show = val"/>
 	 </view>
 </template>
 
@@ -44,6 +48,9 @@
 		ref ,reactive
 	} from 'vue'
 	const src = ref('http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg')
+	const show = ref(false)
+	
+	
 	const props = defineProps({
 		//是否有更多按钮
 		more: {
@@ -83,6 +90,10 @@
 		 	title:"关注成功"
 		 })
 	}
+	const oparea = () => {
+		 show.value = true
+	}
+	
 	
 </script>
 

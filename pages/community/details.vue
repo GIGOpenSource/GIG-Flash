@@ -7,9 +7,6 @@
 			<template #center>
 				动态详情
 			</template>
-			<template #right>
-				<up-icon name="more-dot-fill" color="#ffffff" size="28"></up-icon>
-			</template>
 		</up-navbar>
 		<!-- 作品 -->
 		<view class="content">
