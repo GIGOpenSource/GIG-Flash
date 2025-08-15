@@ -61,6 +61,16 @@
 		reactive
 	} from 'vue';
 
+	import {
+		onLoad
+	} from '@dcloudio/uni-app'
+
+
+
+	onLoad(() => {
+		uni.setStorageSync('isFirst', false)
+	})
+
 	const currentSwiper = ref(0)
 
 	const watchText = ref('关注')
@@ -118,7 +128,12 @@
 
 	const handleJumpPage = () => {
 		uni.switchTab({
+			// #ifdef APP-PLUS
 			url: '/pages/index/index'
+			// #endif
+			// #ifndef APP-PLUS
+			url: '/pages/index/index-v'
+			// #endif
 		})
 	}
 </script>

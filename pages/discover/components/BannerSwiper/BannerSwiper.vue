@@ -1,12 +1,13 @@
 <template>
 	<view class="banner-view">
-		<up-swiper :list="list1" @click="handleClickBanner" height="320rpx" radius="20rpx" imageMode="aspectFit"
-			bgColor="transparent">
+		<up-swiper :list="list1" height="320rpx" radius="20rpx" imageMode="aspectFit" bgColor="transparent">
 			<template v-slot:default="{item}">
-				<up-image width="100%" :src="item.url" mode="aspectFill" />
-				<view class="swiper-des">
-					<view class="nums">播放：{{ item.plays}}</view>
-					<view class="time">{{ item.time}}</view>
+				<view @click="handleClickBanner">
+					<up-image width="100%" :src="item.url" mode="aspectFill" />
+					<view class="swiper-des">
+						<view class="nums">播放：{{ item.plays}}</view>
+						<view class="time">{{ item.time}}</view>
+					</view>
 				</view>
 			</template>
 		</up-swiper>
@@ -34,7 +35,11 @@
 		time: '1: 28: 49'
 	}]);
 
-	const handleClickBanner = () => {}
+	const handleClickBanner = () => {
+		uni.navigateTo({
+			url: '/pages/video/video'
+		})
+	}
 </script>
 
 <style lang="scss">
