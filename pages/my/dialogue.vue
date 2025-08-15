@@ -50,7 +50,7 @@
 	 const con = ref('')
 	 const modelValue = ref(false) //是否显示弹窗
 	 const save = () =>{
-		 modelValue.value = true
+		 // modelValue.value = true
 		let time =  uni.$u.timeFormat(Date.now(), 'yyyy-mm-dd hh:MM:ss');
 		 list.push({
 			 con:con.value,
