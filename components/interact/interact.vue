@@ -1,6 +1,6 @@
 <template>
 	<view class="">
-		<view v-for="(item,index) in 8" :key="index" class="con">
+		<view v-for="(item,index) in list" :key="index" class="con">
 			<view class="desc">点赞了</view>
 			<view class="bg">
 				<view class="top">
@@ -25,9 +25,10 @@
 					2025-05-05 18:00:00
 				</view>
 				<view class="right">
-					<view class="">
-						<up-icon name="thumb-up" color="#ffffff" size="26"></up-icon>
-						<text>224</text>
+					<view class="" @click.stop="give(index)">
+						<up-icon :name="item.flag? 'thumb-up-fill':'thumb-up'" :color="item.flag? '#ff0000':'#ffffff'"
+							size="26"></up-icon>
+						<text>{{item.givenum}}</text>
 					</view>
 				</view>
 			</view>
@@ -37,9 +38,24 @@
 
 <script setup>
 	import {
-		ref
+		ref,
+		reactive
 	} from 'vue'
 	const src = ref('http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg')
+
+	const list = reactive([{
+		id: 1,
+		flag: false,
+		givenum:190
+	}])
+	const give = (index) => {
+		list[index].flag = !list[index].flag
+		if (list[index].flag) {
+			list[index].givenum += 1
+		} else {
+			list[index].givenum -= 1
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -48,7 +64,8 @@
 		margin-bottom: 20rpx;
 		padding: 20rpx;
 		border-radius: 15rpx;
-		.bg{
+
+		.bg {
 			background: #28272e;
 			// padding:20rpx;
 			padding: 20rpx 20rpx 0 20rpx;
@@ -56,7 +73,8 @@
 			margin-top: 20rpx;
 			border-radius: 20rpx;
 		}
-		.desc{
+
+		.desc {
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
@@ -67,11 +85,12 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		
+
 
 		.follow {
 			display: flex;
-			text{
+
+			text {
 				margin-right: 20rpx;
 				border: 1rpx solid #ffffff;
 				padding: 10rpx 40rpx;

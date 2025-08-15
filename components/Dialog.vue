@@ -62,7 +62,7 @@
 	})
 
 	const emits = defineEmits(['update:modelValue','cancel','confirm','close'])
-	
+    console.log(props.modelValue,'modelValuemodelValue11111')
 	const onCancel = ()=> {
 		console.log('cancel');
 		emits('cancel')

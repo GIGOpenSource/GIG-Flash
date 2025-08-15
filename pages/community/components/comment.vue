@@ -10,21 +10,22 @@
 				<text :class="current == 1 ? 'current':''" @click="current = 1">最新</text>
 			</view>
 		</view>
-		<view class="center" v-for="(item,index) in 10" :key="index">
+		<view class="center" v-for="(item,index) in list" :key="index">
 			<up-avatar :src="src" size="40"></up-avatar>
 			<view class="right">
 				<view class="r-top">
 					<view class="info">
 						<text class="name">mask</text>
-						<text class="time">2025-05-05 18:00:00</text>
+						<text class="time">{{item.time}}</text>
 					</view>
-					<view class="give">
-						<up-icon name="heart" color="#D9D9D9" size="22"></up-icon>
+					<view class="give" @click.stop="give(index)">
+						
+						<up-icon  :name="item.flag?'heart-fill':'heart'" :color="item.flag?'#ff0000':'#D9D9D9'" size="22" ></up-icon>
 						<text>2.5w</text>
 					</view>
 				</view>
 				<view class="">
-					评价内容评价内容评价内容评价内容评价内容评价内容
+					{{item.con}}
 				</view>
 			</view>
 		</view>
@@ -37,6 +38,16 @@
 	} from 'vue'
 	const src = ref('http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg')
 	const current = ref(0)
+	const props = defineProps({
+		list:{
+			type:Array,
+			default: []
+		}
+	})
+	const give = (index) => {
+		 console.log(index,'iondeifehb')
+		 props.list[index].flag = !props.list[index].flag
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -63,6 +74,7 @@
 			margin-top: 20rpx;
 
 			.right {
+				width:600rpx;
 				margin-left: 20rpx;
 				padding-bottom: 20rpx;
                 border-bottom: 1rpx solid rgba(255, 255, 255, .1);

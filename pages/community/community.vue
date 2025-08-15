@@ -16,66 +16,94 @@
 				</template>
 			</up-navbar>
 		</template>
-		
+
 
 		<view class="content">
-			<active></active>                
+			<active></active>
 		</view>
+		<dragball >
+			<template #content>
+				<view  class="dragball" @click="clicks">
+				  +
+				</view>
+			</template>
+		</dragball>
+
 	</z-paging>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+	import {
+		ref
+	} from 'vue';
 
-import tabs from '@/components/tabs/tabs.vue'
-import SocialPost from './components/SocialPost.vue'
+	import tabs from '@/components/tabs/tabs.vue'
+	import SocialPost from './components/SocialPost.vue'
 
-const list = ref([{
-	name: '推荐'
-},
-{
-	name: '关注'
-},
-{
-	name: '最新'
-},
-{
-	name: '同城'
-}
+	const list = ref([{
+			name: '推荐'
+		},
+		{
+			name: '关注'
+		},
+		{
+			name: '最新'
+		},
+		{
+			name: '同城'
+		}
 
-])
+	])
 
-const onTabChange = ()=>{}
+	const onTabChange = () => {}
 
-const postData = ref([{
-	avatar: 'https://img0.baidu.com/it/u=2381910767,1869190694&fm=253&app=138&f=JPEG?w=800&h=949',
-	username: 'Mask',
-	timestamp: '2025-05-05 18:00:00',
-	content: '这里是标题内容 (20个字, 可为空)',
-	image: 'https://img0.baidu.com/it/u=2381910767,1869190694&fm=253&app=138&f=JPEG?w=800&h=949',
-	shares: 224,
-	likes: 2488,
-	comments: 121
-}])
-const paging = ref(null)
-// v-model绑定的这个变量不要在分页请求结束中自己赋值，直接使用即可
-const dataList = ref([])
+	const postData = ref([{
+		avatar: 'https://img0.baidu.com/it/u=2381910767,1869190694&fm=253&app=138&f=JPEG?w=800&h=949',
+		username: 'Mask',
+		timestamp: '2025-05-05 18:00:00',
+		content: '这里是标题内容 (20个字, 可为空)',
+		image: 'https://img0.baidu.com/it/u=2381910767,1869190694&fm=253&app=138&f=JPEG?w=800&h=949',
+		shares: 224,
+		likes: 2488,
+		comments: 121
+	}])
+	const paging = ref(null)
+	// v-model绑定的这个变量不要在分页请求结束中自己赋值，直接使用即可
+	const dataList = ref([])
 
-const queryList = (pageNo, pageSize) => {
-	// 此处请求仅为演示，请替换为自己项目中的请求
-	//       request.queryList({ pageNo,pageSize }).then(res => {
-	// 	// 将请求结果通过complete传给z-paging处理，同时也代表请求结束，这一行必须调用
-	//           paging.value.complete(res.data.list);
-	//       }).catch(res => {
-	// 	// 如果请求失败写paging.value.complete(false);
-	// 	// 注意，每次都需要在catch中写这句话很麻烦，z-paging提供了方案可以全局统一处理
-	// 	// 在底层的网络请求抛出异常时，写uni.$emit('z-paging-error-emit');即可
-	
-	paging.value.complete(postData.value);
-}
+	const queryList = (pageNo, pageSize) => {
+		// 此处请求仅为演示，请替换为自己项目中的请求
+		//       request.queryList({ pageNo,pageSize }).then(res => {
+		// 	// 将请求结果通过complete传给z-paging处理，同时也代表请求结束，这一行必须调用
+		//           paging.value.complete(res.data.list);
+		//       }).catch(res => {
+		// 	// 如果请求失败写paging.value.complete(false);
+		// 	// 注意，每次都需要在catch中写这句话很麻烦，z-paging提供了方案可以全局统一处理
+		// 	// 在底层的网络请求抛出异常时，写uni.$emit('z-paging-error-emit');即可
+
+		paging.value.complete(postData.value);
+	}
+	const clicks = () => {
+		uni.navigateTo({
+			url:'/pages/community/publish'
+		})
+	}
 </script>
 <style lang="scss" scoped>
-	.content{
+	.content {
 		margin: 20rpx;
+		
 	}
+	.dragball{
+		 background: linear-gradient(180deg, #5662E1 0%, #614793 100%);
+		 width: 100rpx;
+		 height: 100rpx;
+		 border-radius: 50%;
+		 text-align: center;
+		 line-height: 80rpx;
+		 font-size: 90rpx;
+		 font-weight: bold;
+	}
+	
+
 </style>
