@@ -35,10 +35,16 @@
 		<!-- z-paging默认铺满全屏，此时页面所有view都应放在z-paging标签内，否则会被盖住 -->
 		<!-- 需要固定在页面顶部的view请通过slot="top"插入，包括自定义的导航栏 -->
 		<view class="content">
-			<BannerSwiper />
-			<view class="card-list">
-				<card-view v-for="item in 10" @click="handleToLongVideo"></card-view>
-			</view>
+			<swiper :current="currentCategory">
+				<swiper-item v-for="item in categoryList.length">
+					<BannerSwiper />
+					<view class="card-list">
+						<card-view v-for="item in 10" @click="handleToLongVideo"></card-view>
+					</view>
+				</swiper-item>
+
+			</swiper>
+
 		</view>
 
 	</z-paging>
@@ -100,9 +106,14 @@
 		},
 	])
 	// 切换分类
-	const handleClickCategory = () => {}
+	const handleClickCategory = (tab) => {
+		console.log(tab);
+		currentCategory.value = tab.index
+		console.log('currentCategory', currentCategory.value);
+	}
 	const onTabChange = (tab) => {
 		console.log(tab);
+		currentCategory.value = 0
 	}
 
 	// 定义方法  
