@@ -2,6 +2,9 @@
 	<z-paging ref="pagingRef" v-model="dataList" @query="queryList">
 
 		<template #top>
+			<view class="back" @click="handlClickBack">
+				<up-icon name="arrow-left" size="18" color="#fff"></up-icon>
+			</view>
 			<!-- 视频 -->
 			<video-player></video-player>
 
@@ -63,6 +66,10 @@
 	const handleClickTab = (e) => {
 		currentTab.value = e.index
 	}
+	const handlClickBack = (e) => {
+		uni.navigateBack()
+	}
+
 	const queryList = () => {}
 </script>
 
@@ -76,6 +83,16 @@
 		.u-input--circle {
 			padding: 3px 20rpx !important;
 		}
+	}
+
+	.back {
+		border-radius: 50%;
+		padding: 10rpx;
+		background-color: rgba(0, 0, 0, 0.2);
+		position: fixed;
+		top: 40rpx;
+		left: 30rpx;
+		z-index: 99;
 	}
 
 	.custom-style {

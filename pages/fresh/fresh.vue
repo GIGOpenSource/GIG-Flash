@@ -18,11 +18,12 @@
 						<up-image src="/static/images/fresh1.png" width="345rpx" height="245rpx" radius="20rpx"
 							mode="cover" style="margin-bottom: 20rpx;" @click="handleClickRoute('ai')"></up-image>
 						<up-image src="/static/images/fresh2.png" width="345rpx" height="245rpx" radius="20rpx"
-							mode="cover" style="margin-left: 20rpx;margin-bottom: 20rpx;" @click="handleClickRoute('game')"></up-image>
+							mode="cover" style="margin-left: 20rpx;margin-bottom: 20rpx;"
+							@click="handleClickRoute('game')"></up-image>
 						<up-image src="/static/images/fresh3.png" width="345rpx" height="245rpx" radius="20rpx"
 							mode="cover" @click="handleClickRoute('app')"></up-image>
 						<up-image src="/static/images/fresh4.png" width="345rpx" height="245rpx" radius="20rpx"
-							mode="cover" style="margin-left: 20rpx;" @click="handleClickRoute('an')"></up-image>
+							mode="cover" style="margin-left: 20rpx;" @click="handleClickRoute('vip')"></up-image>
 					</view>
 				</swiper-item>
 				<swiper-item>
@@ -58,11 +59,11 @@
 	const onTabChange = (tab) => {
 		currentPage.value = tab.index
 	}
-	
-	const handleClickRoute = (url) =>{
-		if( url === 'ai') return
+
+	const handleClickRoute = (url) => {
+		if (url === 'ai') return
 		uni.navigateTo({
-			url:`/pages/fresh/recommend/${url}`
+			url: `/pages/fresh/recommend/${url}`
 		})
 	}
 </script>

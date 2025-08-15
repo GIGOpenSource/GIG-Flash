@@ -2,8 +2,7 @@
 	<!-- 视频 -->
 	<view>
 		<video id="myVideo" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4" object-fit="cover"
-			@error="videoErrorCallback" enable-danmu danmu-btn controls
-			style="width: 100%; height: 460rpx;"></video>
+			@error="videoErrorCallback" enable-danmu danmu-btn controls style="width: 100%; height: 460rpx;"></video>
 
 		<!-- 视频price -->
 		<view class="price-line">
@@ -36,7 +35,7 @@
 </template>
 
 <script setup>
-
+	const videoErrorCallback = () => {}
 </script>
 
 <style lang="scss" scoped>
