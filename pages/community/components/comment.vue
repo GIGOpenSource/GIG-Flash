@@ -2,14 +2,14 @@
 	<view class="page">
 		<view class="top">
 			<view class="">
-				全部评论（56）
+				全部评论（{{list.length }}）
 			</view>
 			<view class="tabs">
 				<text :class="current == 0 ? 'current':''" @click="current = 0">推荐</text>
 				<text> / </text>
 				<text :class="current == 1 ? 'current':''" @click="current = 1">最新</text>
 			</view>
-		</view>
+		</view> 
 		<view class="center" v-for="(item,index) in list" :key="index">
 			<up-avatar :src="src" size="40"></up-avatar>
 			<view class="right">

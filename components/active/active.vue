@@ -10,7 +10,7 @@
 		 			</view>
 		 		</view>
 		 		<view class="follow">
-						<text v-if="follow">关注</text>
+						<text v-if="follow && item.isFollow == 1" @click.stop="follow(index)">关注</text>
 		 			<up-icon name="more-dot-fill" color="#ffffff" size="28" v-if="more"></up-icon>
 		 		</view>
 		 	</view>
@@ -65,17 +65,23 @@
 		flag:false,
 		givenum:2,
 		sharenum:20,
-		commentnum:10
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
 	}
 	])
 	const give = (index) => {
-		console.log(index,'indeixnd')
 		 list[index].flag = !list[index].flag
 		 if(list[index].flag){
 			 list[index].givenum += 1
 		 } else{
 			 list[index].givenum -= 1
 		 }
+	}
+	const follow = (index) => {
+		 list[index].isFollow = 2
+		 uni.showToast({
+		 	title:"关注成功"
+		 })
 	}
 	
 </script>

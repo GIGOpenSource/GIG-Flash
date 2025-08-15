@@ -8,7 +8,7 @@
 				资料编辑
 			</template>
 			<template #right>
-				发布
+				<view @click="pubilsh">发布</view>
 			</template>
 		</up-navbar>
 		<block v-for="(item,index) in form" :key="index">
@@ -17,7 +17,7 @@
 				<up-upload :fileList="fileList1" @afterRead="afterRead" @delete="deletePic" name="1" multiple
 					:maxCount="10" uploadIcon="plus"></up-upload>
 			</view>
-			<input v-else type="text" :placeholder="item.name" @focus="choose(index)"/>
+			<input v-else type="text" :placeholder="item.name" @focus="choose(index)" />
 		</block>
 		<up-picker :show="show" :columns="columns" @cancel="show = false" @confirm="confirm"></up-picker>
 	</view>
@@ -45,7 +45,7 @@
 	const fileList1 = ref([]);
 	const show = ref(false);
 	const columns = reactive([
-	  ['中国', '美国', '日本']
+		['中国', '美国', '日本']
 	]);
 
 	// 删除图片
@@ -96,18 +96,25 @@
 		});
 	};
 	const choose = (index) => {
-		if(index == 0){
-			columns[0] = ['视频','动态']
+		if (index == 0) {
+			columns[0] = ['视频', '动态']
 			show.value = true
-		}else if(index == 4){
-			columns[0] = ['是','否']
+		} else if (index == 4) {
+			columns[0] = ['是', '否']
 			show.value = true
 		}
-		
+
 	}
 	const confirm = () => {
-		console.log(11111)
 		show.value = false
+	}
+	const pubilsh = () => {
+		uni.showToast({
+			title: "发布成功",
+			success:()=> {
+				uni.navigateBack()
+			}
+		})
 	}
 </script>
 
@@ -120,13 +127,13 @@
 		border-radius: 20rpx;
 		width: 89%;
 	}
-	.images{
-		 margin: 0 20rpx;
+
+	.images {
+		margin: 0 20rpx;
 	}
-	
 </style>
 <style>
-	/deep/ .u-upload__button{
+	/deep/ .u-upload__button {
 		background: #212028 !important;
 	}
 </style>

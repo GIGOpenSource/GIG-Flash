@@ -110,6 +110,12 @@
 			{
 				"navigationBarTitleText" : "游戏详情"
 			}
+		},{
+			"path" : "pages/welecome/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "欢迎页"
+			}
 		}
 	],
 	"tabBar": {

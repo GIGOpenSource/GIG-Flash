@@ -5,7 +5,7 @@
 				{{item}}</view>
 		</view>
 		<view class="con">
-			<view class="list"  v-for="(item,index) in 9" :key="index">
+			<view class="list"  v-for="(item,index) in 9" :key="index" @click="uni.navigateTo({url:'/pages/video/video'})">
 				<image src="/static/tsp-icon/touxiang.jpg" mode="widthFix"></image>
 				<view class="play">
 					<text>播放：11.2w</text>
