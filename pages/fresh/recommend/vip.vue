@@ -4,17 +4,8 @@
 		<template #top>
 
 			<!-- 导航栏 -->
-			<up-navbar bgColor="transparent" placeholder :autoBack="false" :fixed="false" @rightClick="rightClick">
-				<template #left>
-					<tabs :list="list" @change="onTabChange"></tabs>
-				</template>
-
-				<template #right>
-					<view class="search">
-						<up-icon name="search" color="#fff" size="22"></up-icon>
-						<text>搜索</text>
-					</view>
-				</template>
+			<up-navbar bgColor="transparent" leftIconColor="#fff" title="暗网" titleColor="#fff" placeholder
+				:fixed="false">
 			</up-navbar>
 
 			<!-- tab分类 -->
@@ -48,18 +39,9 @@
 	import {
 		ref
 	} from 'vue'
-	import tabs from '@/components/tabs/tabs.vue'
-	import CardView from './components/CardView/CardView.vue'
-	import BannerSwiper from './components/BannerSwiper/BannerSwiper.vue'
+	import CardView from '../../discover/components/CardView/CardView.vue'
+	import BannerSwiper from '../../discover/components/BannerSwiper/BannerSwiper.vue'
 
-	const list = ref([{
-			name: '发现'
-		},
-		{
-			name: '精选'
-		}
-
-	])
 
 	const currentCategory = ref(0)
 	const categoryList = ref([{
@@ -69,10 +51,10 @@
 			name: '推荐'
 		},
 		{
-			name: '最新'
+			name: '视频'
 		},
 		{
-			name: '最新'
+			name: '游戏'
 		},
 		{
 			name: '最新'
@@ -105,17 +87,6 @@
 		console.log(tab);
 	}
 
-	// 定义方法  
-	const rightClick = () => {
-		console.log('rightClick');
-		uni.navigateTo({
-			url: '/pages/search/search'
-		})
-	};
-
-	const leftClick = () => {
-		console.log('leftClick');
-	};
 
 	const paging = ref(null)
 	// v-model绑定的这个变量不要在分页请求结束中自己赋值，直接使用即可
@@ -131,31 +102,7 @@
 		// 	// 如果请求失败写paging.value.complete(false);
 		// 	// 注意，每次都需要在catch中写这句话很麻烦，z-paging提供了方案可以全局统一处理
 		// 	// 在底层的网络请求抛出异常时，写uni.$emit('z-paging-error-emit');即可
-		paging.value.complete([{
-			title: '123'
-		}, {
-			title: "2243"
-		}, {
-			title: "2243"
-		}, {
-			title: "2243"
-		}, {
-			title: "2243"
-		}, {
-			title: "2243"
-		}, {
-			title: "2243"
-		}, {
-			title: "2243"
-		}, {
-			title: "2243"
-		}, {
-			title: "2243"
-		}, {
-			title: "2243"
-		}, {
-			title: "2243"
-		}]);
+		paging.value.complete([]);
 		// })
 	}
 
@@ -167,6 +114,10 @@
 </script>
 
 <style lang="scss">
+	page {
+		background-color: #221b39;
+	}
+
 	.content {
 		padding: 20rpx;
 	}
@@ -177,8 +128,8 @@
 		margin-top: 20rpx;
 
 		.card-view {
-			margin-right: 30rpx;
-			margin-bottom: 30rpx;
+			margin-right: 20rpx;
+			margin-bottom: 20rpx;
 
 			&:nth-child(2n) {
 				margin-right: 0;
