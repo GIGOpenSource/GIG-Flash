@@ -10,8 +10,7 @@
 		</up-navbar>
 		<!-- 作品 -->
 		<view class="content">
-
-			<active />
+			<active :isList="false"/>
 		</view>
 		<!-- 评论 -->
 		<comment :list="commentList"/>

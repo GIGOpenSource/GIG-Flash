@@ -52,6 +52,31 @@
 		flag: false,
 		givenum: 190,
 		isFollow: 1
+	},{
+		id: 1,
+		flag: false,
+		givenum: 190,
+		isFollow: 1
+	},{
+		id: 1,
+		flag: false,
+		givenum: 190,
+		isFollow: 1
+	},{
+		id: 1,
+		flag: false,
+		givenum: 190,
+		isFollow: 1
+	},{
+		id: 1,
+		flag: false,
+		givenum: 190,
+		isFollow: 1
+	},{
+		id: 1,
+		flag: false,
+		givenum: 190,
+		isFollow: 1
 	}])
 	const give = (index) => {
 		list[index].flag = !list[index].flag

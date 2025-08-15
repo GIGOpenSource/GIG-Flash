@@ -1,6 +1,6 @@
 <template>
 	 <view class="">
-		 <view v-for="(item,index) in list" :key="index" class="con" @click="uni.navigateTo({url:'/pages/community/details'})">
+		 <view v-for="(item,index) in isList ? list : list.slice(0,1)" :key="index" class="con" @click="uni.navigateTo({url:'/pages/community/details'})">
 		 	<view class="top">
 		 		<view class="left">
 		 			<up-avatar :src="src" size="40"></up-avatar>
@@ -64,10 +64,106 @@
 			default: true,
 			required: true
 		},
+		isList:{
+			type: Boolean,
+			default: true,
+			required: true
+		}
 		
 	})
 	const list = reactive([
 		{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
+		id:1,
+		flag:false,
+		givenum:2,
+		sharenum:20,
+		commentnum:10,
+		isFollow:1 //1关注，2取消关注
+	},{
 		id:1,
 		flag:false,
 		givenum:2,

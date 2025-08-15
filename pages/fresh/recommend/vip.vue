@@ -5,7 +5,7 @@
 
 			<!-- 导航栏 -->
 			<up-navbar bgColor="transparent" leftIconColor="#fff" title="暗网" titleColor="#fff" placeholder
-				:fixed="false">
+				:fixed="false" :autoBack="true">
 			</up-navbar>
 
 			<!-- tab分类 -->
