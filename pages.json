@@ -71,6 +71,11 @@
 			"style": {
 				"navigationBarTitleText": "消息"
 			}
+		},{
+			"path": "pages/my/dialogue",
+			"style": {
+				"navigationBarTitleText": "对话详情"
+			}
 		},
 		{
 			"path": "pages/video/video",

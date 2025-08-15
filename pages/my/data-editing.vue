@@ -11,14 +11,15 @@
 				保存
 			</template>
 		</up-navbar>
-		       <view class="avatar">
-				    <up-image :show-loading="true" :src="src" width="80px" height="80px" shape="circle" ></up-image>
-			   </view>
+		<view class="avatar" @click="uploadImage">
+			<up-image :show-loading="true" :src="src" width="80px" height="80px" shape="circle"></up-image>
+		</view>
 		<view class="form" v-for="(item,index) in form" :key="index">
 			<text>{{item.name}}</text>
-			<up-textarea  v-if="index == 2" v-model="item.key" placeholder="请输入内容" count maxlength="20" border="none"></up-textarea>
-			<input type="text"  v-else  :placeholder="'请输入' + item.name" v-model="item.key"/>
-			
+			<up-textarea v-if="index == 2" v-model="item.key" placeholder="请输入内容" count maxlength="20"
+				border="none"></up-textarea>
+			<input type="text" v-else :placeholder="'请输入' + item.name" v-model="item.key" />
+
 		</view>
 	</view>
 </template>
@@ -42,41 +43,51 @@
 		type: 'textera',
 		key: 'sign'
 	}])
-	const click = () => {
-	  // 点击事件处理逻辑
+	const uploadImage = () => {
+		uni.chooseImage({
+			count: 1,
+			type: 'file',
+			success: (res) => {
+
+			}
+		})
 	};
 </script>
 
 <style lang="scss" scoped>
-	.avatar{
+	.avatar {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		margin: 50rpx 0 30rpx 0;
 	}
-	.form{
+
+	.form {
 		display: flex;
 		margin: 20rpx;
-		input{
+
+		input {
 			background: #212028;
 			margin-left: 20rpx;
 			padding: 15rpx 20rpx;
 			width: 80%;
 			border-radius: 10rpx;
 		}
-		text{
+
+		text {
 			display: block;
 			width: 80rpx;
 		}
 	}
-	.u-textarea{
+
+	.u-textarea {
 		margin-left: 20rpx;
 		background-color: #212028;
 	}
 </style>
 
 <style>
-	 .u-textarea__count{
-		 background-color: #212028 !important;
-	 }
+	.u-textarea__count {
+		background-color: #212028 !important;
+	}
 </style>
