@@ -1,6 +1,6 @@
 <template>
 
-	<z-paging ref="paging" v-model="dataList" @query="queryList">
+	<z-paging ref="paging" :loading-more-enabled="false" v-model="dataList" @query="queryList">
 		<template #top>
 
 			<!-- 导航栏 -->
@@ -35,12 +35,16 @@
 		<!-- z-paging默认铺满全屏，此时页面所有view都应放在z-paging标签内，否则会被盖住 -->
 		<!-- 需要固定在页面顶部的view请通过slot="top"插入，包括自定义的导航栏 -->
 		<view class="content">
-			<swiper :current="currentCategory">
+			<swiper :current="currentCategory" style="height: calc(100vh - 90px)">
 				<swiper-item v-for="item in categoryList.length">
-					<BannerSwiper />
-					<view class="card-list">
-						<card-view v-for="item in 10" @click="handleToLongVideo"></card-view>
-					</view>
+					<z-paging>
+						<BannerSwiper />
+						<view class="card-list">
+							<card-view v-for="item in 10" @click="handleToLongVideo"></card-view>
+						</view>
+					</z-paging>
+
+
 				</swiper-item>
 
 			</swiper>
