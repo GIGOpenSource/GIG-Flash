@@ -1,12 +1,13 @@
 <template>
-	<view class="operate-popup" :style="{height: screenHeight + 'px'}" v-if="value">
+	<view class="operate-popup" :style="{height: screenHeight + 'px'}" v-if="modelValue">
 		<!-- 遮罩层 -->
 		<view class="operate-mask" @click="close" :style="{width: screenWidth+'px',height: screenHeight+'px'}"></view>
 
 		<!-- 内容区域 -->
 		<view class="operate-content" :style="{width: screenWidth+'px',height: commentHeight+'px',
 		 transform: `translateY(${showPopup ? 0 : commentHeight}px)`}" @click="clickStop">
-			<scroll-view class="operate-content-box" scroll-y :show-scrollbar="false" :style="{width: screenWidth+'px',height: commentHeight - 15 +'px'}">
+			<scroll-view class="operate-content-box" scroll-y :show-scrollbar="false"
+				:style="{width: screenWidth+'px',height: commentHeight - 15 +'px'}">
 				<view class="content-top f f-lv-s">
 					<text class="content-top-title">分享给</text>
 					<view class="f f-v-c">
@@ -18,7 +19,7 @@
 						</view>
 					</view>
 				</view>
-				
+
 				<scroll-view class="user-tool f" scroll-x :style="{width: screenWidth+'px'}" :show-scrollbar="false">
 					<view class="f">
 						<view>
@@ -46,7 +47,7 @@
 						</view>
 					</view>
 				</scroll-view>
-				
+
 				<scroll-view class="user-tool f" scroll-x :style="{width: screenWidth+'px'}" :show-scrollbar="false">
 					<view class="f">
 						<view class="user-tool-item f fw-c" v-for="(item,index) in 10" :key="index">
@@ -62,7 +63,7 @@
 						</view>
 					</view>
 				</scroll-view>
-				
+
 			</scroll-view>
 		</view>
 	</view>
@@ -71,7 +72,7 @@
 <script>
 	export default {
 		props: {
-			value: {
+			modelValue: {
 				type: Boolean,
 				default: false
 			},
@@ -107,7 +108,7 @@
 			}
 		},
 		watch: {
-			value(val) {
+			modelValue(val) {
 				if (val) {
 					setTimeout(() => {
 						this.showPopup = val
@@ -134,7 +135,7 @@
 			close() {
 				this.showPopup = false
 				setTimeout(() => {
-					this.$emit('input', false)
+					this.$emit('update:modelValue', false)
 				}, 250)
 			}
 		}
@@ -148,7 +149,8 @@
 		/* #endif */
 		flex-direction: row;
 	}
-	.fx1{
+
+	.fx1 {
 		flex: 1;
 	}
 
@@ -160,28 +162,34 @@
 		align-items: center;
 		justify-content: space-between;
 	}
-	
+
 	.f-lv-c {
 		align-items: center;
 		justify-content: center;
 	}
-	.fw{
+
+	.fw {
 		flex-direction: column;
 	}
-	.fw-c{
+
+	.fw-c {
 		flex-direction: column;
 		align-items: center;
 	}
-	
+
 	/* #ifndef APP-NVUE */
-	page, view, scroll-view{
-	  box-sizing: border-box;
+	page,
+	view,
+	scroll-view {
+		box-sizing: border-box;
 	}
+
 	::v-deep ::-webkit-scrollbar {
-	  display: none;
+		display: none;
 	}
+
 	/* #endif */
-	
+
 	/*字体单行省略*/
 	.text_one {
 		/* #ifndef APP-NVUE */
@@ -190,7 +198,7 @@
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		/* #endif */
-	
+
 		/* #ifdef APP-NVUE */
 		lines: 1;
 		/* #endif */
@@ -223,26 +231,28 @@
 		transition-property: transform, opacity, height;
 		transition-timing-function: ease;
 	}
-	
-	.operate-content-box{
+
+	.operate-content-box {
 		position: absolute;
 		bottom: 0;
 		left: 0;
 	}
-	
-	.content-top{
+
+	.content-top {
 		padding: 0 15px;
 	}
-	.content-top-title{
+
+	.content-top-title {
 		font-size: 15px;
 		color: #000;
 	}
-	.content-top-search{
+
+	.content-top-search {
 		padding: 5px 13px;
 		border-radius: 18px;
 		background-color: #eee;
 	}
-	
+
 	.header-btn {
 		width: 28px;
 		height: 28px;
@@ -252,38 +262,42 @@
 		justify-content: center;
 		margin-left: 20px;
 	}
-	
+
 	.close {
 		position: relative;
 		top: -1px;
 		color: #666;
 		font-size: 21px;
 	}
-	
-	.content-top-search-text{
+
+	.content-top-search-text {
 		color: #333;
 		font-size: 13px;
 	}
-	
-	.user-tool{
+
+	.user-tool {
 		margin-top: 15px;
 		height: 100px;
 	}
-	.user-tool-jq{
+
+	.user-tool-jq {
 		width: 60px;
 		margin-left: 15px;
 		height: 100px;
 	}
-	.user-tool-jq-top{
+
+	.user-tool-jq-top {
 		position: relative;
 		height: 60px;
 	}
-	.user-tool-jq-img{
+
+	.user-tool-jq-img {
 		width: 38px;
 		height: 38px;
 		border-radius: 50%;
 	}
-	.user-tool-jq-imgTwo{
+
+	.user-tool-jq-imgTwo {
 		position: absolute;
 		top: 15px;
 		left: 10px;
@@ -292,40 +306,48 @@
 		border-radius: 50%;
 		background-color: #f5f5f5;
 	}
-	.user-tool-jq-imgTwo-img{
+
+	.user-tool-jq-imgTwo-img {
 		width: 38px;
 		height: 38px;
 		border-radius: 50%;
 	}
-	.user-tool-jq-zjfx{
+
+	.user-tool-jq-zjfx {
 		margin-top: 5px;
 		margin-bottom: 3px;
 	}
-	.user-tool-jq-zjfx-text{
+
+	.user-tool-jq-zjfx-text {
 		margin-top: 5px;
 		margin-bottom: 3px;
 		font-size: 12px;
 		color: #333;
 	}
-	.user-tool-jq-hf{
+
+	.user-tool-jq-hf {
 		font-size: 11px;
 		color: #666;
 	}
-	.user-tool-item{
+
+	.user-tool-item {
 		width: 60px;
 		margin-left: 15px;
 	}
-	.user-tool-item-avatar{
+
+	.user-tool-item-avatar {
 		width: 55px;
 		height: 55px;
 		border-radius: 50%;
 		background-color: #fff;
 	}
-	.user-tool-item-avatar-icon{
+
+	.user-tool-item-avatar-icon {
 		width: 30px;
 		height: 30px;
 	}
-	.user-tool-item-text{
+
+	.user-tool-item-text {
 		color: #333;
 		font-size: 12px;
 		width: 60px;

@@ -1,20 +1,21 @@
 <template>
 	<view class="tabs">
-		<swiper class="tab-box" ref="swiper1" :duration="300" :current="tabIndex"
-			@transition="onswiperscroll" @animationfinish="animationfinish" @onAnimationEnd="animationfinish" @change="onswiperchange">
+		<swiper class="tab-box" ref="swiper1" :duration="300" :current="tabIndex" @transition="onswiperscroll"
+			@animationfinish="animationfinish" @onAnimationEnd="animationfinish" @change="onswiperchange">
 			<swiper-item class="swiper-item" v-for="(page, index) in tabList" :key="index">
 				<view style="flex: 1;position: relative;">
-					<tabsPage :ref="'page' + index" :pageIndex="index" :tabIndex="tabIndex" :tabItem="page" :screenHeight="screenHeight"
-					 :statusBarHeight="statusBarHeight"></tabsPage>
+					<tabsPage :ref="'page' + index" :pageIndex="index" :tabIndex="tabIndex" :tabItem="page"
+						:screenHeight="screenHeight" :statusBarHeight="statusBarHeight"></tabsPage>
 				</view>
 			</swiper-item>
 		</swiper>
-		
+
 		<!-- 解决app端视频滑动进度条和swiper冲突滑动遮罩图层 -->
 		<!-- #ifdef APP-PLUS -->
-		<view class="vodProgress" @touchmove="touchmoveSlider" @touchstart="touchmoveSlider" @touchend="touchendSlider" v-if="tabIndex != 0"></view>
+		<view class="vodProgress" @touchmove="touchmoveSlider" @touchstart="touchmoveSlider" @touchend="touchendSlider"
+			v-if="tabIndex != 0"></view>
 		<!-- #endif -->
-		
+
 		<view class="head" :style="{top:statusBarHeight+'px',width:screenWidth+'px'}">
 			<view class="head-item" @click="tabChange(index)" v-for="(item,index) in tabList" :key="index">
 				<text class="head-item-text" :class="tabIndex == index ?'head-item-textActive':''">{{item.name}}</text>
@@ -26,13 +27,14 @@
 				<image src="/static/tsp-icon/home-search.png" class="head-operate-icon"></image>
 			</view>
 		</view>
-		
+
 		<!-- 评论 -->
-		<comment-popup ref="commentRef" v-model="commentVisible" :commentInfo="commentInfo" @submitComment="submitComment"/>
-		
+		<comment-popup ref="commentRef" v-model="commentVisible" :commentInfo="commentInfo"
+			@submitComment="submitComment" />
+
 		<!-- 转发弹窗 -->
 		<forwardMenu v-model="showForward" :forwardInfo="commentInfo"></forwardMenu>
-		
+
 	</view>
 </template>
 <script>
@@ -51,9 +53,9 @@
 		},
 		data() {
 			return {
-				statusBarHeight:deviceInfo.statusBarHeight,
-				screenWidth:deviceInfo.screenWidth || 0, //屏幕的宽度
-				screenHeight:deviceInfo.screenHeight, //屏幕的高度
+				statusBarHeight: deviceInfo.statusBarHeight,
+				screenWidth: deviceInfo.screenWidth || 0, //屏幕的宽度
+				screenHeight: deviceInfo.screenHeight, //屏幕的高度
 				tabList: [{
 					id: 'tab01',
 					name: '推荐',
@@ -64,9 +66,9 @@
 					id: 'tab03',
 					name: '最新',
 				}],
-				tabIndex:2,
-				pageList:[],
-				tapOpen:false,
+				tabIndex: 0,
+				pageList: [],
+				tapOpen: false,
 				commentVisible: false, //是否显示评论弹窗
 				commentInfo: {},
 				openVodCommentIndex: null, //已经打开视频评论加载的下标
@@ -83,30 +85,30 @@
 				}
 			}
 			this.changeSwitchTab(this.tabIndex)
-			
+
 			/* 监听打开评论*/
-			uni.$on('updateOpenComment',(data)=>{
+			uni.$on('updateOpenComment', (data) => {
 				this.commentInfo = data.item
 				this.commentVisible = true
-				this.$nextTick(()=>{
-					if(this.openVodCommentIndex != data.vodCurIndex){ 
+				this.$nextTick(() => {
+					if (this.openVodCommentIndex != data.vodCurIndex) {
 						this.openVodCommentIndex = data.vodCurIndex
 						this.$refs.commentRef.loadData() //调用评论组件的加载方法
 					}
 				})
 			})
-			
+
 			/* 监听打开转发*/
-			uni.$on('updateOpenForward',(data)=>{
+			uni.$on('updateOpenForward', (data) => {
 				this.commentInfo = data.item
 				this.showForward = true
 			})
 		},
 		onShow() {
 			/* 播放视频 */
-			this.$nextTick(()=>{
+			this.$nextTick(() => {
 				// && this.tabIndex != 0
-				if(this.pageList.length > 0 && this.pageList[this.tabIndex].firstLoaded ){
+				if (this.pageList.length > 0 && this.pageList[this.tabIndex].firstLoaded) {
 					this.pageList[this.tabIndex].showPlay()
 				}
 			})
@@ -114,29 +116,29 @@
 		onHide() {
 			// this.commentVisible = false
 			/* 暂停视频 */
-			this.$nextTick(()=>{
+			this.$nextTick(() => {
 				// && this.tabIndex != 0
-				if(this.pageList.length > 0 && this.pageList[this.tabIndex].firstLoaded ){
+				if (this.pageList.length > 0 && this.pageList[this.tabIndex].firstLoaded) {
 					this.pageList[this.tabIndex].hidePause()
 				}
 			})
 		},
 		onBackPress() {
-			if(this.commentVisible){
+			if (this.commentVisible) {
 				this.$refs.commentRef.close() //调用评论组件的关闭方法
 				return true
 			}
 		},
-		methods:{
-			tabChange(index){
+		methods: {
+			tabChange(index) {
 				this.tabIndex = index
 				this.tapOpen = true
 				this.changeSwitchTab(index)
 			},
 			changeSwitchTab(index) {
-				this.$nextTick(()=>{
+				this.$nextTick(() => {
 					this.tapOpen = false
-					if(!this.pageList[this.tabIndex].firstLoaded){
+					if (!this.pageList[this.tabIndex].firstLoaded) {
 						this.pageList[this.tabIndex].loadTabData()
 					}
 				})
@@ -145,24 +147,24 @@
 			onswiperchange(e) {
 				let index = e.detail.current
 				this.tabIndex = index
-				if(!this.tapOpen){
+				if (!this.tapOpen) {
 					this.changeSwitchTab(index)
 				}
 			},
 			/* 评论组件内容回调 */
-			submitComment(val){
+			submitComment(val) {
 				console.log(val)
 			},
-			onswiperscroll(e){
+			onswiperscroll(e) {
 				// this.$refs.tabRef.onswiperscroll(e)
 			},
-			animationfinish(e){
+			animationfinish(e) {
 				// this.$refs.tabRef.animationfinish(e)
 			},
-			touchmoveSlider(event){
+			touchmoveSlider(event) {
 				this.pageList[this.tabIndex].tabPageTouchmoveSlider(event)
 			},
-			touchendSlider(event){
+			touchendSlider(event) {
 				this.pageList[this.tabIndex].tabPageTouchendSlider(event)
 			}
 		}
@@ -182,13 +184,14 @@
 		flex-direction: column;
 		overflow: hidden;
 	}
-	
-	.head{
+
+	.head {
 		position: absolute;
 		top: 0;
 		flex-direction: row;
 		justify-content: center;
-		.head-operate{
+
+		.head-operate {
 			position: absolute;
 			width: 750rpx;
 			flex-direction: row;
@@ -197,30 +200,35 @@
 			height: 75rpx;
 			padding: 0 30rpx;
 			z-index: 2;
-			.head-operate-icon{
+
+			.head-operate-icon {
 				margin-top: 13rpx;
 				width: 45rpx;
 				height: 45rpx;
 			}
 		}
-		&-item{
+
+		&-item {
 			position: relative;
 			z-index: 3;
 			height: 75rpx;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			&-text{
+
+			&-text {
 				color: #eee;
 				font-size: 32rpx;
 				margin: 0 20rpx;
 				font-weight: bold;
 			}
-			&-textActive{
+
+			&-textActive {
 				color: #ffffff;
 				font-size: 34rpx;
 			}
-			&-sign{
+
+			&-sign {
 				position: absolute;
 				bottom: 0;
 				left: 30rpx;
@@ -230,7 +238,7 @@
 			}
 		}
 	}
-	
+
 	.tab-box {
 		flex: 1;
 	}
@@ -242,6 +250,7 @@
 		flex: 1;
 		flex-direction: column;
 	}
+
 	.page-item {
 		flex: 1;
 		flex-direction: row;
@@ -251,7 +260,8 @@
 		right: 0;
 		bottom: 0;
 	}
-	.vodProgress{
+
+	.vodProgress {
 		position: absolute;
 		bottom: 0;
 		height: 18px;
