@@ -1,6 +1,6 @@
 <template>
     <view class="">
-		<person/>
+		<person :isBack="true"/>
 	</view>
 </template>
 
