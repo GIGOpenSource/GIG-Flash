@@ -2,8 +2,8 @@
 	"name": "X",
 	"appid": "__UNI__09C5FF7",
 	"description": "",
-	"versionName": "1.0.3",
-	"versionCode": 103,
+	"versionName": "1.0.2",
+	"versionCode": 100,
 	"transformPx": false,
 	/* 5+App特有相关 */
 	"app-plus": {
@@ -18,7 +18,8 @@
 		},
 		/* 模块配置 */
 		"modules": {
-			"VideoPlayer": {}
+			"VideoPlayer": {},
+			"Camera": {}
 		},
 		/* 应用发布信息 */
 		"distribute": {

@@ -1,5 +1,5 @@
 <template>
-	<z-paging ref="pagingRef" v-model="dataList" @query="queryList">
+	<z-paging ref="pagingRef" v-model="dataList" @query="queryList" :style="{ paddingTop: statusBar + 'px'}">
 
 		<template #top>
 			<view class="back" @click="handlClickBack">
@@ -51,11 +51,12 @@
 	} from 'vue'
 
 	import {
-		onReady
+		onReady,
+		onLoad
 	} from '@dcloudio/uni-app'
 
 
-	import videoPlayer from '@/components/video-player/video-player.vue'
+	import videoPlayer from '@/components/video-player/index.vue'
 	import advertisement from '@/components/advertisement/advertisement.vue'
 	import Introduction from './components/Introduction.vue'
 	import CommentPage from './components/CommentPage.vue'
@@ -63,6 +64,7 @@
 
 	const commentInfo = ref()
 	const showForward = ref(false)
+	const statusBar = ref(20)
 
 	onReady(() => {
 
@@ -73,7 +75,10 @@
 		})
 
 	})
-
+	onLoad(() => {
+		statusBar.value = uni.getWindowInfo().statusBarHeight
+		console.log('statusBar.value', statusBar.value);
+	})
 
 	const pagingRef = ref(null)
 	const dataList = ref([])
@@ -160,7 +165,7 @@
 		padding: 10rpx;
 		background-color: rgba(0, 0, 0, 0.2);
 		position: fixed;
-		top: 40rpx;
+		top: 80rpx;
 		left: 30rpx;
 		z-index: 99;
 	}

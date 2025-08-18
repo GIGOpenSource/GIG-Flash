@@ -1,8 +1,7 @@
 <template>
 	<!-- 视频 -->
-	<view :style="{ paddingTop: statusBar + 'px'}">
-		<video id="myVideo" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4" object-fit="cover"
-			@error="videoErrorCallback" controls style="width: 100%; height: 460rpx;"></video>
+	<view>
+		<video-player></video-player>
 
 		<!-- 视频price -->
 		<view class="price-line">
@@ -44,11 +43,9 @@
 	import {
 		ref
 	} from 'vue'
-	import {
-		onLoad
-	} from '@dcloudio/uni-app'
 
-	const statusBar = ref(20)
+	import videoPlayer from './video-player.nvue'
+
 
 	const videoErrorCallback = () => {}
 	const give = ref(false)
@@ -88,10 +85,6 @@
 		}
 	])
 
-	onLoad(() => {
-		statusBar.value = uni.getWindowInfo().statusBarHeight
-		console.log('statusBar.value', statusBar.value);
-	})
 
 	// 一键三联
 	const handleClickPiece = (item) => {

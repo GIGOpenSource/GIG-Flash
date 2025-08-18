@@ -15,15 +15,14 @@
 			<swiper class="swiper" duration="300" :current="currentPage">
 				<swiper-item>
 					<view class="card-list">
-						<up-image src="/static/images/fresh1.png" width="345rpx" height="245rpx" radius="20rpx"
-							mode="cover" style="margin-bottom: 20rpx;" @click="handleClickRoute('ai')"></up-image>
+						<!-- <up-image src="/static/images/fresh1.png" width="345rpx" height="245rpx" radius="20rpx"
+							mode="cover" style="margin-bottom: 20rpx;" @click="handleClickRoute('ai')"></up-image> -->
 						<up-image src="/static/images/fresh2.png" width="345rpx" height="245rpx" radius="20rpx"
-							mode="cover" style="margin-left: 20rpx;margin-bottom: 20rpx;"
-							@click="handleClickRoute('game')"></up-image>
+							mode="cover" style="margin-bottom: 20rpx;" @click="handleClickRoute('game')"></up-image>
 						<up-image src="/static/images/fresh3.png" width="345rpx" height="245rpx" radius="20rpx"
-							mode="cover" @click="handleClickRoute('app')"></up-image>
+							mode="cover" @click="handleClickRoute('app')" style="margin-left: 20rpx;"></up-image>
 						<up-image src="/static/images/fresh4.png" width="345rpx" height="245rpx" radius="20rpx"
-							mode="cover" style="margin-left: 20rpx;" @click="handleClickRoute('vip')"></up-image>
+							mode="cover" @click="handleClickRoute('vip')"></up-image>
 					</view>
 				</swiper-item>
 				<swiper-item>
