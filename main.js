@@ -1,7 +1,7 @@
 import App from './App'
 import utils from '@/utils/http.js'
-uni.$request = utils.request
-
+uni.$getRequest = utils.getRequest
+uni.$postRequest = utils.postRequest
 import uviewPlus from '@/uni_modules/uview-plus'
 import {
 	createPinia
