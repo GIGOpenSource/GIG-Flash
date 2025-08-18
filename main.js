@@ -1,4 +1,7 @@
 import App from './App'
+import utils from '@/utils/http.js'
+uni.$request = utils.request
+
 import uviewPlus from '@/uni_modules/uview-plus'
 import {
 	createPinia
@@ -25,7 +28,7 @@ import {
 export function createApp() {
 	const app = createSSRApp(App)
 
-	app.use(uviewPlus).use(pinia)
+	app.use(uviewPlus).use(pinia).use(utils)
 	return {
 		app
 	}

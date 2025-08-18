@@ -28,6 +28,7 @@
 	import userinfo from './components/userinfo.vue'
 	import vip from './components/vip.vue'
 	import tabs from '@/components/tabs/tabs.vue'
+import util from '../../uni_modules/uview-plus/components/u-icon/util';
 	const list = ref([{
 		name: '消息中心'
 	}, {
@@ -63,6 +64,9 @@
 		   	url
 		   })
 	  }
+	  uni.$request('/99999',{
+		  a:1,b:222
+	  },{method:'POST'}).then(res => console.log(res,'1111'))
 	
 </script>
 
