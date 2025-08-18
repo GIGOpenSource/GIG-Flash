@@ -107,8 +107,21 @@ function request(url, params, other) {
 		});
 	})
 }
+function getRequest(url, params, other) {
+	return request(url, params, {
+		...other,
+		method: 'GET'
+	})
+}
 
+function postRequest(url, params, other) {
+	return request(url, params, {
+		...other,
+		method: 'POST'
+	})
+}
 export default {
 	request,
-	
+	getRequest,
+	postRequest	
 }
