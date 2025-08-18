@@ -10,7 +10,7 @@
 		reactive
 	} from 'vue';
 	const columns = reactive([
-		['拉黑', '举报', '取消']
+		['拉黑', '举报']
 	]);
 	const props = defineProps({
 		show: {

@@ -7,19 +7,25 @@
 			<template #center>
 				动态详情
 			</template>
+			<template #right>
+				<view class="" @click="oparea">
+					<up-icon name="more-dot-fill" color="#ffffff" size="28"></up-icon>
+				</view>
+			</template>
 		</up-navbar>
 		<!-- 作品 -->
 		<view class="content">
-			<active :isList="false"/>
+			<active :isList="false" :more="false":isPath="true" />
 		</view>
 		<!-- 评论 -->
 		<comment :list="commentList"/>
 		<view style="height: 100rpx;"></view>
 		<!-- 发表评论 -->
 		<view class="bottom">
-			<input type="text" v-model="con" placeholder="输入评价内容" />
+			<input type="text" v-model="con" placeholder="输入评价内容" @focus="onfocus()"/>
 			<view class="publish" @click="publish">发表</view>
 		</view>
+		<operation :show="show" @update:show="val => show = val" />
 	</z-paging>
 </template>
 
@@ -33,6 +39,7 @@
 	// v-model绑定的这个变量不要在分页请求结束中自己赋值，直接使用即可
 	const dataList = ref([])
    const con = ref('')
+   const show = ref(false)
    const commentList = reactive([
 	  {
 		  con:'评价内容',
@@ -117,6 +124,7 @@
 		}]);
 		// })
 	}
+	//发表评论
 	const publish = () => {
 		let time =  uni.$u.timeFormat(Date.now(), 'yyyy-mm-dd hh:MM:ss');
 		 commentList.unshift({
@@ -126,7 +134,12 @@
 		 })
 		 con.value = ''
 	}
-	
+	const oparea = () => {
+		show.value = true
+	}
+	const onfocus = () => {
+		 con.value = '@用户名'
+	}
 </script>
 
 <style lang="scss" scoped>

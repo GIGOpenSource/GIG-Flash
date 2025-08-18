@@ -17,7 +17,10 @@
 				<up-upload :fileList="fileList1" @afterRead="afterRead" @delete="deletePic" name="1" multiple
 					:maxCount="10" uploadIcon="plus"></up-upload>
 			</view>
-			<input v-else type="text" :placeholder="item.name" @focus="choose(index)" />
+			<view v-else class="back">
+				<input  type="text" :placeholder="item.name" @focus="choose(index)" />
+				<up-icon v-if="index == 0 || index == 4" name="arrow-right" color="#ffffff" size="20"></up-icon>
+			</view>
 		</block>
 		<up-picker :show="show" :columns="columns" @cancel="show = false" @confirm="confirm"></up-picker>
 	</view>
@@ -119,13 +122,16 @@
 </script>
 
 <style lang="scss" scoped>
-	input,
-	textarea {
+	.back,textarea {
 		background: #212028;
 		margin: 20rpx;
 		padding: 20rpx;
 		border-radius: 20rpx;
 		width: 89%;
+		display: flex;
+		input{
+			width: 95%;
+		}
 	}
 
 	.images {

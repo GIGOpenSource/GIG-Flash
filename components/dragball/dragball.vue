@@ -1,10 +1,10 @@
 <template>
 	<view v-if="moveX">
-		<movable-area class="movable-area">
-			<movable-view class="movable-view" :x="moveX" :y="moveY" direction="all" inertia out-of-bounds @click="click">
+		<view class="movable-area">
+			<view class="movable-view" :x="moveX" :y="moveY" direction="all" inertia out-of-bounds @click="click">
 				<slot name="content"></slot>
-			</movable-view>
-		</movable-area>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -34,7 +34,8 @@ function click() {
 		height: 100vh;
 		width: 750rpx;
 		position: fixed;
-		top: 0;
+		top: 30vh;
+	    left:75vw;
 		pointer-events: none; //此处要加，鼠标事件可以渗透
 		z-index: 9999999;
 

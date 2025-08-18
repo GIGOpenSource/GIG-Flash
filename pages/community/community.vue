@@ -24,7 +24,7 @@
 		<dragball >
 			<template #content>
 				<view  class="dragball" @click="clicks">
-				  +
+				   <image src="/static/images/icon_add_community.png" mode=""></image>
 				</view>
 			</template>
 		</dragball>
@@ -103,6 +103,10 @@
 		 line-height: 80rpx;
 		 font-size: 90rpx;
 		 font-weight: bold;
+		 image{
+			 width: 100%;
+			 height: 100%;
+		 }
 	}
 	
 
