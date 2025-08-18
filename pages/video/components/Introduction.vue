@@ -20,13 +20,16 @@
 
 		<!-- 标签 -->
 		<view class="tags">
-			<view  v-for="(item,index) in 8" :key="index" :class="current == index ? 'current':''" @click="current = index">#风景{{item}}</view>
+			<view v-for="(item,index) in 8" :key="index">#风景{{item}}</view>
 		</view>
 
 		<!-- 评分 -->
 		<view class="rate">
 			<view class="rate-label">评分</view>
-			<up-rate :count="rateCount" v-model="countValue" active-color=" #FFDA70" size="24"></up-rate>
+			<up-rate :count="rateCount" v-model="countValue" :readonly="countValue > 0" active-color=" #FFDA70"
+				size="24"></up-rate>
+			<text style="margin-left: 10rpx; font-size: 15px; color: rgba(255, 255, 255, 0.6);"
+				v-if="countValue > 0">已评分</text>
 		</view>
 		<!-- 猜你喜欢 -->
 		<guess-like></guess-like>
@@ -41,8 +44,7 @@
 	import GuessLike from './GuessLike.vue';
 
 	const rateCount = ref(5)
-	const countValue = ref(2)
-	const current = ref(0)
+	const countValue = ref(0)
 </script>
 
 <style lang="scss" scoped>
@@ -90,7 +92,7 @@
 		flex-wrap: wrap;
 		margin-top: 40rpx;
 
-		view{
+		view {
 			padding: 10rpx 20rpx;
 			border-radius: 20px;
 			background: rgba(255, 255, 255, 0.15);
@@ -98,10 +100,7 @@
 			margin-right: 10rpx;
 			margin-bottom: 10rpx;
 		}
-		.current{
-			background: #F3D4AB;
-			color: #000;
-		}
+
 	}
 
 	.rate {

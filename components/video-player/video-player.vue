@@ -1,32 +1,38 @@
 <template>
 	<!-- 视频 -->
-	<view>
+	<view :style="{ paddingTop: statusBar + 'px'}">
 		<video id="myVideo" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4" object-fit="cover"
-			@error="videoErrorCallback" enable-danmu danmu-btn controls style="width: 100%; height: 460rpx;"></video>
+			@error="videoErrorCallback" controls style="width: 100%; height: 460rpx;"></video>
 
 		<!-- 视频price -->
 		<view class="price-line">
-			<view class="price">66钻石购买（会员价21钻石）</view>
-			<view class="tip">会员充值，新用户首充好礼</view>
+
+			<view class="price">
+
+				<view class="price">
+					<up-image src="/static/images/diamond.png" width="12px" height="12px"></up-image>
+					<text>66购买</text>
+				</view>
+				<view class="price">
+					<text>（会员价</text>
+					<up-image src="/static/images/diamond.png" width="12px" height="12px"></up-image>
+					<text>21）</text>
+				</view>
+			</view>
+			<view class="tip">
+				会员充值，新用户首充好礼
+			</view>
 		</view>
 
 		<!-- 一件三联 -->
 		<view class="three-piece">
-			<view class="piece-item">
-				<up-icon name="chat" size="36" color="#A1A6AF"></up-icon>
-				<text>2.2万</text>
-			</view>
-			<view class="piece-item">
-				<up-icon :name="give ? 'heart-fill':'heart'" size="36" :color="give ?'#ff0000':'#A1A6AF'" @click="give = !give"></up-icon>
-				<text>2.2万</text>
-			</view>
-		<view class="piece-item">
-			<up-icon :name="iscollect ? 'star-fill':'star'" size="36" :color="iscollect ?'#ff0000':'#A1A6AF'" @click="collect"></up-icon>
-			<text>2.2万</text>
-		</view>
-			<view class="piece-item">
-				<up-icon name="share" size="36" color="#A1A6AF"></up-icon>
-				<text>2.2万</text>
+			<view class="piece-item" v-for="item in pieceList" :key="item.key">
+				<up-image :src="item.acImg " width="24px" height="24px" v-show="item.isActive"
+					@click="handleClickPiece(item)"></up-image>
+				<up-image :src=" item.img" width="24px" height="24px" v-show="!item.isActive"
+					@click="handleClickPiece(item)"></up-image>
+
+				<text>{{ item.num }}</text>
 			</view>
 		</view>
 
@@ -35,12 +41,64 @@
 </template>
 
 <script setup>
-	import { ref } from 'vue'
+	import {
+		ref
+	} from 'vue'
+	import {
+		onLoad
+	} from '@dcloudio/uni-app'
+
+	const statusBar = ref(20)
+
 	const videoErrorCallback = () => {}
 	const give = ref(false)
 	const iscollect = ref(false)
-	const collect = ()=> {
+	const collect = () => {
 		iscollect.value = !iscollect.value
+	}
+
+	// 一键三联
+	const pieceList = ref([{
+			key: 'thumb',
+			isActive: false,
+			img: '/static/images/thumb.png',
+			acImg: '/static/images/ac-thumb.png',
+			num: 50
+		},
+		{
+			key: 'thumbNo',
+			isActive: false,
+			img: '/static/images/thumb-no.png',
+			acImg: '/static/images/ac-thumb-no.png',
+			num: 870
+		},
+		{
+			key: 'star',
+			isActive: false,
+			img: '/static/images/star.png',
+			acImg: '/static/images/ac-star.png',
+			num: 40
+		},
+		{
+			key: 'share',
+			isActive: false,
+			img: '/static/images/share.png',
+			acImg: '/static/images/share.png',
+			num: 7870
+		}
+	])
+
+	onLoad(() => {
+		statusBar.value = uni.getWindowInfo().statusBarHeight
+		console.log('statusBar.value', statusBar.value);
+	})
+
+	// 一键三联
+	const handleClickPiece = (item) => {
+		if (item.key === 'share') {
+			return uni.$emit('updateOpenForward', item)
+		}
+		item.isActive = !item.isActive
 	}
 </script>
 
@@ -53,6 +111,11 @@
 		justify-content: space-between;
 		font-size: 11px;
 		background: rgba(20, 20, 20, 1);
+
+		.price {
+			display: flex;
+			align-items: center;
+		}
 	}
 
 	.three-piece {
@@ -70,6 +133,7 @@
 
 			text {
 				font-size: 10px;
+				margin-top: 5rpx;
 			}
 		}
 	}

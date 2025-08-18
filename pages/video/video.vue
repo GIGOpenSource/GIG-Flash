@@ -38,6 +38,9 @@
 
 		<!-- 评论 -->
 		<comment-page v-show="currentTab === 1" :list="commentList"></comment-page>
+
+		<!-- 转发弹窗 -->
+		<forwardMenu v-model="showForward" :forwardInfo="commentInfo"></forwardMenu>
 	</z-paging>
 </template>
 
@@ -47,10 +50,30 @@
 		ref
 	} from 'vue'
 
+	import {
+		onReady
+	} from '@dcloudio/uni-app'
+
+
 	import videoPlayer from '@/components/video-player/video-player.vue'
 	import advertisement from '@/components/advertisement/advertisement.vue'
 	import Introduction from './components/Introduction.vue'
 	import CommentPage from './components/CommentPage.vue'
+	import forwardMenu from '@/components/tsp-video/forward-menu/forward-menu.vue'
+
+	const commentInfo = ref()
+	const showForward = ref(false)
+
+	onReady(() => {
+
+		/* 监听打开转发*/
+		uni.$on('updateOpenForward', (data) => {
+			commentInfo.value = data.item
+			showForward.value = true
+		})
+
+	})
+
 
 	const pagingRef = ref(null)
 	const dataList = ref([])
@@ -62,40 +85,40 @@
 		name: '评论'
 	}])
 	const commentList = reactive([{
-		time:'2025-12-20 18:00:00',
-		con:'是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
-		givenum:102,
-		flag:false
-	},{
-		time:'2025-12-20 18:00:00',
-		con:'是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
-		givenum:10,
-		flag:true
-	},{
-		time:'2025-12-20 18:00:00',
-		con:'是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
-		givenum:10,
-		flag:true
-	},{
-		time:'2025-12-20 18:00:00',
-		con:'是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
-		givenum:10,
-		flag:true
-	},{
-		time:'2025-12-20 18:00:00',
-		con:'是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
-		givenum:10,
-		flag:true
-	},{
-		time:'2025-12-20 18:00:00',
-		con:'是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
-		givenum:10,
-		flag:true
-	},{
-		time:'2025-12-20 18:00:00',
-		con:'是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
-		givenum:10,
-		flag:true
+		time: '2025-12-20 18:00:00',
+		con: '是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
+		givenum: 102,
+		flag: false
+	}, {
+		time: '2025-12-20 18:00:00',
+		con: '是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
+		givenum: 10,
+		flag: true
+	}, {
+		time: '2025-12-20 18:00:00',
+		con: '是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
+		givenum: 10,
+		flag: true
+	}, {
+		time: '2025-12-20 18:00:00',
+		con: '是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
+		givenum: 10,
+		flag: true
+	}, {
+		time: '2025-12-20 18:00:00',
+		con: '是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
+		givenum: 10,
+		flag: true
+	}, {
+		time: '2025-12-20 18:00:00',
+		con: '是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
+		givenum: 10,
+		flag: true
+	}, {
+		time: '2025-12-20 18:00:00',
+		con: '是神落在人间的镜子，风一吹，碎了满吹，碎了满吹，碎了满吹，碎了满吹，碎了满',
+		givenum: 10,
+		flag: true
 	}])
 
 	const commenValue = ref('')
@@ -108,17 +131,16 @@
 	}
 
 	const queryList = () => {}
-	
+
 	const publish = () => {
-			let time =  uni.$u.timeFormat(Date.now(), 'yyyy-mm-dd hh:MM:ss');
-			 commentList.unshift({
-				 con:commenValue.value,
-				 time:time,
-				 givenum:0
-			 })
-			 con.value = ''
-		}
-		
+		let time = uni.$u.timeFormat(Date.now(), 'yyyy-mm-dd hh:MM:ss');
+		commentList.unshift({
+			con: commenValue.value,
+			time: time,
+			givenum: 0
+		})
+		con.value = ''
+	}
 </script>
 
 <style lang="scss" scoped>
