@@ -171,9 +171,7 @@
 				switch(index){
 					case 1 :
 						console.log('点击头像')
-						uni.navigateTo({
-							url:'/pages/details/details-v'
-						})
+						 uni.navigateTo({url:'/pages/my/person'})
 					break;
 					case 2 :
 						console.log('点击3评论')

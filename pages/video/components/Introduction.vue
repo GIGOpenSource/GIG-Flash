@@ -4,7 +4,10 @@
 		<!-- 头像 -->
 		<view class="user-line">
 			<view class="user">
-				<up-avatar src="3"></up-avatar>
+				
+				<view class="" @click.stop="uni.navigateTo({url:'/pages/my/person'})">
+					<up-avatar src="3"></up-avatar>
+				</view>
 				<view class="info">
 					<view class="name">路过人间</view>
 					<view class="nums">2353.3万粉丝 302视频</view>

@@ -5,7 +5,10 @@
 			<view class="comment-item" v-for="(item,index) in list" :key="index">
 				<view class="user-line">
 					<view class="user">
-						<up-avatar src="3"></up-avatar>
+						
+						<view class="" @click.stop="uni.navigateTo({url:'/pages/my/person'})">
+							<up-avatar src="3"></up-avatar>
+						</view>
 						<view class="info">
 							<view class="name">路过人间</view>
 							<view class="nums">{{item.name}}</view>

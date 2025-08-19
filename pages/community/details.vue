@@ -18,11 +18,11 @@
 			<active :isList="false" :more="false":isPath="true" />
 		</view>
 		<!-- 评论 -->
-		<comment :list="commentList"/>
+		<comment :list="commentList" @onfocus="onfocus"/>
 		<view style="height: 100rpx;"></view>
 		<!-- 发表评论 -->
 		<view class="bottom">
-			<input type="text" v-model="con" placeholder="输入评价内容" @focus="onfocus()"/>
+			<input type="text" v-model="con" placeholder="输入评价内容"/>
 			<view class="publish" @click="publish">发表</view>
 		</view>
 		<operation :show="show" @update:show="val => show = val" />

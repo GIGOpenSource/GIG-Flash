@@ -18,7 +18,7 @@
 					:maxCount="10" uploadIcon="plus"></up-upload>
 			</view>
 			<view v-else class="back">
-				<input  type="text" :placeholder="item.name" @focus="choose(index)" />
+				<input  type="text" :placeholder="item.name" @click="choose(index)" :disabled="index == 0 || index == 4"/>
 				<up-icon v-if="index == 0 || index == 4" name="arrow-right" color="#ffffff" size="20"></up-icon>
 			</view>
 		</block>

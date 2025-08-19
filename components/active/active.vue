@@ -202,9 +202,7 @@
 		});
 	}
 	const topath = () => {
-		if(props.isPath){
-			 uni.navigateTo({url:'/pages/my/person'})
-		}
+	 uni.navigateTo({url:'/pages/my/person'})
 		
 	}
 </script>

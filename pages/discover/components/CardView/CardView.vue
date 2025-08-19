@@ -6,7 +6,10 @@
 		<view class="desc">
 			<view class="title">男生组队打游戏时男生组队打游戏时男生组队打游戏时</view>
 			<view class="auther">
-				<up-avatar src="/static/images/2.png" size="25"></up-avatar>
+				
+				<view class="" @click.stop=" uni.navigateTo({url:'/pages/my/person'})">
+					<up-avatar src="/static/images/2.png" size="25"></up-avatar>
+				</view>
 				<view class="name">zovod</view>
 			</view>
 		</view>

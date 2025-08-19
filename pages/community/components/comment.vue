@@ -11,7 +11,9 @@
 			</view>
 		</view>
 		<view class="center" v-for="(item,index) in list" :key="index">
-			<up-avatar :src="src" size="40"></up-avatar>
+			<view class=""  @click.stop="uni.navigateTo({url:'/pages/my/person'})">
+				<up-avatar :src="src" size="40"></up-avatar>
+			</view>
 			<view class="right">
 				<view class="r-top">
 					<view class="info">
@@ -25,7 +27,7 @@
 						<text>{{item.givenum}}</text>
 					</view>
 				</view>
-				<view class="">
+				<view class="" @click="commentCon">
 					{{item.con}}
 				</view>
 			</view>
@@ -39,6 +41,7 @@
 	} from 'vue'
 	const src = ref('http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg')
 	const current = ref(0)
+	const emits = defineEmits(['commentCon'])
 	const props = defineProps({
 		list: {
 			type: Array,
@@ -53,6 +56,9 @@
 		} else {
 			list[index].givenum -= 1
 		}
+	}
+	const commentCon = () => {
+		emits('onfocus')
 	}
 </script>
 

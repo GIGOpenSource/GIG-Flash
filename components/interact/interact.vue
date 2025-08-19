@@ -6,7 +6,7 @@
 			<view class="bg">
 				<view class="top">
 					<view class="left">
-						<up-avatar :src="src" size="40"></up-avatar>
+						<view @click.stop=" uni.navigateTo({url:'/pages/my/person'})"><up-avatar :src="src" size="40"></up-avatar></view>
 						<view class="message">
 							<text>mask</text>
 						</view>
