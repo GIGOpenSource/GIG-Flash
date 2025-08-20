@@ -1,19 +1,19 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/welecome/index",
-			"style": {
-				"navigationBarTitleText": "欢迎页"
-			}
-		},
-		{
 			"path": "pages/guide/guide",
 			"style": {
 				"navigationBarTitleText": "引导页"
 			}
 		},
 		{
+			"path": "pages/welecome/index",
+			"style": {
+				"navigationBarTitleText": "欢迎页"
+			}
+		},
 
+		{
 			// #ifdef APP-PLUS 
 			"path": "pages/index/index",
 			// #endif 

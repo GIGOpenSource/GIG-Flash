@@ -15,13 +15,13 @@
 
 					<scroll-view scroll-x="true">
 						<view class="labels">
-							<view class="label" v-for="item in 10">Label{{ item }}</view>
+							<view class="label" v-for="label in labels" :key="label.tagId">{{ label.tagName }}</view>
 						</view>
-						<view class="labels">
-							<view class="label" v-for="item in 10">LabelLabel{{ item }}</view>
+						<view class="labels" style="padding-left: 50rpx;">
+							<view class="label" v-for="label in labels" :key="label.tagId">{{ label.tagName }}</view>
 						</view>
-						<view class="labels">
-							<view class="label" v-for="item in 10">Labsdgel{{ item }}</view>
+						<view class="labels" style="padding-left: 30rpx;">
+							<view class="label" v-for="label in labels" :key="label.tagId">{{ label.tagName }}</view>
 						</view>
 					</scroll-view>
 
@@ -65,10 +65,19 @@
 		onLoad
 	} from '@dcloudio/uni-app'
 
+	import {
+		userInterestLabel
+	} from '@/api/public.js'
 
+
+	const labels = ref([])
 
 	onLoad(() => {
 		uni.setStorageSync('isFirst', false)
+
+		userInterestLabel().then(res => {
+			labels.value = res.data.records
+		})
 	})
 
 	const currentSwiper = ref(0)
@@ -109,6 +118,7 @@
 	])
 	const handleClickNext = () => {
 		if (currentSwiper.value == 1) {
+			// todo:保存业务逻辑
 			uni.switchTab({
 				// #ifdef APP-PLUS
 				url: '/pages/index/index'
@@ -118,6 +128,7 @@
 				// #endif
 			})
 		}
+		// todo：保存标签信息
 		currentSwiper.value = 1
 
 	}
@@ -173,6 +184,8 @@
 		display: flex;
 
 		.label {
+			min-width: 80rpx;
+			text-align: center;
 			padding: 20rpx 40rpx;
 			background-color: #404040;
 			border-radius: 100rpx;
