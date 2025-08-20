@@ -1,22 +1,13 @@
 <template>
 	<view class="">
-		<person :userinfo="userinfo"/>
+		<person/>
 	</view>
 </template>
 
 <script setup>
 	import { promise } from '../../uni_modules/uview-plus/libs/function/test'
 import person from './components/person.vue'
-	import { userinfoStore } from '@/store/userinfos.js'
-	import { storeToRefs } from 'pinia'
-	import { onMounted } from 'vue'
-	const store = userinfoStore()
-	onMounted(async () => {
-	//获取用户信息	
-	await store.getUserinfo()
-		const { userinfo } = storeToRefs(store)
-	})
-	
+	console.log(1111111);
 
 </script>
 

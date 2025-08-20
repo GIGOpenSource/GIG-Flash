@@ -16,11 +16,12 @@
 				</template>
 			</up-navbar>
 		</template>
-
-
-		<view class="content">
-			<active></active>
-		</view>
+	<swiper :current="current"  @animationfinish="swiperAnimationfinish"  class="content">
+			<swiper-item v-for="(item, index) in list.length" :key="index">
+				<active></active>
+			</swiper-item>
+		
+		</swiper>
 		<dragball >
 			<template #content>
 				<view  class="dragball" @click="clicks">
@@ -39,7 +40,7 @@
 
 	import tabs from '@/components/tabs/tabs.vue'
 	import SocialPost from './components/SocialPost.vue'
-
+     const current = ref(0)
 	const list = ref([{
 			name: '推荐'
 		},
@@ -55,7 +56,9 @@
 
 	])
 
-	const onTabChange = () => {}
+	const onTabChange = (index) => {
+		current.value = index.index
+	}
 
 	const postData = ref([{
 		avatar: 'https://img0.baidu.com/it/u=2381910767,1869190694&fm=253&app=138&f=JPEG?w=800&h=949',
@@ -70,7 +73,7 @@
 	const paging = ref(null)
 	// v-model绑定的这个变量不要在分页请求结束中自己赋值，直接使用即可
 	const dataList = ref([])
-
+   
 	const queryList = (pageNo, pageSize) => {
 		// 此处请求仅为演示，请替换为自己项目中的请求
 		//       request.queryList({ pageNo,pageSize }).then(res => {
@@ -88,11 +91,19 @@
 			url:'/pages/community/publish'
 		})
 	}
+	const swiperAnimationfinish = () => {
+		console.log(1111);
+	}
 </script>
 <style lang="scss" scoped>
-	.content {
+	.content{
 		margin: 20rpx;
-		
+		height: 90vh;
+		overflow-y: scroll;
+		swiper-item{
+			width: 100%;
+			height: 10000rpx;
+		}
 	}
 	.dragball{
 		 background: linear-gradient(180deg, #5662E1 0%, #614793 100%);

@@ -11,8 +11,8 @@ export const userinfoStore = defineStore('userinfos', {
 		};
 	},
 	actions: {
-		async getUserinfo() {
-			const res = await getUserinfo({ id: uni.getStorageSync('userinfo').id})
+		async getUserinfo(params) {
+			const res = await getUserinfo(params)
              this.userinfo = res.data
 			 console.log(this.userinfo,'this.userinfo = res.da');
 		},
