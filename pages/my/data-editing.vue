@@ -12,7 +12,7 @@
 			</template>
 		</up-navbar>
 		<view class="avatar" @click="uploadImage">
-			<up-image :show-loading="true" :src="src" width="80px" height="80px" shape="circle"></up-image>
+			<up-image :show-loading="true" :src="userinfo.avatar" width="80px" height="80px" shape="circle"></up-image>
 		</view>
 		<view class="form" v-for="(item,index) in form" :key="index">
 			<text>{{item.name}}</text>
@@ -29,19 +29,28 @@
 		ref,
 		reactive
 	} from 'vue'
-	const src = ref('https://cdn.uviewui.com/uview/album/1.jpg');
+	import {
+		userinfoStore
+	} from '@/store/userinfos'
+	const {
+		userinfo
+	} = userinfoStore()
+	console.log(userinfo, 'sueurnrb222');
+	import {
+		updataUserinfo
+	} from '@/api/setup.js'
 	const form = reactive([{
 		name: '昵称',
 		type: 'input',
-		key: ''
+		key: userinfo.nickname
 	}, {
 		name: 'ID',
 		type: 'input',
-		key: ''
+		key: userinfo.id
 	}, {
 		name: '签名',
 		type: 'textera',
-		key: ''
+		key: userinfo.bio || ''
 	}])
 	const uploadImage = () => {
 		uni.chooseImage({
@@ -53,14 +62,29 @@
 		})
 	};
 	const save = () => {
-		uni.showToast({
-			title: '提交成功',
-			duration: 2000,
-			success:()=>{
-				 uni.navigateBack()
-			}
-		})
-		
+		const params = form.reduce((acc, item, idx) => {
+			const map = ['nickname', 'id', 'bio'] 
+			acc[map[idx]] = item.key
+			return acc
+		}, {})
+		updataUserinfo({
+				...params,
+				avatar: userinfo.avatar
+			}).then(res => {
+				uni.showToast({
+					title: '提交成功',
+					duration: 2000,
+					success: () => {
+						uni.navigateBack()
+					}
+				})
+			})
+			.catch(err => {
+
+
+			})
+
+
 	}
 </script>
 

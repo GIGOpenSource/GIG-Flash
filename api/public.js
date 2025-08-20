@@ -6,3 +6,6 @@ import {
 export const getAdsList = (params) => {
 	return getRequest('/ads/list', params)
 }
+export const getUserinfo = (params) => {
+	return getRequest('/users', params)
+}

@@ -2,14 +2,14 @@
 	<view>
 		<!-- 头部个人信息 -->
 		<view class="top">
-			<up-avatar :src="src" size="60"></up-avatar>
+			<up-avatar :src="userinfo.avatar" size="60"></up-avatar>
 			<view class="right">
 				<view class="name">
-					<text>一只小蘑菇</text>
+					<text>{{userinfo.nickname}}</text>
 					<text class="vip">VIP</text>
 				</view>
-				<view class="phone">123456778</view>
-				<view class="phone">这里是个性签名</view>
+				<view class="phone">{{userinfo.phone}}</view>
+				<view class="phone">{{userinfo.bio || '暂无'}}</view>
 			</view>
 			<view class="" v-if="isFollow">关注</view>
 		</view>
@@ -17,15 +17,15 @@
 		<view class="num">
 			<view class="">
 				<text>关注 :</text>
-				<text>646</text>
+				<text>{{userinfo.following_count || 0}}</text>
 			</view>
 			<view class="">
 				<text>粉丝 :</text>
-				<text>646</text>
+				<text>{{userinfo.follower_count || 0}}</text>
 			</view>
 			<view class="">
 				<text>点赞 :</text>
-				<text>646</text>
+				<text>{{userinfo.like_count || 0}}</text>
 			</view>
 		</view>
 	</view>
@@ -35,7 +35,8 @@
 	import {
 		ref
 	} from 'vue'
-	const src = ref('http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg')
+	import { userinfoStore } from '@/store/userinfos'
+	const { userinfo } = userinfoStore()
 	const props = defineProps({
 		isFollow: {
 			type: Boolean,

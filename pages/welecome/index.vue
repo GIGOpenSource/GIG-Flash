@@ -1,7 +1,7 @@
 <template>
 	<view class="page">
 		 <scroll-view  class="bannerwrapper" scroll-y="true" @scrolltolower="lower">
-			 	<image  v-for="(item,index) in bannerlist" :key="index" class="banner" :style="{ height: `calc(80vh / ${bannerlist.length >= 3 ? 3 : bannerlist.length})` }" src="/static/images/logo2.png" />
+			 	<image  v-for="(item,index) in bannerlist" :key="index" class="banner" :style="{ height: `calc(80vh / ${bannerlist.length >= 3 ? 3 : bannerlist.length})` }" :src="item.imageUrl" />
 		 </scroll-view>
 		<view class="logo">
 			<image src="/static/images/logo2.png" mode="">12345</image>
@@ -18,6 +18,7 @@
 		onHide,
 		onReachBottom
 	} from '@dcloudio/uni-app'
+	import { getAdsList } from '@/api/public.js'
 	let bannerlist = reactive([])
     const total = ref(0)
 	const page = ref(1)
@@ -49,18 +50,19 @@
 		uni.setStorageSync('isFirst', false)
 	})
 	const list = () => {
-		uni.$getRequest('/ads/list',{
-			adType:'banner',
-			currentPage:page.value,
-			pageSize:20
+		getAdsList({
+			 adType:'banner',
+			 currentPage:page.value,
+			 pageSize:20
 		}).then(res => {
-			bannerlist = [...bannerlist,res.data.records]
-			console.log(1.1312222111);
-			total.value = res.data.total
+			 bannerlist = [...bannerlist,res.data.records]
+			 total.value = res.data.total
 		})
+		
 	}
    const lower = () => {
-	   if(total.value == bannerlist.length){
+	   if(total.value > bannerlist.length){
+		   total.value++
 		    list()
 	   }
 	   

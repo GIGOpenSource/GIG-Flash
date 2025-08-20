@@ -1,20 +1,20 @@
 import {
 	defineStore
 } from 'pinia';
-
+import {
+	getUserinfo
+} from '@/api/public.js'
 export const userinfoStore = defineStore('userinfos', {
 	state: () => {
 		return {
-			userinfo: {},//用户信息
+			userinfo: {}, //用户信息
 		};
 	},
 	actions: {
-		getUserinfo() {
-			console.log('ZOULEMA ')
-				uni.$getRequest('/users' , {id:uni.getStorageSync('userinfo').id}).then(res => {
-					console.log(1111232221222211145111);
-					this.userinfo = res.data
-				})
+		async getUserinfo() {
+			const res = await getUserinfo({ id: uni.getStorageSync('userinfo').id})
+             this.userinfo = res.data
+			 console.log(this.userinfo,'this.userinfo = res.da');
 		},
 	},
 });
