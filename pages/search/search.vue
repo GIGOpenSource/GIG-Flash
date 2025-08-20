@@ -67,7 +67,7 @@
 					全部视频列表
 				</view>
 				<view class="card-list">
-					<card-view v-for="item in 6" @click="handleToLongVideo"></card-view>
+					<card-view v-for="item in 60" @click="handleToLongVideo"></card-view>
 				</view>
 			</view>
 		</view>

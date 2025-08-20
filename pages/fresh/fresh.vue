@@ -1,39 +1,37 @@
 <template>
-	<z-paging ref="paging">
+	<z-paging-swiper>
 		<template #top>
 
 			<!-- 导航栏 -->
 			<up-navbar bgColor="transparent" placeholder :autoBack="false" :fixed="false">
 				<template #left>
-					<tabs :list="list" @change="onTabChange"></tabs>
+					<tabs :list="list" @change="onTabChange" :current="currentPage"></tabs>
 				</template>
 			</up-navbar>
 
 		</template>
 
-		<view class="content">
-			<swiper class="swiper" duration="300" :current="currentPage">
-				<swiper-item>
-					<view class="card-list">
-						<!-- <up-image src="/static/images/fresh1.png" width="345rpx" height="245rpx" radius="20rpx"
+		<swiper class="swiper" duration="300" :current="currentPage" @animationfinish="onAnimationFinish">
+			<swiper-item>
+				<view class="card-list content">
+					<!-- <up-image src="/static/images/fresh1.png" width="345rpx" height="245rpx" radius="20rpx"
 							mode="cover" style="margin-bottom: 20rpx;" @click="handleClickRoute('ai')"></up-image> -->
-						<up-image src="/static/images/fresh2.png" width="345rpx" height="245rpx" radius="20rpx"
-							mode="cover" style="margin-bottom: 20rpx;" @click="handleClickRoute('game')"></up-image>
-						<up-image src="/static/images/fresh3.png" width="345rpx" height="245rpx" radius="20rpx"
-							mode="cover" @click="handleClickRoute('app')" style="margin-left: 20rpx;"></up-image>
-						<up-image src="/static/images/fresh4.png" width="345rpx" height="245rpx" radius="20rpx"
-							mode="cover" @click="handleClickRoute('vip')"></up-image>
-					</view>
-				</swiper-item>
-				<swiper-item>
-					<!-- 任务中心 -->
-					<task-page></task-page>
-				</swiper-item>
-			</swiper>
+					<up-image src="/static/images/fresh2.png" width="345rpx" height="245rpx" radius="20rpx" mode="cover"
+						style="margin-bottom: 20rpx;" @click="handleClickRoute('game')"></up-image>
+					<up-image src="/static/images/fresh3.png" width="345rpx" height="245rpx" radius="20rpx" mode="cover"
+						@click="handleClickRoute('app')" style="margin-left: 20rpx;"></up-image>
+					<up-image src="/static/images/fresh4.png" width="345rpx" height="245rpx" radius="20rpx" mode="cover"
+						@click="handleClickRoute('vip')"></up-image>
+				</view>
+			</swiper-item>
+			<swiper-item>
+				<!-- 任务中心 -->
+				<task-page class="content"></task-page>
+			</swiper-item>
+		</swiper>
 
-		</view>
 
-	</z-paging>
+	</z-paging-swiper>
 </template>
 
 <script setup>
@@ -66,6 +64,11 @@
 			url: '/pages/fresh/recommend/' + url
 		})
 	}
+
+	const onAnimationFinish = (e) => {
+		console.log(e);
+		currentPage.value = e.detail.current
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -74,7 +77,7 @@
 	}
 
 	.swiper {
-		height: 92vh;
+		height: 100%;
 	}
 
 	.card-list {
