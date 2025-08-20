@@ -1,28 +1,29 @@
 <template>
 	<view class="page">
-		<block v-for="(item,index) in num" :key="index">
-			<image class="banner" :style="{ height: `calc(80vh / ${num})` }" src="/static/images/welecome.png" />
-		</block>
+		 <scroll-view  class="bannerwrapper" scroll-y="true" @scrolltolower="lower">
+			 	<image  v-for="(item,index) in bannerlist" :key="index" class="banner" :style="{ height: `calc(80vh / ${bannerlist.length >= 3 ? 3 : bannerlist.length})` }" src="/static/images/logo2.png" />
+		 </scroll-view>
 		<view class="logo">
-			<image src="/static/images/logo2.png" mode=""></image>
+			<image src="/static/images/logo2.png" mode="">12345</image>
 		</view>
 	</view>
 </template>
 <script setup>
 	import {
 		onMounted,
+		reactive,
 		ref
 	} from 'vue';
-
 	import {
-		onHide
+		onHide,
+		onReachBottom
 	} from '@dcloudio/uni-app'
-
-	const num = ref(1) //广告为数
-
+	let bannerlist = reactive([])
+    const total = ref(0)
+	const page = ref(1)
 	onMounted(() => {
 		const isFirst = uni.getStorageSync('isFirst')
-		console.log('isFirst', isFirst);
+		list()//获取轮播图列表
 		if (isFirst === false) {
 			setTimeout(() => {
 				uni.switchTab({
@@ -47,20 +48,41 @@
 	onHide(() => {
 		uni.setStorageSync('isFirst', false)
 	})
+	const list = () => {
+		uni.$getRequest('/ads/list',{
+			adType:'banner',
+			currentPage:page.value,
+			pageSize:20
+		}).then(res => {
+			bannerlist = [...bannerlist,res.data.records]
+			console.log(1.1312222111);
+			total.value = res.data.total
+		})
+	}
+   const lower = () => {
+	   if(total.value == bannerlist.length){
+		    list()
+	   }
+	   
+   }
 </script>
 
 <style lang="scss" scoped>
 	page {
 		background: #fff;
 	}
-
+   .bannerwrapper{
+	   max-height: 80vh;
+   }
 	.banner {
 		width: 100%;
 		vertical-align: middle;
-		// height: 80vh;
 	}
 
 	.logo {
+		position: fixed;
+		left: 0;
+		bottom: 0;
 		width: 100%;
 		height: 20vh;
 		display: flex;
