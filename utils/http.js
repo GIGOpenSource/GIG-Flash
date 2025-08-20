@@ -22,6 +22,7 @@ let httpConfig = {
 	timeout: 15000, // 请求超时时间
 	errorOutput: true // 请求失败输出信息
 }
+
 function request(url, params, other) {
 	other = {
 		...httpConfig,
@@ -107,21 +108,22 @@ function request(url, params, other) {
 		});
 	})
 }
-function getRequest(url, params, other) {
+
+function getRequest(url, params = {}, other = {}) {
 	return request(url, params, {
 		...other,
 		method: 'GET'
 	})
 }
 
-function postRequest(url, params, other) {
+function postRequest(url, params = {}, other = {}) {
 	return request(url, params, {
 		...other,
 		method: 'POST'
 	})
 }
-export default {
+export {
 	request,
 	getRequest,
-	postRequest	
+	postRequest
 }

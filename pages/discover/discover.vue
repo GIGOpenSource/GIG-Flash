@@ -1,5 +1,4 @@
 <template>
-
 	<z-paging ref="paging" :loading-more-enabled="false" v-model="dataList" @query="queryList">
 		<template #top>
 
@@ -56,11 +55,29 @@
 
 <script setup>
 	import {
-		ref
+		ref,
+		onMounted
 	} from 'vue'
 	import tabs from '@/components/tabs/tabs.vue'
 	import CardView from './components/CardView/CardView.vue'
 	import BannerSwiper from './components/BannerSwiper/BannerSwiper.vue'
+
+	import {
+		getAdsList
+	} from '@/api/public.js'
+
+	onMounted(() => {
+		console.log('reresresresresresress');
+		const params = {
+			currentPage: 1,
+			pageSize: 20
+		}
+		getAdsList(params).then(res => {
+			console.log('res', res);
+		}).catch(err => {
+			console.log('err', err);
+		})
+	})
 
 	const list = ref([{
 			name: '发现'
