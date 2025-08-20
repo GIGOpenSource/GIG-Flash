@@ -88,7 +88,7 @@
 			"style": {
 				"navigationBarTitleText": "对话详情"
 			}
-		},{
+		}, {
 			"path": "pages/my/person",
 			"style": {
 				"navigationBarTitleText": "个人信息"
@@ -163,8 +163,7 @@
 				"text": "发现"
 			}, {
 				"pagePath": "pages/fresh/fresh",
-				"iconPath": "/static/images/fresh.png",
-				"text": "新鲜玩法"
+				"iconPath": "/static/images/fresh.png"
 			},
 			{
 				"pagePath": "pages/community/community",

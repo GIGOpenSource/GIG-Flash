@@ -1,10 +1,14 @@
 <template>
-	<z-paging ref="pagingRef" v-model="dataList" @query="queryList" :style="{ paddingTop: statusBar + 'px'}">
+	<!-- :style="{ paddingTop: statusBar + 'px'}" -->
+	<z-paging ref="pagingRef" v-model="dataList" @query="queryList">
 
 		<template #top>
-			<view class="back" @click="handlClickBack">
+			<up-navbar @rightClick="handlClickBack" :autoBack="true" bg-color="transparent" left-icon-color="#fff"
+				:fixed="false">
+			</up-navbar>
+			<!-- <view class="back" @click="handlClickBack">
 				<up-icon name="arrow-left" size="18" color="#fff"></up-icon>
-			</view>
+			</view> -->
 			<!-- 视频 -->
 			<video-player></video-player>
 

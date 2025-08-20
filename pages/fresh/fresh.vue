@@ -1,5 +1,5 @@
 <template>
-	<z-paging ref="paging" v-model="dataList" @query="queryList">
+	<z-paging ref="paging">
 		<template #top>
 
 			<!-- 导航栏 -->
@@ -55,6 +55,7 @@
 	])
 
 
+
 	const onTabChange = (tab) => {
 		currentPage.value = tab.index
 	}
@@ -62,7 +63,7 @@
 	const handleClickRoute = (url) => {
 		if (url === 'ai') return
 		uni.navigateTo({
-			url: `/pages/fresh/recommend/${url}`
+			url: '/pages/fresh/recommend/' + url
 		})
 	}
 </script>

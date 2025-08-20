@@ -7,7 +7,7 @@
 				<view class="tit">签到任务</view>
 
 				<view class="task">
-					<up-image radius="15rpx" :src="src" width="120rpx" height="120rpx"></up-image>
+					<up-image radius="15rpx" src="/static/images/2.png" width="120rpx" height="120rpx"></up-image>
 					<view class="name">毛绒搪胶玩具</view>
 				</view>
 
@@ -43,19 +43,19 @@
 						</view>
 					</view>
 				</view>
-				
+
 				<!-- 任务 -->
 				<view class="tasks">
 					<view class="task-item" v-for="item in 10">
-						  <view class="task">
-							  <up-image  :src="src" width="70rpx" height="70rpx" radius="50%"></up-image>
-							  <view class="des">
-								  <view class="title">任务标题</view>
-								  <view class="exp">任务说明</view>
-							  </view>
-						  </view>
-						  
-						  <up-button text="领取奖励" class="custom-btn" shape="circle"></up-button>
+						<view class="task">
+							<up-image src="/static/images/5.png" width="70rpx" height="70rpx" radius="50%"></up-image>
+							<view class="des">
+								<view class="title">任务标题</view>
+								<view class="exp">任务说明</view>
+							</view>
+						</view>
+
+						<up-button text="领取奖励" class="custom-btn" shape="circle"></up-button>
 					</view>
 				</view>
 			</view>
@@ -171,40 +171,42 @@
 		}
 	}
 
-	.tasks{
+	.tasks {
 		margin-top: 20rpx;
-		.task-item{
+
+		.task-item {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 			padding: 20rpx 0;
 			border-bottom: 2rpx solid rgba(255, 255, 255, 0.1);
-			
-			&:last-child{
+
+			&:last-child {
 				border-bottom: none;
 			}
-			
-			.task{
+
+			.task {
 				display: flex;
 				align-items: center;
 				flex: 1;
-				.des{
+
+				.des {
 					flex: 1;
 					margin-left: 20rpx;
-					
-					.tit{
+
+					.tit {
 						font-size: 15px;
 					}
-					
-					.exp{
+
+					.exp {
 						font-size: 11px;
 						color: rgba(255, 255, 255, 0.6);
 					}
 				}
-				
+
 			}
-			
-			.custom-btn{
+
+			.custom-btn {
 				width: 190rpx;
 				background: linear-gradient(180deg, #5662E1 0%, #614793 100%);
 				border: none;
