@@ -31,13 +31,13 @@
 <script setup>
 	import {
 		ref,
-		reactive
+		reactive,
+		 onMounted 
 	} from 'vue';
 	import userinfo from './userinfo.vue'
 	import vip from './vip.vue'
 	const props = defineProps({
-		//是否有返回按钮
-		isBack:{ //
+		isBack:{ 
 			type:Boolean,
 			default:false
 		}

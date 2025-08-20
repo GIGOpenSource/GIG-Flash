@@ -1,5 +1,5 @@
 <template>
-	<view class="">
+	<view style="height: 80vh;overflow-y: scroll;">
 		<view v-for="(item,index) in isList ? list : list.slice(0,1)" :key="index" class="con"
 			@click="uni.navigateTo({url:'/pages/community/details'})">
 			<view class="top">

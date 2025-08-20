@@ -18,7 +18,7 @@
 			<text>{{item.name}}</text>
 			<up-textarea v-if="index == 2" v-model="item.key" placeholder="请输入内容" count maxlength="20"
 				border="none"></up-textarea>
-			<input type="text" v-else :placeholder="'请输入' + item.name" v-model="item.key" />
+			<input type="text" v-else :placeholder="'请输入' + item.name" v-model="item.key" :disabled="index == 1" />
 
 		</view>
 	</view>
@@ -63,7 +63,7 @@
 	};
 	const save = () => {
 		const params = form.reduce((acc, item, idx) => {
-			const map = ['nickname', 'id', 'bio'] 
+			const map = ['nickname', 'id', 'bio']
 			acc[map[idx]] = item.key
 			return acc
 		}, {})

@@ -30,21 +30,24 @@
 		</view>
 	</view>
 </template>
-
 <script setup>
-	import {
-		ref
-	} from 'vue'
-	import { userinfoStore } from '@/store/userinfos'
-	const { userinfo } = userinfoStore()
-	const props = defineProps({
+import { watchEffect ,ref} from 'vue'
+import { userinfoStore } from '@/store/userinfos'
+import { storeToRefs } from 'pinia'
+const store = userinfoStore()
+const { userinfo } = storeToRefs(store)
+const props = defineProps({
 		isFollow: {
 			type: Boolean,
 			default: false
 		},
 	})
+watchEffect(() => {
+  if (!userinfo.value?.id) {
+    store.getUserinfo({id: uni.getStorageSync('userinfo').id})
+  }
+})
 </script>
-
 <style lang="scss" scoped>
 	.top {
 		display: flex;
