@@ -37,7 +37,7 @@ const total = ref(0)
 const page = ref(1)
 onMounted(() => {
 	const isFirst = uni.getStorageSync('isFirst')
-	list() //获取轮播图列表
+
 	if (isFirst === false) {
 		setTimeout(() => {
 			uni.switchTab({
@@ -67,6 +67,7 @@ onLoad(() => {
 		if (res.code === 200) {
 			uni.setStorageSync('user_info', res.data.userInfo)
 			uni.setStorageSync('token', res.data.token)
+			list() //获取轮播图列表
 		}
 	})
 })
