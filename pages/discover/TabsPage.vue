@@ -1,55 +1,57 @@
 <template>
-	<z-paging ref="pagingRef" v-model="dataList" @query="queryList">
-		<view class="content">
+  <z-paging ref="pagingRef" v-model="dataList" @query="queryList">
+    <view class="content">
+      <BannerSwiper />
 
-			<BannerSwiper />
-
-			<view class="card-list">
-				<card-view v-for="item in 10" @click="handleToLongVideo"></card-view>
-			</view>
-
-		</view>
-	</z-paging>
+      <view class="card-list">
+        <card-view v-for="item in 10" @click="handleToLongVideo"></card-view>
+      </view>
+    </view>
+  </z-paging>
 </template>
 
 <script setup>
-	import {
-		ref
-	} from 'vue';
+import { ref } from "vue";
 
-	defineProps(['tabIndex', 'current'])
+defineProps(["tabIndex", "current"]);
 
-	import BannerSwiper from './components/BannerSwiper/BannerSwiper.vue';
-	import CardView from './components/CardView/CardView.vue';
+import BannerSwiper from "./components/BannerSwiper/BannerSwiper.vue";
+import CardView from "./components/CardView/CardView.vue";
 
-	const dataList = ref([])
+import { getContentList } from "@/api/content.js";
 
-	const queryList = () => {}
+const dataList = ref([]);
 
-	const handleToLongVideo = () => {
-		uni.navigateTo({
-			url: '/pages/video/video'
-		})
-	}
+const queryList = () => {
+  getContentList().then((res) => {
+    console.log("content list res ", res);
+  });
+};
+
+const handleToLongVideo = () => {
+  uni.navigateTo({
+    url: "/pages/video/video",
+  });
+};
 </script>
 
 <style lang="scss" scoped>
-	.content {
-		padding: 20rpx;
-	}
+.content {
+  padding: 20rpx;
+}
 
-	.card-list {
-		display: flex;
-		flex-wrap: wrap;
-		margin-top: 20rpx;
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20rpx;
 
-		.card-view {
-			margin-right: 30rpx;
-			margin-bottom: 30rpx;
+  .card-view {
+    margin-right: 30rpx;
+    margin-bottom: 30rpx;
 
-			&:nth-child(2n) {
-				margin-right: 0;
-			}
-		}
-	}
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+}
 </style>
