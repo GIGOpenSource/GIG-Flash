@@ -7,6 +7,15 @@ import {
 const pinia = createPinia()
 
 
+uni.$zp = {
+	config: {
+		//配置分页默认pageSize为15
+		'default-page-size': 20,
+		//...
+	}
+}
+
+
 // #ifndef VUE3
 import Vue from 'vue'
 import './uni.promisify.adaptor'
