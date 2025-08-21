@@ -6,14 +6,10 @@ var expired = false;
 let requestRecord = {
 
 }
-
-const token = uni.getStorageSync('token') || ''
-
 let httpConfig = {
 	header: {
 		'Content-Type': "application/json",
-		'Authorization': `Bearer ${token}`,
-		'token': uni.getStorageSync('token'),
+		'token': uni.getStorageSync('userinfo').token ?? '',
 		'is-dev': 'true'
 	},
 	method: 'POST',
