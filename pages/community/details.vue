@@ -15,14 +15,14 @@
 		</up-navbar>
 		<!-- 作品 -->
 		<view class="content">
-			<active :isList="false" :more="false":isPath="true" />
+			<active :isList="false" :more="false" :isPath="true" :tabs="4" :detailId="detailId" />
 		</view>
 		<!-- 评论 -->
-		<comment :list="commentList" @onfocus="onfocus"/>
+		<comment :list="commentList" @onfocus="onfocus" :detailId="detailId" :userid="userid" />
 		<view style="height: 100rpx;"></view>
 		<!-- 发表评论 -->
 		<view class="bottom">
-			<input type="text" v-model="con" placeholder="输入评价内容"/>
+			<input type="text" v-model="con" placeholder="输入评价内容" />
 			<view class="publish" @click="publish">发表</view>
 		</view>
 		<operation :show="show" @update:show="val => show = val" />
@@ -31,77 +31,91 @@
 
 <script setup>
 	import {
-		ref,reactive
+		ref,
+		reactive
 	} from 'vue';
+	import {
+		onLoad
+	} from '@dcloudio/uni-app'
+	import {
+		addComment
+	} from '@/api/community.js'
 	import comment from './components/comment.vue'
 	import SocialPost from './components/SocialPost.vue'
+	import {
+		userinfoStore
+	} from '@/store/userinfos'
+	const {
+		userinfo
+	} = userinfoStore()
 	const paging = ref(null)
+	const detailId = ref(0)
+	const userid = ref(0)
 	// v-model绑定的这个变量不要在分页请求结束中自己赋值，直接使用即可
 	const dataList = ref([])
-   const con = ref('')
-   const show = ref(false)
-   const commentList = reactive([
-	  {
-		  con:'评价内容',
-		  time:'2025-05-05 18:00:00',
-		  flag:false,
-		  givenum:20
-	  }, {
-		  con:'评价内容',
-		  time:'2025-05-05 18:00:00',
-		  flag:true,
-		   givenum:10,
-		   
-	  },{
-		  con:'评价内容',
-		  time:'2025-05-05 18:00:00',
-		  flag:true,
-		   givenum:10,
-		   
-	  },{
-		  con:'评价内容',
-		  time:'2025-05-05 18:00:00',
-		  flag:true,
-		   givenum:10,
-		   
-	  },{
-		  con:'评价内容',
-		  time:'2025-05-05 18:00:00',
-		  flag:true,
-		   givenum:10,
-		   
-	  },{
-		  con:'评价内容',
-		  time:'2025-05-05 18:00:00',
-		  flag:true,
-		   givenum:10,
-		   
-	  },{
-		  con:'评价内容',
-		  time:'2025-05-05 18:00:00',
-		  flag:true,
-		   givenum:10,
-		   
-	  },{
-		  con:'评价内容',
-		  time:'2025-05-05 18:00:00',
-		  flag:true,
-		   givenum:10,
-		   
-	  },{
-		  con:'评价内容',
-		  time:'2025-05-05 18:00:00',
-		  flag:true,
-		   givenum:10,
-		   
-	  },{
-		  con:'评价内容',
-		  time:'2025-05-05 18:00:00',
-		  flag:true,
-		   givenum:10,
-		   
-	  },
-   ])
+	const con = ref('')
+	const show = ref(false)
+
+	const commentList = reactive([{
+		con: '评价内容',
+		time: '2025-05-05 18:00:00',
+		flag: false,
+		givenum: 20
+	}, {
+		con: '评价内容',
+		time: '2025-05-05 18:00:00',
+		flag: true,
+		givenum: 10,
+
+	}, {
+		con: '评价内容',
+		time: '2025-05-05 18:00:00',
+		flag: true,
+		givenum: 10,
+
+	}, {
+		con: '评价内容',
+		time: '2025-05-05 18:00:00',
+		flag: true,
+		givenum: 10,
+
+	}, {
+		con: '评价内容',
+		time: '2025-05-05 18:00:00',
+		flag: true,
+		givenum: 10,
+
+	}, {
+		con: '评价内容',
+		time: '2025-05-05 18:00:00',
+		flag: true,
+		givenum: 10,
+
+	}, {
+		con: '评价内容',
+		time: '2025-05-05 18:00:00',
+		flag: true,
+		givenum: 10,
+
+	}, {
+		con: '评价内容',
+		time: '2025-05-05 18:00:00',
+		flag: true,
+		givenum: 10,
+
+	}, {
+		con: '评价内容',
+		time: '2025-05-05 18:00:00',
+		flag: true,
+		givenum: 10,
+
+	}, {
+		con: '评价内容',
+		time: '2025-05-05 18:00:00',
+		flag: true,
+		givenum: 10,
+
+	}, ])
 
 	// @query所绑定的方法不要自己调用！！需要刷新列表数据时，只需要调用paging.value.reload()即可
 	const queryList = (pageNo, pageSize) => {
@@ -126,20 +140,37 @@
 	}
 	//发表评论
 	const publish = () => {
-		let time =  uni.$u.timeFormat(Date.now(), 'yyyy-mm-dd hh:MM:ss');
-		 commentList.unshift({
-			 con:con.value,
-			 time:time,
-			  givenum:0
-		 })
-		 con.value = ''
+		addComment({
+			targetId:detailId.value,
+			userId:userinfo.id,
+			userNickname:userinfo.nickname,
+			userAvatar:userinfo.avatar,
+			commentType:'COMMUNITY',
+			content: con.value,	
+		}).then(res => {
+			console.log(res,'res,datdsgvdfvf');
+		})
+		
+		return
+		let time = uni.$u.timeFormat(Date.now(), 'yyyy-mm-dd hh:MM:ss');
+		commentList.unshift({
+			con: con.value,
+			time: time,
+			givenum: 0
+		})
+		con.value = ''
 	}
 	const oparea = () => {
 		show.value = true
 	}
 	const onfocus = () => {
-		 con.value = '@用户名'
+		con.value = '@用户名'
 	}
+	onLoad((options) => {
+		detailId.value = options.id
+		userid.value = options.userid
+		console.log(options, 'optionsoptions');
+	})
 </script>
 
 <style lang="scss" scoped>

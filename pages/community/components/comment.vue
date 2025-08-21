@@ -37,8 +37,18 @@
 
 <script setup>
 	import {
-		ref
+		ref,
+		onMounted
 	} from 'vue'
+	import {
+		getCommentList
+	} from '@/api/community.js'
+	import {
+		userinfoStore
+	} from '@/store/userinfos'
+	const {
+		userinfo
+	} = userinfoStore()
 	const src = ref('http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg')
 	const current = ref(0)
 	const emits = defineEmits(['commentCon'])
@@ -46,6 +56,14 @@
 		list: {
 			type: Array,
 			default: []
+		},
+		detailId:{
+			type: Number,
+			default: 0,
+		},
+		userid:{
+			type: Number,
+			default: 0,
 		}
 	})
 	const give = (index) => {
@@ -60,6 +78,21 @@
 	const commentCon = () => {
 		emits('onfocus')
 	}
+	const getlist = () => {
+		getCommentList({
+			targetId:props.detailId,
+			userId:props.userid,
+			commentType:'COMMUNITY',
+			currentPage:1,
+			pageSize:20
+		})
+		.then(res => {
+			console.log(res.data,'rrrr11234567678');
+		})
+	}
+	onMounted(() => {
+		getlist()
+	})
 </script>
 
 <style lang="scss" scoped>

@@ -20,9 +20,18 @@
 import { reactive, ref } from 'vue';
 import { onLoad, onHide, onReachBottom } from '@dcloudio/uni-app';
 
+<<<<<<< Updated upstream
 import { getAdsList } from '@/api/public.js';
 
 import { login } from '@/api/setup.js';
+=======
+import {getAdsList} from '@/api/public.js'
+import { userinfoStore } from '@/store/userinfos'
+const store = userinfoStore()
+import {
+	login
+} from '@/api/setup.js'
+>>>>>>> Stashed changes
 
 let bannerlist = ref([]);
 
@@ -39,9 +48,15 @@ onLoad(() => {
 	};
 	login(params).then((res) => {
 		if (res.code === 200) {
+<<<<<<< Updated upstream
 			uni.setStorageSync('user_info', res.data.userInfo);
 			uni.setStorageSync('token', res.data.token);
 			list(); //获取轮播图列表
+=======
+			uni.setStorageSync('user_info', res.data.userInfo)
+			uni.setStorageSync('token', res.data.token)
+			 store.getUserinfo({id: res.data.id})
+>>>>>>> Stashed changes
 		}
 	});
 });
