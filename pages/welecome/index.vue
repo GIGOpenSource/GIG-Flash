@@ -24,7 +24,7 @@ import { getAdsList } from '@/api/public.js';
 
 import { login } from '@/api/setup.js';
 
-let bannerlist = reactive([]);
+let bannerlist = ref([]);
 
 const total = ref(0);
 const page = ref(1);
@@ -50,13 +50,12 @@ onHide(() => {
 });
 const list = () => {
 	getAdsList({
-		adType: 'banner',
+		adType: 'ads',
 		currentPage: page.value,
 		pageSize: 20
 	}).then((res) => {
 		console.log(res);
-		bannerlist = res.data.records;
-		console.log('bannerlist', bannerlist[0].imageUrl);
+		bannerlist.value = res.data.records;
 		total.value = res.data.total;
 	});
 };
