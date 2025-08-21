@@ -43,6 +43,10 @@ const props = defineProps({
 		},
 	})
 watchEffect(() => {
+	uni.setStorageSync('userinfo',{
+		id:1,
+		username:'admin'
+	})
   if (!userinfo.value?.id) {
     store.getUserinfo({id: uni.getStorageSync('userinfo').id})
   }
