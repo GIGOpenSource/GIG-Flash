@@ -12,13 +12,13 @@
 			</template>
 		</up-navbar>
 		<block v-for="(item,index) in form" :key="index">
-			<textarea v-if="index == 2" :placeholder="item.name" v-moel="params[item.key]"></textarea>
+			<textarea v-if="index == 2" :placeholder="item.name" v-model="params[item.key]"></textarea>
 			<view class="images" v-else-if="index == 3">
 				<up-upload :fileList="fileList1" @afterRead="afterRead" @delete="deletePic" name="1" multiple
 					:maxCount="10" uploadIcon="plus"></up-upload>
 			</view>
 			<view v-else class="back">
-				<input  type="text" :placeholder="item.name" @click="choose(index,key)" :disabled="index == 0 || index == 4" v-model="params[item.key]"/>
+				<input  type="text" :placeholder="item.name" @click="choose(index,item.key)" :disabled="index == 0 || index == 4" v-model="params[item.key]"/>
 				<up-icon v-if="index == 0 || index == 4" name="arrow-right" color="#ffffff" size="20"></up-icon>
 			</view>
 		</block>
@@ -32,6 +32,7 @@
 		ref,
 		reactive
 	} from 'vue'
+	import {createCommunity} from '@/api/community.js'
 	const form = reactive([{
 		name: '选择发布类型',
 		key:'dynamicType'
@@ -52,18 +53,18 @@
 		name: '设置价格（元）',
 		key:'price'
 	}])
-	const params = {
+	const params = reactive({
 		dynamicType:'',
 		title:'',
 		content:'',
 		images:'',
 		isFree:'',
 		price:''
-	}
+	})
 	const fileList1 = ref([]);
 	const show = ref(false);
 	const columns = reactive([[]]);
-    const key = ref('')
+    const  keyIndex = ref('')
 	// 删除图片
 	const deletePic = (event) => {
 		fileList1.value.splice(event.index, 1);
@@ -112,6 +113,7 @@
 		});
 	};
 	const choose = (index,key) => {
+			keyIndex.value = key
 		if (index == 0) {
 			columns[0] = ['视频', '动态']
 			show.value = true
@@ -119,21 +121,32 @@
 			columns[0] = ['是', '否']
 			show.value = true
 		}
-		key.value = key
+	
+		
+		
 
 	}
 	const confirm = (e) => {
-		console.log(e.value[0],'eeeeee');
-		form[0].name = e.value[0]
+		params[keyIndex.value] = e.value[0]
 		show.value = false
 	}
 	const pubilsh = () => {
-		uni.showToast({
-			title: "发布成功",
-			success:()=> {
-				uni.navigateBack()
-			}
+		params.isFree = params.isFree == '是' ? true : false
+		params.userId = 1
+		
+		createCommunity(params)
+		.then(res => {
+			console.log(res,'resres');
 		})
+		
+		
+		
+		// uni.showToast({
+		// 	title: "发布成功",
+		// 	success:()=> {
+		// 		uni.navigateBack()
+		// 	}
+		// })
 	}
 </script>
 

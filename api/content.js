@@ -1,6 +1,7 @@
 import { getRequest, postRequest } from "@/utils/http";
 
-// 查询列表内容
+// 推荐列表
 export const getContentList =  params => {
     return getRequest('/content/core/list', params);
 }
+

@@ -9,7 +9,7 @@ export const getAdsList = (params) => {
 }
 // 用户信息
 export const getUserinfo = (params) => {
-	return getRequest('/users', params)
+	return getRequest('/auth/current-user', params)
 }
 
 // 用户兴趣标签
