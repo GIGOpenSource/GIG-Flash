@@ -153,9 +153,9 @@ const queryList = (pageNo, pageSize) => {
 		});
 };
 
-const handleToDetail = () => {
+const handleToDetail = (id) => {
 	uni.navigateTo({
-		url: '/pages/fresh/recommend/game-detail'
+		url: '/pages/fresh/recommend/game-detail?id=' + id
 	});
 };
 </script>

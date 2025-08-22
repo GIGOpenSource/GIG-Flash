@@ -16,3 +16,8 @@ export const getUserinfo = (params) => {
 export const userInterestLabel = params => {
 	return getRequest('/user-interest-tags/list', params)
 }
+
+// 游戏详情
+export const gameDetail = (id, params) => {
+	return getRequest(`/game/detail/${id}`, params)
+}
