@@ -8,13 +8,17 @@ export const userinfoStore = defineStore('userinfos', {
 	state: () => {
 		return {
 			userinfo: {}, //用户信息
+			personInfo: {} 
 		};
 	},
 	actions: {
 		async getUserinfo(params) {
 			const res = await getUserinfo(params)
-             this.userinfo = res.data
-			 console.log(this.userinfo,'this.userinfo = res.da');
+			this.userinfo = res.data
+		},
+		async getPersonInfo(params) {
+			const res = await getUserinfo(params)
+			this.personInfo = res.data
 		},
 	},
 });

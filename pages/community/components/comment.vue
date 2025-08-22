@@ -75,11 +75,11 @@
 			userNickname: list.value[index].userNickname,
 			userAvatar: list.value[index].userAvatar
 		}).then(res => {
-			list.value[index].isLiked = !list[index].isLiked
-			if (list[index].isLiked) {
-				list[index].likeCount += 1
+			list.value[index].isLiked = !list.value[index].isLiked
+			if (list.value[index].isLiked) {
+				list.value[index].likeCount += 1
 			} else {
-				list[index].likeCount -= 1
+				list.value[index].likeCount -= 1
 			}
 		})
 	}
@@ -88,13 +88,14 @@
 	}
 	const getlist = () => {
 		getCommentList({
+			    userId: userinfo.id,
 				targetId: props.detailId,
 				commentType: 'COMMUNITY',
 				currentPage: page.value,
 				pageSize: 20
 			})
 			.then(res => {
-				list.value = [...list.value, ...res.data.records]
+				list.value = res.data.records
 				total.value = res.data.total
 			})
 	}

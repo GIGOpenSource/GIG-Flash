@@ -1,22 +1,40 @@
 <template>
 	<view class="">
-		<view class="list" v-for="(item,index) in 10" :key="index" @click="uni.navigateTo({url:'/pages/my/dialogue'})">
+		<view class="list" v-for="(item,index) in list" :key="index" @click="uni.navigateTo({url:'/pages/my/dialogue'})">
 			<view class="left">
 				<up-avatar src="123445" size="40"></up-avatar>
 				 <view style="margin-left: 20rpx;">
-					  <view class="">某个发消息的人</view>
-					  <view class="">您好</view>
+					  <view class="">{{item.senderNickname || '暂无'}}</view>
+					  <view class="">{{item.content}}</view>
 				 </view>
 			</view>
              <view class="right">
-				  <view class="">2025-07-09</view>
-				  <view class="">18:00:00</view>
+				  <view class="">{{item.updateTime.split(' ')[0]}}</view>
+				  <view class="">{{item.updateTime.split(' ')[1]}}</view>
 			 </view>
 		</view>
 	</view>
 </template>
 
-<script>
+<script setup>
+import { onMounted ,ref} from 'vue';
+import { getList } from '@/api/message.js'
+const list = ref([])
+
+
+
+const getMessage = () => {
+	 getList({
+		 currentPage:1,
+		 pageSize:20
+	 }).then(res => {
+		 list.value = res.data.records
+	 })
+}
+onMounted(() => {
+	getMessage()
+})
+
 </script>
 
 <style lang="scss" scoped>

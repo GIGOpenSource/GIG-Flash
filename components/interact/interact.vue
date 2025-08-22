@@ -1,101 +1,136 @@
 <template>
-	<view class="">
+	<scroll-view scroll-y="true" @scrolltolower="lower" style="max-height: 90vh">
 		<view v-for="(item,index) in list" :key="index" class="con"
 			@click="uni.navigateTo({url:'/pages/community/details'})">
-			<view class="desc">点赞了</view>
+			<view class="desc" v-if="!item.commentContent">{{item.userNickname}}点赞了你的动态</view>
+			<view class="desc" v-if="item.commentContent">@{{item.userNickname}}了你：{{item.commentContent}}</view>
 			<view class="bg">
 				<view class="top">
 					<view class="left">
-						<view @click.stop=" uni.navigateTo({url:'/pages/my/person'})"><up-avatar :src="src" size="40"></up-avatar></view>
+						<view @click.stop="topath(item.targetAuthorId)"><up-avatar :src="item.targetAuthorAvatar"
+								size="40"></up-avatar></view>
 						<view class="message">
-							<text>mask</text>
+							<text>{{item.targetAuthorNickname}}</text>
 						</view>
 					</view>
 					<view class="follow">
-						<text v-if="item.isFollow == 1" @click.stop="follow(index)">关注</text>
+						<text v-if="!item.isFollowingAuthor && item.targetId !== item.userId"
+							@click.stop="follow(index)">关注</text>
 						<view class="" @click.stop="oparea">
 							<up-icon name="more-dot-fill" color="#ffffff" size="28"></up-icon>
 						</view>
 					</view>
 				</view>
-				<view class="title">标题内容标题内容标题内容</view>
+				<view class="title">{{item.targetTitle}}</view>
 				<view class="images">
 					<image src="/static/tsp-icon/touxiang.jpg" mode=""></image>
 				</view>
 			</view>
 			<view class="bottom">
 				<view class="">
-					2025-05-05 18:00:00
+					{{item.createTime}}
 				</view>
 				<view class="right">
 					<view class="" @click.stop="give(index)">
-						<up-icon :name="item.flag? 'thumb-up-fill':'thumb-up'" :color="item.flag? '#ff0000':'#ffffff'"
-							size="26"></up-icon>
-						<text>{{item.givenum}}</text>
+						<up-icon :name="item.isLike? 'thumb-up-fill':'thumb-up'"
+							:color="item.isLike? '#ff0000':'#ffffff'" size="26"></up-icon>
+						<text>{{item.likeCount || 0}}</text>
 					</view>
 				</view>
 			</view>
 		</view>
-		 <operation :show="show"  @update:show="val => show = val"/>
-	</view>
+		<operation :show="show" @update:show="val => show = val" />
+		<up-empty mode="data" v-if="!list.length"></up-empty>
+	</scroll-view>
 </template>
 
 <script setup>
 	import {
 		ref,
-		reactive
+		reactive,
+		onMounted
 	} from 'vue'
+	import {
+		addFollow,
+		cancelFollow,
+		likeDelete,
+		addLike
+	} from '@/api/community.js'
+	import {
+		allList
+	} from '@/api/setup.js'
 	const src = ref('http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg')
-    const show = ref(false)
-	const list = reactive([{
-		id: 1,
-		flag: false,
-		givenum: 190,
-		isFollow: 1
-	},{
-		id: 1,
-		flag: false,
-		givenum: 190,
-		isFollow: 1
-	},{
-		id: 1,
-		flag: false,
-		givenum: 190,
-		isFollow: 1
-	},{
-		id: 1,
-		flag: false,
-		givenum: 190,
-		isFollow: 1
-	},{
-		id: 1,
-		flag: false,
-		givenum: 190,
-		isFollow: 1
-	},{
-		id: 1,
-		flag: false,
-		givenum: 190,
-		isFollow: 1
-	}])
+	const show = ref(false)
+	const total = ref(0)
+	const list = ref([])
 	const give = (index) => {
-		list[index].flag = !list[index].flag
-		if (list[index].flag) {
-			list[index].givenum += 1
-		} else {
-			list[index].givenum -= 1
+
+		let params = {
+			userId: uni.getStorageSync('user_info').id,
+			id: list.value[index].targetId
 		}
+		if (list.value[index].isLike) {
+			likeDelete(params).then(res => {
+				list.value[index].likeCount -= 1;
+			})
+		} else {
+			addLike(params).then(res => {
+				list.value[index].likeCount += 1;
+			})
+		}
+		list.value[index].isLike = !list.value[index].isLike
 	}
 	const follow = (index) => {
-		list[index].isFollow = 2
-		uni.showToast({
-			title: "关注成功"
-		})
+		let params = {
+			followerId: uni.getStorageSync('user_info').id,
+			followeeId: list.value[index].targetAuthorId
+		}
+		if (list.value[index].isFollowingAuthor) {
+			cancelFollow(params).then(res => {
+				uni.showToast({
+					title: '取消关注',
+					icon: 'none'
+				});
+			})
+		} else {
+			addFollow(params).then(res => {
+				list.value[index].isFollowingAuthor = true
+				uni.showToast({
+					title: '关注成功',
+					icon: 'none'
+				});
+			})
+		}
 	}
 	const oparea = () => {
 		console.log('ZOULEMA ')
-		 show.value = true
+		show.value = true
 	}
+	const getlist = () => {
+		allList({
+			userId: uni.getStorageSync('user_info').id,
+			currentPage: 1,
+			pageSize: 20
+		}).then(res => {
+			list.value = res.data.records
+			total.value = res.data.total
+		})
+	}
+	const topath = (id) => {
+		uni.setStorageSync('otherId', id)
+		uni.navigateTo({
+			url: '/pages/my/person'
+		});
+	}
+	const lower = () => {
+		if (total.value > list.length) {
+			total.value++
+			getlist()
+		}
+	}
+	onMounted(() => {
+		getlist()
+	})
 </script>
 
 <style lang="scss" scoped>

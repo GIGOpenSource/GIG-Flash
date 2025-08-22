@@ -53,6 +53,7 @@
 	const userid = ref(0)
 	const con = ref('')
 	const show = ref(false)
+	const commentList = ref(null)
 	//发表评论
 	const publish = () => {
 		if(!con.value) return uni.showToast({title:'内容不能为空',icon:'none'})

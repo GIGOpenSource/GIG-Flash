@@ -8,94 +8,132 @@
 				这里是用户昵称
 			</template>
 			<template #right>
-					<view class=""@click.stop="oparea">
-						<up-icon name="more-dot-fill" color="#ffffff" size="28" v-if="more" ></up-icon>
-					</view>
+				<view class="" @click.stop="oparea">
+					<up-icon name="more-dot-fill" color="#ffffff" size="28" v-if="more"></up-icon>
+				</view>
 			</template>
 		</up-navbar>
-		<view class="con"  v-for="(item,index) in list" :key="index" :style="item.ismine == 1 ?'align-items: flex-end' :'align-items: flex-start;'">
+		<view class="con" v-for="(item,index) in list" :key="index"
+			:style="item.ismine == 1 ?'align-items: flex-end' :'align-items: flex-start;'">
 			<view class="list">
-				 <view class="" v-if="item.ismine == 2"><up-avatar src="'11111" size="40"></up-avatar></view>
-				 <view class="right" :style="item.ismine == 1 ?' align-items: flex-end' :''">
-					 <view :class="item.ismine == 1 ? 'mine':'con'">{{item.con}}</view>
-					 <view class="time">{{item.time}}</view>
-				 </view>
-				 <view class="" v-if="item.ismine == 1"><up-avatar src="'11111" size="40"></up-avatar></view>
+				<view class="" v-if="item.ismine == 2"><up-avatar src="'11111" size="40"></up-avatar></view>
+				<view class="right" :style="item.ismine == 1 ?' align-items: flex-end' :''">
+					<view :class="item.ismine == 1 ? 'mine':'con'">{{item.con}}</view>
+					<view class="time">{{item.time}}</view>
+				</view>
+				<view class="" v-if="item.ismine == 1"><up-avatar src="'11111" size="40"></up-avatar></view>
 			</view>
 		</view>
 		<view style="height: 100rpx;"></view>
 		<view class="bottom">
-			<input type="text" placeholder="输入消息内容" v-model="con"/>
+			<input type="text" placeholder="输入消息内容" v-model="con" />
 			<view class="publish" @click="save">发送</view>
 		</view>
-	<Dialog :modelValue="modelValue"  @update:modelValue="val => modelValue = val"/>
-	
+		<Dialog :modelValue="modelValue" @update:modelValue="val => modelValue = val" />
+
 	</view>
 </template>
 
 <script setup>
-	 import {reactive,ref} from 'vue'
-	 import Dialog from '@/components/Dialog.vue'
-	 const show = ref(false)
-	 
-	 const list = reactive([{
-		 con:'消息内容消息内容消息内容',
-		 time:'2025-07-29 18:00:00',
-		 ismine:2 //1是 2 否
-	 },{
-		 con:'消息内容消息内容消息内容',
-		 time:'2025-07-29 18:00:00',
-		 ismine:1 //1是 2 否
-	 }])
-	 const con = ref('')
-	 const modelValue = ref(false) //是否显示弹窗
-	 const save = () =>{
-		 // modelValue.value = true
-		let time =  uni.$u.timeFormat(Date.now(), 'yyyy-mm-dd hh:MM:ss');
-		 list.push({
-			 con:con.value,
-			 time:time,
-			 ismine:1 //1是 2 否
-		 })
-		 con.value = ''
-	 }
-	 	const oparea = () => {
-		 show.value = true
+	import {
+		reactive,
+		ref,
+		onMounted
+	} from 'vue'
+	import Dialog from '@/components/Dialog.vue'
+	import {
+		addlist,
+		details
+	} from '@/api/message.js'
+	import {
+		login
+	} from '../../api/setup'
+	const show = ref(false)
+
+	const list = reactive([{
+		con: '消息内容消息内容消息内容',
+		time: '2025-07-29 18:00:00',
+		ismine: 2 //1是 2 否
+	}, {
+		con: '消息内容消息内容消息内容',
+		time: '2025-07-29 18:00:00',
+		ismine: 1 //1是 2 否
+	}])
+	const con = ref('')
+	const modelValue = ref(false) //是否显示弹窗
+	const save = () => {
+		addlist({
+			userId: uni.getStorageSync('user_info').id,
+			otherUserId: uni.getStorageSync('otherId')
+		}).then(res => {
+			console.log(res, 'resrfghjri');
+		})
+
+
+		return
+		// modelValue.value = true
+		let time = uni.$u.timeFormat(Date.now(), 'yyyy-mm-dd hh:MM:ss');
+		list.push({
+			con: con.value,
+			time: time,
+			ismine: 1 //1是 2 否
+		})
+		con.value = ''
 	}
+	const oparea = () => {
+		show.value = true
+	}
+	const getdetails = () => {
+		details({
+			userId: uni.getStorageSync('user_info').id,
+			otherUserId: uni.getStorageSync('otherId')
+		}).then(res => {
+			console.log(res, 'eeeee');
+		})
+	}
+	onMounted(() => {
+		getdetails()
+	})
 </script>
 
 <style lang="scss" scoped>
-	.con{
+	.con {
 		display: flex;
 		flex-direction: column;
-		
+
 	}
-.list{
-	display: flex;
-	margin:20rpx 0 20rpx 20rpx;
-	.right{
-		margin:0 20rpx;
+
+	.list {
 		display: flex;
-		flex-direction: column;
-		.con{
-			background: #fff;
-			color: #000;
-			padding: 20rpx;
-			border-radius: 20rpx;
-		}
-		.mine{
-			background: #5662E1;
-			color: #fff;
-			padding: 20rpx;
-			border-radius: 20rpx;
-		}
-		.time{
-			color: rgba(255, 255, 255, .4);
-			font-size: 24rpx;
-			margin-top: 20rpx;
+		margin: 20rpx 0 20rpx 20rpx;
+
+		.right {
+			margin: 0 20rpx;
+			display: flex;
+			flex-direction: column;
+
+			.con {
+				background: #fff;
+				color: #000;
+				padding: 20rpx;
+				border-radius: 20rpx;
+			}
+
+			.mine {
+				background: #5662E1;
+				color: #fff;
+				padding: 20rpx;
+				border-radius: 20rpx;
+			}
+
+			.time {
+				color: rgba(255, 255, 255, .4);
+				font-size: 24rpx;
+				margin-top: 20rpx;
+			}
 		}
 	}
-}
+
 	.bottom {
 		background: linear-gradient(175.26deg, #311F4F 14.46%, #1E1B33 122.11%);
 		width: 100%;
