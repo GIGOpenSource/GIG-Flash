@@ -37,7 +37,7 @@ onLoad(() => {
 	isFirst.value = uni.getStorageSync('isFirst');
 
 	const params = {
-		username: 'demo_user',
+		username: 'Lisi',
 		password: 'password123'
 	};
 	login(params).then((res) => {

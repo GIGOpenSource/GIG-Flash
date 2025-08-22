@@ -16,3 +16,28 @@ export const login = (data) => {
 		}
 	})
 }
+
+//检查关注状态
+export const followCheck= (params) => {
+	return getRequest('/follow/check',params)
+}
+
+//动态列表
+export const dynamicsList = (id,params) => {
+	return getRequest('/social/dynamics/user/'+id,params)
+}
+
+// 视频列表
+export const getVideoList = params => {
+	return getRequest('/content/core/list', params);
+}
+
+//互动列表
+export const allList = (params) => {
+	return getRequest('/user-interactions/all',params)
+}
+
+
+
+
+

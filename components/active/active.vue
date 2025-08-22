@@ -1,17 +1,19 @@
 <template>
-	<scroll-view  scroll-y="true" @scrolltolower="lower" style="max-height: 90vh">
+	<scroll-view scroll-y="true" @scrolltolower="lower" style="max-height: 90vh">
 		<view v-for="(item, index) in isList ? list : list.slice(0, 1)" :key="index" class="con"
 			@click="uni.navigateTo({ url: '/pages/community/details?id='+item.id})">
 			<view class="top">
 				<view class="left">
-					<view class="" @click.stop="topath(item.userId)"><up-avatar :src="item.userAvatar" size="40"></up-avatar></view>
+					<view class="" @click.stop="topath(item.userId)"><up-avatar :src="item.userAvatar"
+							size="40"></up-avatar></view>
 					<view class="message">
 						<text>{{item.userNickname || '用户已注销'}}</text>
 						<text class="time">{{item.createTime}}</text>
 					</view>
 				</view>
 				<view class="follow">
-					<text v-if="isfollow && !item.isFollowed && item.userId !== userinfo.id" @click.stop="follow(index)">关注</text>
+					<text v-if="isfollow && !item.isFollowed && item.userId !== userinfo.id"
+						@click.stop="follow(index)">关注</text>
 					<view class="" @click.stop="oparea">
 						<up-icon name="more-dot-fill" color="#ffffff" size="28" v-if="more"></up-icon>
 					</view>
@@ -19,7 +21,8 @@
 			</view>
 			<view class="title">{{item.title}}</view>
 			<view class="images" v-if="item.images">
-				<image v-for="(image,indx) in item.images" :key="indx" :src="image" mode="" @click="previewImage"></image>
+				<image v-for="(image,indx) in item.images" :key="indx" :src="image" mode="" @click="previewImage">
+				</image>
 			</view>
 			<view class="distance" v-if="tabs == 3">距离你{{ (Math.random() * 50).toFixed(2) }}km</view>
 			<view class="bottom">
@@ -63,6 +66,13 @@
 		addFollow,
 		cancelFollow
 	} from '@/api/community.js'
+    import {
+    	onShow
+    } from '@dcloudio/uni-app'
+	import {
+		dynamicsList,
+		login
+	} from '@/api/setup.js'
 	import {
 		userinfoStore
 	} from '@/store/userinfos'
@@ -95,27 +105,27 @@
 			type: Boolean,
 			default: false
 		},
-		tabs:{
+		tabs: {
 			type: Number,
 			default: 0,
 		},
-		detailId:{
+		detailId: {
 			type: Number,
 			default: 0,
 		}
 	});
 	const list = ref([]);
-	const give = (index,id) => {
+	const give = (index, id) => {
 		let params = {
-			  userId:userinfo.id,
-			  id:id
+			userId: userinfo.id,
+			id: id
 		}
-		
-		if(list.value[index].isLiked){
-			 likeDelete(params).then(res => {
+
+		if (list.value[index].isLiked) {
+			likeDelete(params).then(res => {
 				list.value[index].likeCount -= 1;
-			 })
-		}else{
+			})
+		} else {
 			addLike(params).then(res => {
 				list.value[index].likeCount += 1;
 			})
@@ -125,33 +135,33 @@
 	//关注
 	const follow = (index) => {
 		let params = {
-			followerId:userinfo.id,
-			followeeId:list.value[index].userId
+			followerId: userinfo.id,
+			followeeId: list.value[index].userId
 		}
-		if(list.value[index].isFollowed){
-			 cancelFollow(params).then(res => {
+		if (list.value[index].isFollowed) {
+			cancelFollow(params).then(res => {
 				uni.showToast({
 					title: '取消关注',
-					icon:'none'
+					icon: 'none'
 				});
-			 })
-		}else{
+			})
+		} else {
 			addFollow(params).then(res => {
-			    list.value[index].isFollowed = true
+				list.value[index].isFollowed = true
 				uni.showToast({
 					title: '关注成功',
-					icon:'none'
+					icon: 'none'
 				});
 			})
 		}
 	};
-	const share = (index,id) => { 
-		 addShare({
-		 	userId:userinfo.id,
-		 	id:id
-		 }).then(res => {
-		    list.value[index].shareCount++    
-		 })
+	const share = (index, id) => {
+		addShare({
+			userId: userinfo.id,
+			id: id
+		}).then(res => {
+			list.value[index].shareCount++
+		})
 	}
 	const oparea = () => {
 		show.value = true;
@@ -163,60 +173,71 @@
 		});
 	};
 	const topath = (id) => {
-		uni.setStorageSync('otherId',id)
+		uni.setStorageSync('otherId', id)
 		uni.navigateTo({
 			url: '/pages/my/person'
 		});
 	};
 	const getlist = async (newVal) => {
+		console.log(newVal, 'neijen');
 		let params = {
 			currentPage: page.value,
-			pageSize: 20
+			pageSize: 20,
+			userId: userinfo.id
 		}
 		let res = {}
-		if(newVal == 0 || newVal == 3){
-			res =  await communityList(params)
-			list.value = [...list.value,...res.data.records]
-			total.value = res.data.total
-		}else if(newVal == 1){
-			params.userId = uni.getStorageSync('user_info').id
-			res = await getFollwingList(params)
-			list.value = [...list.value,...res.data.records]
-			total.value = res.data.total
-		}else if(newVal == 2){
+		if (newVal == 0 || newVal == 3 || newVal == 2) {
+			delete params.userId
+			params.currentUserId = userinfo.id
 			res = await getLatestList(params)
-			list.value = [...list.value,...res.data.records]
+			list.value = [...list.value, ...res.data.records]
 			total.value = res.data.total
-		}else if(newVal == 4){
-			res = await getDetails({dynamic_id:props.detailId})
-		    list.value = [res.data]
+		} else if (newVal == 1) {
+			res = await getFollwingList(params)
+			list.value = [...list.value, ...res.data.records]
+			total.value = res.data.total
+		} else if (newVal == 4) {
+			res = await getDetails({
+				dynamic_id: props.detailId,
+				userId: userinfo.id
+			})
+			list.value = [res.data]
+		} else if (newVal == 6) {
+			res = await dynamicsList(props.isfollow ? uni.getStorageSync('otherId') : uni.getStorageSync(
+				'user_info').id, {
+				currentPage: 1,
+				pageSize: 20,
+				userId: userinfo.id
+			})
+			list.value = [...list.value, ...res.data.records]
+			total.value = res.data.total
 		}
-		
-	
 	}
-	
+
 	const lower = () => {
 		if (total.value > list.length) {
 			total.value++
 			getlist()
 		}
-	
+
 	}
 	// onMounted(() => {
 	// 	getlist(0)
 	// })
 	watch(() => props.tabs, (newVal) => {
 		list.value = []
-	    getlist(newVal)
-	},{ immediate: true });
-
+		getlist(newVal)
+	}, {
+		immediate: true
+	});
 </script>
 
 <style lang="scss" scoped>
-	.distance{
+	.distance {
 		margin-bottom: 20rpx;
 		font-size: 24rpx;
 	}
+
 	.con {
 		background: #212028;
 		margin-bottom: 20rpx;

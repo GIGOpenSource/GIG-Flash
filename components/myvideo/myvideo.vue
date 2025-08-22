@@ -1,29 +1,69 @@
 <template>
-	<view>
+	<scroll-view scroll-y="true" @scrolltolower="lower" style="max-height: 90vh">
 		<view class="tabs">
 			<view v-for="(item,index) in tabs" :class="current == index ? 'current':''" @click="current = index">
-				{{item}}</view>
-		</view>
-		<view class="con">
-			<view class="list"  v-for="(item,index) in 9" :key="index" @click="uni.navigateTo({url:'/pages/video/video'})">
-				<image src="/static/tsp-icon/touxiang.jpg" mode="widthFix"></image>
-				<view class="play">
-					<text>播放：11.2w</text>
-					<text>01:01:01</text>
-				</view>
-				<view class="title">"男生组队打游戏打游戏"</view>
-				<view class="time">2025-02-02 18:00:00</view>
+				{{item}}
 			</view>
 		</view>
-	</view>
+		<view class="con">
+			<view class="list" v-for="(item,index) in list" :key="index"
+				@click="uni.navigateTo({url:'/pages/video/video?id='+item.id})">
+				<image :src="item.coverUrl" mode="widthFix"></image>
+				<view class="play">
+					<text>播放：{{item.viewCount}}</text>
+					<!-- <text>01:01:01</text>   -->
+				</view>
+				<view class="title">{{item.title}}</view>
+				<view class="time">{{item.createTime}}</view>
+			</view>
+		</view>
+		<up-empty mode="data" v-if="!list.length"></up-empty>
+	</scroll-view>
 </template>
 <script setup>
 	import {
 		ref,
-		reactive
+		reactive,
+		watch
 	} from 'vue'
+	import { 
+		getVideoList
+	} from '@/api/setup.js'
 	const current = ref(0)
+	const page = ref(1)
+	const list = ref([])
+	const total = ref(0)
 	const tabs = reactive(['短视频', '长视频'])
+	const props = defineProps({
+		// 是否有关注
+		isfollow: {
+			type: Boolean,
+			default: true
+		}
+	});
+	const getlist = () => {
+		getVideoList({
+			contentType: current ? 'SHORTVIDEO' : 'LONGVIDEO',
+			authorId: props.isfollow?uni.getStorageSync('otherId'):uni.getStorageSync('user_info').id, //作者id
+			currentPage: page.value,
+			pageSize: 20
+		}).then(res => {
+			list.value = res.data.records
+			total.value = res.data.total
+		})
+	}
+	const lower = () => {
+		if (total.value > list.length) {
+			total.value++
+			getlist()
+		}
+	}
+	watch(() => current, (newVal) => {
+		list.value = []
+		getlist()
+	}, {
+		immediate: true
+	});
 </script>
 
 <style lang="scss" scoped>
@@ -40,13 +80,15 @@
 			font-size: 34rpx;
 		}
 	}
-   .con{
-	 column-count: 2; //一行几个
-	 column-gap: 30rpx;  //行间距
-	 margin-top: 30rpx;
-   }
+
+	.con {
+		column-count: 2; //一行几个
+		column-gap: 30rpx; //行间距
+		margin-top: 30rpx;
+	}
+
 	.list {
-		break-inside: avoid;//避免在主体框中插入任何中断（页面，列或区域）。
+		break-inside: avoid; //避免在主体框中插入任何中断（页面，列或区域）。
 		background: #212028;
 		margin-bottom: 20rpx;
 		width: 100%;
