@@ -25,7 +25,6 @@ export const getDetails = (params) => {
 	return getRequest('/social/dynamics/detail', params)
 }
 
-//同城
 
 
 //点赞
@@ -52,6 +51,23 @@ export const addComment = (params) => {
 export const getCommentList = (params) => {
 	return getRequest('/comments/list', params)
 }
+
+//关注
+export const addFollow = (params) => {
+	return postRequest('/follow/create', params)
+}
+
+//取消关注
+export const cancelFollow = (params) => {
+	return postRequest('/follow/unfollow', params)
+}
+
+//评论点赞
+export const commentlike = (params) => {
+	return postRequest('/like/toggle', params)
+}
+
+
 
 
 

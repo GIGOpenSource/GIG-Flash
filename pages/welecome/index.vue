@@ -45,7 +45,7 @@ onLoad(() => {
 			uni.setStorageSync('user_info', res.data.userInfo)
 			uni.setStorageSync('token', res.data.token)
 			list(); //获取轮播图列表
-			 store.getUserinfo({id: res.data.id})
+			 store.getUserinfo({id: res.data.userInfo.id})
 		}
 	});
 });

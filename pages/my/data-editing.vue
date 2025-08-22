@@ -35,7 +35,7 @@
 	const {
 		userinfo
 	} = userinfoStore()
-	console.log(userinfo, 'sueurnrb222');
+	const store = userinfoStore()
 	import {
 		updataUserinfo
 	} from '@/api/setup.js'
@@ -67,10 +67,12 @@
 			acc[map[idx]] = item.key
 			return acc
 		}, {})
-		updataUserinfo({
+		updataUserinfo(params.id,{
 				...params,
-				avatar: userinfo.avatar
+				avatar: userinfo.avatar,
+				username:userinfo.username
 			}).then(res => {
+				 store.getUserinfo({id:userinfo.id})
 				uni.showToast({
 					title: '提交成功',
 					duration: 2000,

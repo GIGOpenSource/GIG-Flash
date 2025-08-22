@@ -5,12 +5,12 @@
 				<up-icon name="arrow-left" color="#ffffff" size="20" v-if="isBack"></up-icon>
 			</template>
 			<template #right>
-				<text class="" @click="toPath('/pages/my/message')">消息中心</text>
+				<text class="" @click="toPath('/pages/my/message')">消息中心{{userId}}</text>
 				<text class="setup" @click="toPath('/pages/my/setup')">设置</text>
 			</template>
 		</up-navbar>
 		<view class="content">
-			<userinfo :isFollow="isBack"/>
+			<userinfo :isFollow="isBack" :userId="isBack ? uni.getStorageSync('otherId'):uni.getStorageSync('user_info').id"/>
 			<vip v-if="!isBack"/>
 			<!-- 动态，视频，互动 -->
 			<view class="tabs">
@@ -36,12 +36,17 @@
 	} from 'vue';
 	import userinfo from './userinfo.vue'
 	import vip from './vip.vue'
+	import {
+		userinfoStore
+	} from '@/store/userinfos'
+	const { userInfo } = userinfoStore()
 	const props = defineProps({
 		isBack:{ 
 			type:Boolean,
 			default:false
 		}
 	})
+	console.log(props.userId1,'usueurttyuy');
 	const list = ref([{
 		name: '消息中心'
 	}, {
