@@ -1,5 +1,5 @@
 <template>
-	<view class="page">
+	<scroll-view class="page" scroll-y="true" @scrolltolower="lower">
 		<view class="top">
 			<view class="">
 				全部评论（{{list.length }}）
@@ -11,28 +11,30 @@
 			</view>
 		</view>
 		<view class="center" v-for="(item,index) in list" :key="index">
-			<view class=""  @click.stop="uni.navigateTo({url:'/pages/my/person'})">
-				<up-avatar :src="src" size="40"></up-avatar>
+			<view class="" @click.stop="uni.navigateTo({url:'/pages/my/person'})">
+				<up-avatar :src="item.userAvatar" size="40"></up-avatar>
 			</view>
 			<view class="right">
 				<view class="r-top">
 					<view class="info">
-						<text class="name">mask</text>
-						<text class="time">{{item.time}}</text>
+						<text class="name">{{item.userNickname}}</text>
+						<text class="time">{{item.createTime}}</text>
 					</view>
 					<view class="give" @click.stop="give(index)">
 
-						<up-icon :name="item.flag?'heart-fill':'heart'" :color="item.flag?'#ff0000':'#D9D9D9'"
+						<up-icon :name="item.isLiked?'heart-fill':'heart'" :color="item.isLiked?'#ff0000':'#D9D9D9'"
 							size="22"></up-icon>
-						<text>{{item.givenum}}</text>
+						<text>{{item.likeCount}}</text>
 					</view>
 				</view>
 				<view class="" @click="commentCon">
-					{{item.con}}
+					{{item.content}}
 				</view>
 			</view>
 		</view>
-	</view>
+		<up-empty mode="data" v-if="!list.length">
+		</up-empty>
+	</scroll-view>
 </template>
 
 <script setup>
@@ -41,7 +43,8 @@
 		onMounted
 	} from 'vue'
 	import {
-		getCommentList
+		getCommentList,
+		commentlike
 	} from '@/api/community.js'
 	import {
 		userinfoStore
@@ -51,57 +54,76 @@
 	} = userinfoStore()
 	const src = ref('http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg')
 	const current = ref(0)
+	const list = ref([])
+	const page = ref(1)
+	const total = ref(0)
 	const emits = defineEmits(['commentCon'])
 	const props = defineProps({
-		list: {
-			type: Array,
-			default: []
-		},
-		detailId:{
+		detailId: {
 			type: Number,
-			default: 0,
-		},
-		userid:{
-			type: Number,
-			default: 0,
+			default: 0, //动态id
 		}
 	})
+	//点赞
 	const give = (index) => {
-		let list = props.list
-		list[index].flag = !list[index].flag
-		if (list[index].flag) {
-			list[index].givenum += 1
-		} else {
-			list[index].givenum -= 1
-		}
+		commentlike({
+			userId: userinfo.id,
+			likeType: "COMMENT",
+			targetId: list.value[index].id,
+			targetTitle: list.value[index].content,
+			targetAuthorId: list.value[index].userId,
+			userNickname: list.value[index].userNickname,
+			userAvatar: list.value[index].userAvatar
+		}).then(res => {
+			list.value[index].isLiked = !list[index].isLiked
+			if (list[index].isLiked) {
+				list[index].likeCount += 1
+			} else {
+				list[index].likeCount -= 1
+			}
+		})
 	}
 	const commentCon = () => {
 		emits('onfocus')
 	}
 	const getlist = () => {
 		getCommentList({
-			targetId:props.detailId,
-			userId:props.userid,
-			commentType:'COMMUNITY',
-			currentPage:1,
-			pageSize:20
-		})
-		.then(res => {
-			console.log(res.data,'rrrr11234567678');
-		})
+				targetId: props.detailId,
+				commentType: 'COMMUNITY',
+				currentPage: page.value,
+				pageSize: 20
+			})
+			.then(res => {
+				list.value = [...list.value, ...res.data.records]
+				total.value = res.data.total
+			})
+	}
+	const lower = () => {
+		if (total.value > list.length) {
+			total.value++;
+			getlist()
+		}
 	}
 	onMounted(() => {
 		getlist()
+	})
+	//暴露
+	defineExpose({
+		getlist
 	})
 </script>
 
 <style lang="scss" scoped>
 	.page {
 		background: #212028;
+		width: 95vw;
+		// min-height: 20vh;
+		max-height: 55vh;
 		margin: 20rpx;
 		padding: 20rpx;
 		font-size: 28rpx;
 		border-radius: 20rpx;
+		box-sizing: border-box;
 
 		.tabs {
 			color: rgb(255, 255, 255, .5);

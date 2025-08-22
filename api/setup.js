@@ -1,15 +1,15 @@
 import {
 	getRequest,
-	postRequest
+	postRequest,
+	putRequest
 } from '@/utils/http.js'
 
-export const updataUserinfo = (params) => {
-	return postRequest('/users', params)
+export const updataUserinfo = (id,params) => {
+	return putRequest('/users/'+id, params)
 }
 
 // 登录
 export const login = (data) => {
-	console.log('data', data, );
 	return postRequest('/auth/login', data, {
 		header: {
 			'Content-Type': 'application/x-www-form-urlencoded'

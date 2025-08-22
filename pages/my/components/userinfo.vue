@@ -35,16 +35,26 @@
 		ref
 	} from 'vue'
 	import {
+		onShow
+	} from '@dcloudio/uni-app'
+	import { storeToRefs } from 'pinia'
+	import {
 		userinfoStore
 	} from '@/store/userinfos'
-	const {
-		userinfo
-	} = userinfoStore()
+	const store = userinfoStore()
+	const { userinfo } = storeToRefs(store) // 保持响应式
 	const props = defineProps({
 	isFollow: {
 		type: Boolean,
 		default: false
-	},
+	  },
+	  userId:{
+		  type:Number,
+		  default: 0
+	  }
+	})
+	onShow(() => {
+		 store.getUserinfo({ id:  props.userId })
 	})
 </script>
 <style lang="scss" scoped>

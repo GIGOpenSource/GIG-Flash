@@ -125,8 +125,15 @@ function postRequest(url, params = {}, other = {}) {
 		method: 'POST'
 	})
 }
+function putRequest(url, params = {}, other = {}) {
+	return request(url, params, {
+		...other,
+		method: 'PUT'
+	})
+}
 export {
 	request,
 	getRequest,
-	postRequest
+	postRequest,
+	putRequest
 }
