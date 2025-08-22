@@ -84,12 +84,12 @@
 			<view style="position: relative; width: 95rpx; height: 95rpx" @click="JumpBtn(4)">
 				<view :ref="'rotateImg' + index">
 					<view class="rotate-avatar">
-						<image src="/static/tsp-icon/touxiang.jpg" mode="" class="rotate-image"></image>
+						<image :src="item.authorAvatar || '/static/tsp-icon/touxiang.jpg'" mode="" class="rotate-image"></image>
 					</view>
 				</view>
 				<view :style="`position: absolute;top: 0;left: 0;opacity:${item.vodPaly ? 0 : 1}`">
 					<view class="rotate-avatar">
-						<image src="/static/tsp-icon/touxiang.jpg" mode="" class="rotate-image"></image>
+						<image :src="item.authorAvatar || '/static/tsp-icon/touxiang.jpg'" mode="" class="rotate-image"></image>
 					</view>
 				</view>
 			</view>
@@ -98,6 +98,8 @@
 </template>
 
 <script>
+import { commentlike, addShare, addFollow } from '@/api/community.js';
+import { favoriteAdd, favoriteRemove } from '@/api/content.js';
 const animation = uni.requireNativePlugin('animation');
 export default {
 	props: {
@@ -267,6 +269,14 @@ export default {
 				obj: obj,
 				index: this.index
 			}); //点赞成功
+			const params = {
+				likeType: 'SHOTVIDEOS',
+				targetId: obj.id,
+				userId: uni.getStorageSync('user_info').id
+			};
+			commentlike(params).then((res) => {
+				console.log('点赞成功', res);
+			});
 			/* clearTimeout(this.fabuTimeOut)
 				this.fabuTimeOut = setTimeout(()=>{
 					console.log('发送请求')
@@ -285,6 +295,17 @@ export default {
 				obj: obj,
 				index: this.index
 			}); // 收藏成功
+
+			const params = {
+				favoriteType: 'CONTENT',
+				targetId: obj.id,
+				userId: uni.getStorageSync('user_info').id
+			};
+			if (obj.collectionShow) {
+				favoriteAdd(params).then((res) => {});
+			} else {
+				favoriteRemove(params).then((res) => {});
+			}
 		},
 		/* 关注动效 */
 		followBtn(index) {
@@ -296,10 +317,18 @@ export default {
 				setTimeout(() => {
 					this.followShow = 2;
 					setTimeout(() => {
-						this.$emit('fabulousBtn', {
-							obj: obj,
-							index: this.index
-						}); //关注成功
+						const params = {
+							followerId: uni.getStorageSync('user_info')?.id,
+							followeeId: this.item.authorId
+						};
+						addFollow(params).then((res) => {
+							if (res.code == 200) {
+								this.$emit('fabulousBtn', {
+									obj: obj,
+									index: this.index
+								}); //关注成功
+							}
+						});
 					}, 500);
 				}, 50);
 			}, 300);

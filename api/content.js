@@ -22,3 +22,13 @@ export const contentDetail = id => {
 export const contentRandom = () => {
 	return getRequest('/content/core/random')
 }
+
+/** 收藏 */
+export const favoriteAdd = (pararms) => {
+	return postRequest('/favorite/add', pararms)
+}
+
+/** 取消收藏 */
+export const favoriteRemove = (pararms) => {
+	return postRequest('/favorite/remove', pararms)
+}

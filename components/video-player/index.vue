@@ -37,8 +37,9 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+import { favoriteAdd } from '@/api/content';
 
-import videoPlayer from './video-player.nvue';
+import videoPlayer from './video-player.vue';
 
 const props = defineProps({
 	detail: {

@@ -16,7 +16,7 @@
 					<text class="header-text text_one" :style="{ maxWidth: screenWidth / 2.5 + 'px' }">{{ searchText }}</text>
 				</view>
 				<view v-else class="f f-lv-c" style="flex: 1">
-					<text class="header-plNum-text">421条评论</text>
+					<text class="header-plNum-text">{{ total }}条评论</text>
 				</view>
 
 				<!-- 只存在app、h5 -->
@@ -251,6 +251,7 @@ export default {
 			scrollAnimation: false, //scroll-view 滚动是否有动画效果
 			showOperate: false, //是否显示弹出评论操作
 			reviewInfo: {}, //选中某行弹出评论操作的对象
+			total: -1
 		}
 	},
 	computed: {
@@ -294,39 +295,50 @@ export default {
 		/* 模拟请求列表 */
 		startData(data){
 			let valueIdNum = parseInt(uni.getStorageSync('commentIdsNum') || 1)
-			return new Promise((resolve, reject)=>{
-				setTimeout(()=>{
-					let dataList = []
-					if(this.page <= 5 ){
-						dataList = JSON.parse(JSON.stringify( getCommentData() )) //假数据
-						dataList.filter((item,index)=>{
-							/** 必要参数数据必须拼接  */
-							item.imgList = index % 2 == 0 ? ['/static/image/draft_cover1.jpg','/static/image/draft_cover1.jpg','/static/image/draft_cover1.jpg','/static/image/draft_cover1.jpg'] : ['/static/image/draft_cover16.jpg'] //图片或者图集
-							item.listTotal = index % 2 == 0 ? 15 : 5 //回复评论的总数量 --- 可根据自己的真实数据赋值
-							item.phizImg = '' //表情
-							item.likeShow = false //是否已点赞: true、false --- 默认必须参数，可赋值修改 (如果真实数据是0-1的话，可根据条件判断成true、false)
-							item.foldShow = false //是否已踩踏: true、false --- 默认必须参数，可赋值修改 (如果真实数据是0-1的话，可根据条件判断成true、false)
+			console.log('this.commentInfo',this.commentInfo);
+			const params = {
+				currentPage:1,
+				pageSize:9999,
+				targetId: this.commentInfo.id,
+				commentType: 'CONTENT'
 
-							item.list = [] //回复列表 --- 默认必须参数，不用修改
-							item.wbId = valueIdNum + index //虚拟id --- 默认必须参数 (主要用于文本展开、收起判断)
-							item.pageNum = 1 //回复列表分页 --- 默认必须参数，不用修改
-							item.expandIndex = 0 //展开评论的层级 --- 默认必须参数，不用修改
-							item.expandNum = 0 //已经展开评论的数量 --- 默认必须参数，不用修改
-							item.loadShow = false //是否显示loading加载动画 --- 默认必须参数，不用修改
-							item.imgStyle = {} //评论图片加载的宽高 --- 默认必须参数，不用修改
-							item.textShow = true //添加插入评论时控制文本显示加载使用的 --- 默认必须参数，不用修改
-							item.isOmit = false //文本内容是否收起  --- 默认必须参数，不用修改
-							item.isShow = false //文本内容是否显示展开、收起  --- 默认必须参数，不用修改
-							item.selectedRow = false //是否选中添加背景样式  --- 默认必须参数，不用修改
-						})
-						this.page++
-						uni.setStorageSync('commentIdsNum', (valueIdNum + dataList.length) )
-					}else{
-						dataList = []
-					}
-					resolve(dataList)
-				},500)
-			})
+			}
+			return getCommentList(params)
+
+
+			// new Promise((resolve, reject)=>{
+				// setTimeout(()=>{
+					// let dataList = []
+					// if(this.page <= 5 ){
+						// dataList = JSON.parse(JSON.stringify( getCommentData() )) //假数据
+						// dataList.filter((item,index)=>{
+							// /** 必要参数数据必须拼接  */
+							// item.imgList = index % 2 == 0 ? ['/static/image/draft_cover1.jpg','/static/image/draft_cover1.jpg','/static/image/draft_cover1.jpg','/static/image/draft_cover1.jpg'] : ['/static/image/draft_cover16.jpg'] //图片或者图集
+							// item.listTotal = index % 2 == 0 ? 15 : 5 //回复评论的总数量 --- 可根据自己的真实数据赋值
+							// item.phizImg = '' //表情
+							// item.likeShow = false //是否已点赞: true、false --- 默认必须参数，可赋值修改 (如果真实数据是0-1的话，可根据条件判断成true、false)
+							// item.foldShow = false //是否已踩踏: true、false --- 默认必须参数，可赋值修改 (如果真实数据是0-1的话，可根据条件判断成true、false)
+//
+							// item.list = [] //回复列表 --- 默认必须参数，不用修改
+							// item.wbId = valueIdNum + index //虚拟id --- 默认必须参数 (主要用于文本展开、收起判断)
+							// item.pageNum = 1 //回复列表分页 --- 默认必须参数，不用修改
+							// item.expandIndex = 0 //展开评论的层级 --- 默认必须参数，不用修改
+							// item.expandNum = 0 //已经展开评论的数量 --- 默认必须参数，不用修改
+							// item.loadShow = false //是否显示loading加载动画 --- 默认必须参数，不用修改
+							// item.imgStyle = {} //评论图片加载的宽高 --- 默认必须参数，不用修改
+							// item.textShow = true //添加插入评论时控制文本显示加载使用的 --- 默认必须参数，不用修改
+							// item.isOmit = false //文本内容是否收起  --- 默认必须参数，不用修改
+							// item.isShow = false //文本内容是否显示展开、收起  --- 默认必须参数，不用修改
+							// item.selectedRow = false //是否选中添加背景样式  --- 默认必须参数，不用修改
+						// })
+						// this.page++
+						// uni.setStorageSync('commentIdsNum', (valueIdNum + dataList.length) )
+					// }else{
+						// dataList = []
+					// }
+					// resolve(dataList)
+				// },500)
+			// })
 		},
 		/* 模拟请求回复列表 */
 		replyReqData(){
@@ -392,11 +404,35 @@ export default {
 		/* 列表请求 */
 		getList() {
 			if(this.openReq) return
+			let valueIdNum = parseInt(uni.getStorageSync('commentIdsNum') || 1)
 			this.openReq = true
 			this.startData().then((res)=>{
+				this.total = res.data.total
 				this.openReq = false
-				if(res.length > 0){
-					this.commentlist = this.commentlist.concat(res)
+				if(res.code == 200){
+					let list = res.data.records
+					list.forEach((item,index)=>{
+						/** 必要参数数据必须拼接  */
+						item.imgList = index % 2 == 0 ? []:[] //图片或者图集
+						item.listTotal = index % 2 == 0 ? 15 : 5 //回复评论的总数量 --- 可根据自己的真实数据赋值
+						item.phizImg = '' //表情
+						item.likeShow = false //是否已点赞: true、false --- 默认必须参数，可赋值修改 (如果真实数据是0-1的话，可根据条件判断成true、false)
+						item.foldShow = false //是否已踩踏: true、false --- 默认必须参数，可赋值修改 (如果真实数据是0-1的话，可根据条件判断成true、false)
+
+						item.list = [] //回复列表 --- 默认必须参数，不用修改
+						item.wbId = valueIdNum + index //虚拟id --- 默认必须参数 (主要用于文本展开、收起判断)
+						item.pageNum = 1 //回复列表分页 --- 默认必须参数，不用修改
+						item.expandIndex = 0 //展开评论的层级 --- 默认必须参数，不用修改
+						item.expandNum = 0 //已经展开评论的数量 --- 默认必须参数，不用修改
+						item.loadShow = false //是否显示loading加载动画 --- 默认必须参数，不用修改
+						item.imgStyle = {} //评论图片加载的宽高 --- 默认必须参数，不用修改
+						item.textShow = true //添加插入评论时控制文本显示加载使用的 --- 默认必须参数，不用修改
+						item.isOmit = false //文本内容是否收起  --- 默认必须参数，不用修改
+						item.isShow = false //文本内容是否显示展开、收起  --- 默认必须参数，不用修改
+						item.selectedRow = false //是否选中添加背景样式  --- 默认必须参数，不用修改
+					})
+					this.commentlist = this.commentlist.concat(list)
+					this.status = 'noMore'
 				}else{
 					this.status = 'noMore'
 				}
@@ -640,75 +676,75 @@ export default {
 				dataObj.imgList = this.plImgList
 			}
 			/* 插入数据 */
-			if(this.currReplyInfo.replyType){ //评论、回复他人
-				if(this.currReplyInfo.replyType == 'hf'){ //回复他人
-					dataObj.replyUser = this.currReplyInfo.username
-				}
-				let result = {
-					expand: true, //是否展开
-					list: [dataObj],
-					type: 'py', //此列展开项为自己评论回复的
-				}
-				if(this.currReplyInfo.replyType == 'hf'){ //回复他人
-					if(this.commentlist[this.replyItemIndex].list.length > 0){ //判断是否有展开项评论
-						let upIndex = this.commentlist[this.replyItemIndex].list.length - 1
-						this.commentlist[this.replyItemIndex].list[upIndex].list.push(dataObj)
-					}else{ //没有的话创建新的展开项
-						this.commentlist[this.replyItemIndex].list.push(result)
-					}
+			// if(this.currReplyInfo.replyType){ //评论、回复他人
+			// 	if(this.currReplyInfo.replyType == 'hf'){ //回复他人
+			// 		dataObj.replyUser = this.currReplyInfo.username
+			// 	}
+			// 	let result = {
+			// 		expand: true, //是否展开
+			// 		list: [dataObj],
+			// 		type: 'py', //此列展开项为自己评论回复的
+			// 	}
+			// 	if(this.currReplyInfo.replyType == 'hf'){ //回复他人
+			// 		if(this.commentlist[this.replyItemIndex].list.length > 0){ //判断是否有展开项评论
+			// 			let upIndex = this.commentlist[this.replyItemIndex].list.length - 1
+			// 			this.commentlist[this.replyItemIndex].list[upIndex].list.push(dataObj)
+			// 		}else{ //没有的话创建新的展开项
+			// 			this.commentlist[this.replyItemIndex].list.push(result)
+			// 		}
 
-				}else{ //评论他人
-					if(this.commentlist[this.replyItemIndex].list.length > 0){ //判断是否有展开项评论
-						this.commentlist[this.replyItemIndex].list[0].list.unshift(dataObj)
-						this.commentlist[this.replyItemIndex].list[0].expand = true
-					}else{ //没有的话创建新的展开项
-						this.commentlist[this.replyItemIndex].list.unshift(result)
-					}
-				}
-				let num = 0
-				this.commentlist[this.replyItemIndex].list.forEach(item=>{
-					if(item.expand){
-						num++
-					}
-				})
-				this.commentlist[this.replyItemIndex].expandNum += result.list.length //已经展开评论的数量
-				this.commentlist[this.replyItemIndex].expandIndex = num  //展开评论的层级
-				this.commentlist[this.replyItemIndex].listTotal += 1  //回复评论的总数量 + 1
+			// 	}else{ //评论他人
+			// 		if(this.commentlist[this.replyItemIndex].list.length > 0){ //判断是否有展开项评论
+			// 			this.commentlist[this.replyItemIndex].list[0].list.unshift(dataObj)
+			// 			this.commentlist[this.replyItemIndex].list[0].expand = true
+			// 		}else{ //没有的话创建新的展开项
+			// 			this.commentlist[this.replyItemIndex].list.unshift(result)
+			// 		}
+			// 	}
+			// 	let num = 0
+			// 	this.commentlist[this.replyItemIndex].list.forEach(item=>{
+			// 		if(item.expand){
+			// 			num++
+			// 		}
+			// 	})
+			// 	this.commentlist[this.replyItemIndex].expandNum += result.list.length //已经展开评论的数量
+			// 	this.commentlist[this.replyItemIndex].expandIndex = num  //展开评论的层级
+			// 	this.commentlist[this.replyItemIndex].listTotal += 1  //回复评论的总数量 + 1
 
-				/* 显示已经渲染完成的数据 */
-				this.$nextTick(()=>{
-					this.commentlist[this.replyItemIndex].list.filter(item=>{
-						if(item.expand){
-							item.list.filter(v=>{
-								v.show = true
-								v.textShow = true
-							})
-						}
-					})
-				})
-			}else{ //个人评论
-				dataObj.list = [] //回复列表
-				dataObj.pageNum = 1 //回复列表分页
-				dataObj.listTotal = 0 //回复评论的总数量
-				dataObj.expandIndex = 0 //展开评论的层级
-				dataObj.expandNum = 0 //已经展开评论的数量
-				this.commentlist.unshift(dataObj)
-				this.$nextTick(()=>{
+			// 	/* 显示已经渲染完成的数据 */
+			// 	this.$nextTick(()=>{
+			// 		this.commentlist[this.replyItemIndex].list.filter(item=>{
+			// 			if(item.expand){
+			// 				item.list.filter(v=>{
+			// 					v.show = true
+			// 					v.textShow = true
+			// 				})
+			// 			}
+			// 		})
+			// 	})
+			// }else{ //个人评论
+			// 	dataObj.list = [] //回复列表
+			// 	dataObj.pageNum = 1 //回复列表分页
+			// 	dataObj.listTotal = 0 //回复评论的总数量
+			// 	dataObj.expandIndex = 0 //展开评论的层级
+			// 	dataObj.expandNum = 0 //已经展开评论的数量
+			// 	this.commentlist.unshift(dataObj)
+			// 	this.$nextTick(()=>{
 
-					this.commentlist[0].textShow = true
+			// 		this.commentlist[0].textShow = true
 
-					// #ifndef APP-NVUE
-					this.scrollViewId = ''
-					this.$nextTick(()=>{
-						this.scrollViewId = 'commentId0'
-					})
-					// #endif
+			// 		// #ifndef APP-NVUE
+			// 		this.scrollViewId = ''
+			// 		this.$nextTick(()=>{
+			// 			this.scrollViewId = 'commentId0'
+			// 		})
+			// 		// #endif
 
-					// #ifdef APP-NVUE
-					this.$refs['itemRef0'][0].scrollRefToView('commentId0')
-					// #endif
-				})
-			}
+			// 		// #ifdef APP-NVUE
+			// 		this.$refs['itemRef0'][0].scrollRefToView('commentId0')
+			// 		// #endif
+			// 	})
+			// }
 			uni.setStorageSync('commentIdsNum', wbId )
 			this.$emit('submitComment', this.contentInfo)
 			this.$nextTick(()=>{

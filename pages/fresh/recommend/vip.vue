@@ -29,7 +29,7 @@
 
 		<swiper class="swiper" :current="currentCategory" @animationfinish="swiperAnimationfinish">
 			<swiper-item v-for="(tab, index) in categoryList.length" :key="tab">
-				<tabs-page :tab-index="index" :current="currentCategory"></tabs-page>
+				<tabs-page :tab-index="index" :current="currentCategory" v-if="currentCategory === index"></tabs-page>
 			</swiper-item>
 		</swiper>
 	</z-paging-swiper>

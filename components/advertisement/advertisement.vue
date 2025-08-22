@@ -1,53 +1,73 @@
 <template>
 	<view class="advertisement-container" v-if="showAdv">
-		
-		<view class="info-line">
-			<up-image src='https://qcloud.dpfile.com/pc/_vzQAXVr13f_7iwVuYMN-KZdECsM6WjeAFvnO_6J6g0hOLcGgiPlxc9FC8mAyrgC.jpg' width="170rpx" height="100rpx" radius="10rpx"></up-image>
-			
+		<view class="info-line" v-for="item in ads.slice(0, 1)" @click="handleClickOpen(item.clickUrl)">
+			<up-image :src="item.imageUrl" width="170rpx" height="100rpx" radius="10rpx"></up-image>
+
 			<view class="desc">
-				<view class="name">我的活a干不完</view>
-				<view class="nums">累计下载24.3W</view>
+				<view class="name">{{ item.adTitle }}</view>
+				<view class="nums">{{ item.adDescription }}</view>
+				<!-- <view class="nums">累计下载24.3W</view> -->
 			</view>
-			</view>
-			
-			<up-icon name="close" size="30" color="#fff" @click="closeAdv"></up-icon>
+		</view>
+
+		<up-icon name="close" size="30" color="#fff" @click="closeAdv"></up-icon>
 	</view>
 </template>
 
 <script setup>
-	import { ref } from 'vue'
-	const showAdv = ref(true)
-	
-	const closeAdv = ()=>{
-		showAdv.value = false
-	}
+import { ref, onMounted } from 'vue';
+import { getAdsList } from '@/api/public';
+
+const showAdv = ref(true);
+
+const ads = ref([]);
+
+onMounted(() => {
+	const params = {
+		adsType: 'app'
+	};
+
+	getAdsList(params).then((res) => {
+		if (res.code == 200) {
+			ads.value = res.data.records;
+		}
+	});
+});
+const closeAdv = () => {
+	showAdv.value = false;
+};
+
+const handleClickOpen = (url) => {
+	// #ifdef APP-PLUS
+	plus.runtime.openURL(url);
+	// #endif
+};
 </script>
 
 <style lang="scss" scoped>
-
-.advertisement-container{
+.advertisement-container {
 	padding: 20rpx;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 2rpx solid  rgba(255, 255, 255, .1) ;
-	
-	.info-line{
+	border-bottom: 2rpx solid rgba(255, 255, 255, 0.1);
+
+	.info-line {
 		display: flex;
 		align-items: center;
-		
-		.desc{
+
+		.desc {
 			margin-left: 20rpx;
-			
-			.name{
+
+			.name {
 				font-size: 15px;
 				color: #fff;
 			}
-			
-			.nums{
-				background-color: #434249;
-				padding: 5rpx 10rpx;
-				border: 2rpx solid #FFFFFF80;
+
+			.nums {
+				// background-color: #434249;
+				// padding: 5rpx 10rpx;
+				// border: 2rpx solid #ffffff80;
 				color: #fff;
 				border-radius: 10rpx;
 				font-size: 11px;

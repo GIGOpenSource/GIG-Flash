@@ -9,7 +9,7 @@
 					<view class="like-name">{{ item.title }}</view>
 					<view class="like-user">
 						<up-avatar :src="item.authorAvatar" size="25"></up-avatar>
-						<up-text :lines="2" :text="item.description" color="#fff" size="11" />
+						<up-text :lines="2" :text="item.authorNickname" color="#fff" size="11" />
 					</view>
 				</view>
 			</view>
