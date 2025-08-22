@@ -36,7 +36,7 @@
 		</template>
 
 		<swiper :current="currentCategory" style="height: 100%" @animationfinish="swiperAnimationfinish">
-			<swiper-item v-for="(item, index) in categoryList.length">
+			<swiper-item v-for="(item, index) in list.length">
 				<tabs-page :current="currentCategory" :tabsIndex="index"></tabs-page>
 			</swiper-item>
 		</swiper>

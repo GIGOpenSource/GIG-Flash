@@ -155,7 +155,7 @@ export default {
 							// #endif
 							// #ifndef APP-NVUE
 							// #endif
-							item.object_fit = item.object_fit; //视频的显示类型
+							item.object_fit = item.object_fit || 'cover'; //视频的显示类型
 							item.fullScreenShow = item.fullScreenShow; //是否有全屏观看按钮
 							item.sliderShow = true; //是否显示进度条
 							item.rotateImgShow = true; //是否显示旋转头像

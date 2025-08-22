@@ -4,14 +4,14 @@
 			<!-- <BannerSwiper /> -->
 
 			<view class="card-list">
-				<card-view :item="item" v-for="item in dataList" @click="handleToLongVideo"></card-view>
+				<card-view :item="item" v-for="item in dataList" @click="handleToLongVideo(item.id)"></card-view>
 			</view>
 		</view>
 	</z-paging>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps(['tabIndex', 'current']);
 
@@ -23,7 +23,14 @@ import { discoverList } from '@/api/content.js';
 const pagingRef = ref();
 const dataList = ref([]);
 
-const queryList = ({ pageNo, pageSize }) => {
+watch(
+	() => props.current,
+	(val, oldVal) => {
+		pagingRef.value.reload();
+	}
+);
+
+const queryList = (pageNo, pageSize) => {
 	const params = {
 		contentType: 'LONGVIDEO',
 		selectType: props.current == 0 ? 'F' : 'T',
@@ -31,16 +38,16 @@ const queryList = ({ pageNo, pageSize }) => {
 		pageSize
 	};
 	discoverList(params).then((res) => {
-		console.log('content list res ', res);
+		console.log('props.current', res);
 		if (res.code === 200) {
 			pagingRef.value.complete(res.data.records);
 		}
 	});
 };
 
-const handleToLongVideo = () => {
+const handleToLongVideo = (id) => {
 	uni.navigateTo({
-		url: '/pages/video/video'
+		url: '/pages/video/video?id=' + id
 	});
 };
 </script>

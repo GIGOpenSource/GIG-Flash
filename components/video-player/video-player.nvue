@@ -1,42 +1,43 @@
 <template>
 	<view class="video-player">
-
 		<!-- 视频 -->
-		<video id="myVideo" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4" object-fit=""
-			@error="videoErrorCallback" style="width: 100%; height: 450rpx;"></video>
-
+		<video ref="myVideo" id="myVideo" :src="video" :key="video" object-fit="" @error="videoErrorCallback" style="width: 100%; height: 450rpx"></video>
 
 		<!-- 	<cover-view class="head-bar">
 			<up-image src="/static/images/arrow-left.png" width="18px" height="18px"></up-image>
 		</cover-view> -->
-
 	</view>
 </template>
 
-
 <script setup>
-	const videoErrorCallback = () => {
+import { ref } from 'vue';
+import { onReady } from '@dcloudio/uni-app';
+defineProps(['video']);
 
-	}
+const videoContext = ref();
+
+onReady(() => {
+	videoContext.value = uni.createVideoContext('myVideo');
+});
+const videoErrorCallback = () => {};
 </script>
 
 <style lang="scss" scoped>
-	.video-player {
-		position: relative;
-		background-color: #000;
+.video-player {
+	position: relative;
+	background-color: #000;
 
-		.head-bar {
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			background-color: rgba(0, 0, 0, 0.3);
-			z-index: 99;
+	.head-bar {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		background-color: rgba(0, 0, 0, 0.3);
+		z-index: 99;
 
-			padding: 20rpx 40rpx 30rpx;
-			// display: flex;
-			// align-items: center;
-		}
-
+		padding: 20rpx 40rpx 30rpx;
+		// display: flex;
+		// align-items: center;
 	}
+}
 </style>
