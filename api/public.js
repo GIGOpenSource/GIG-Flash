@@ -21,3 +21,8 @@ export const userInterestLabel = params => {
 export const gameDetail = (id, params) => {
 	return getRequest(`/game/detail/${id}`, params)
 }
+
+// 搜索
+export const search = (params) => {
+	return postRequest('/search/videos', params)
+}

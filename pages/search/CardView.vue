@@ -6,9 +6,9 @@
 			<view class="title">{{ item.title }}</view>
 			<view class="auther">
 				<view class="" @click.stop="uni.navigateTo({ url: '/pages/my/person' })">
-					<up-avatar :src="item.authorAvatar" size="25"></up-avatar>
+					<up-avatar :src="item.author.authorAvatar" size="25"></up-avatar>
 				</view>
-				<view class="name">{{ item.authorNickname }}</view>
+				<view class="name">{{ item.author.authorNickname }}</view>
 			</view>
 		</view>
 	</view>
