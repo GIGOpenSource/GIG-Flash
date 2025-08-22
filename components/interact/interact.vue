@@ -1,7 +1,7 @@
 <template>
 	<scroll-view scroll-y="true" @scrolltolower="lower" style="max-height: 90vh">
 		<view v-for="(item,index) in list" :key="index" class="con"
-			@click="uni.navigateTo({url:'/pages/community/details'})">
+			@click="uni.navigateTo({url:'/pages/community/details?id='+item.targetId})">
 			<view class="desc" v-if="!item.commentContent">{{item.userNickname}}点赞了你的动态</view>
 			<view class="desc" v-if="item.commentContent">@{{item.userNickname}}了你：{{item.commentContent}}</view>
 			<view class="bg">
@@ -22,9 +22,9 @@
 					</view>
 				</view>
 				<view class="title">{{item.targetTitle}}</view>
-				<view class="images">
+				<!-- <view class="images">
 					<image src="/static/tsp-icon/touxiang.jpg" mode=""></image>
-				</view>
+				</view> -->
 			</view>
 			<view class="bottom">
 				<view class="">

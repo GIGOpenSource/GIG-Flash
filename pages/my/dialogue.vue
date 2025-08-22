@@ -5,23 +5,24 @@
 				<up-icon name="arrow-left" color="#ffffff" size="20"></up-icon>
 			</template>
 			<template #center>
-				这里是用户昵称
+				{{name || '暂无昵称'}}
 			</template>
 			<template #right>
 				<view class="" @click.stop="oparea">
-					<up-icon name="more-dot-fill" color="#ffffff" size="28" v-if="more"></up-icon>
+					<up-icon name="more-dot-fill" color="#ffffff" size="28"></up-icon>
 				</view>
 			</template>
 		</up-navbar>
+		<!-- 2是左边 1是右边 -->
 		<view class="con" v-for="(item,index) in list" :key="index"
-			:style="item.ismine == 1 ?'align-items: flex-end' :'align-items: flex-start;'">
+			:style="userId == item.senderId?'align-items: flex-end' :'align-items: flex-start;'">
 			<view class="list">
-				<view class="" v-if="item.ismine == 2"><up-avatar src="'11111" size="40"></up-avatar></view>
+				<view class="" v-if="userId == item.receiverId"><up-avatar :src="item.receiverAvatar" size="40"></up-avatar></view>
 				<view class="right" :style="item.ismine == 1 ?' align-items: flex-end' :''">
-					<view :class="item.ismine == 1 ? 'mine':'con'">{{item.con}}</view>
-					<view class="time">{{item.time}}</view>
+					<view :class="userId == item.senderId ? 'mine':'con'">{{item.content}}</view>
+					<view class="time">{{item.createTime}}</view>
 				</view>
-				<view class="" v-if="item.ismine == 1"><up-avatar src="'11111" size="40"></up-avatar></view>
+				<view class="" v-if="userId == item.senderId"><up-avatar :src="item.senderAvatar" size="40"></up-avatar></view>
 			</view>
 		</view>
 		<view style="height: 100rpx;"></view>
@@ -29,8 +30,9 @@
 			<input type="text" placeholder="输入消息内容" v-model="con" />
 			<view class="publish" @click="save">发送</view>
 		</view>
-		<Dialog :modelValue="modelValue" @update:modelValue="val => modelValue = val" />
-
+		<operation :show="show" @update:show="(val) => (show = val)" />
+		<!-- <Dialog :modelValue="modelValue" @update:modelValue="val => modelValue = val" /> -->
+       <!-- <up-empty mode="data" v-if="!list.length"></up-empty> -->
 	</view>
 </template>
 
@@ -48,50 +50,42 @@
 	import {
 		login
 	} from '../../api/setup'
+	import { onLoad
+	} from '@dcloudio/uni-app'
+	
 	const show = ref(false)
-
-	const list = reactive([{
-		con: '消息内容消息内容消息内容',
-		time: '2025-07-29 18:00:00',
-		ismine: 2 //1是 2 否
-	}, {
-		con: '消息内容消息内容消息内容',
-		time: '2025-07-29 18:00:00',
-		ismine: 1 //1是 2 否
-	}])
+    const receiverId = ref(0)
+	const list = ref([])
+	const name = ref('')
 	const con = ref('')
+	const userId = uni.getStorageSync('user_info').id
 	const modelValue = ref(false) //是否显示弹窗
 	const save = () => {
 		addlist({
-			userId: uni.getStorageSync('user_info').id,
-			otherUserId: uni.getStorageSync('otherId')
+			senderId: uni.getStorageSync('user_info').id,
+			receiverId: receiverId.value,
+			content:con.value
 		}).then(res => {
-			console.log(res, 'resrfghjri');
+			getdetails()
 		})
-
-
-		return
-		// modelValue.value = true
-		let time = uni.$u.timeFormat(Date.now(), 'yyyy-mm-dd hh:MM:ss');
-		list.push({
-			con: con.value,
-			time: time,
-			ismine: 1 //1是 2 否
-		})
-		con.value = ''
 	}
 	const oparea = () => {
 		show.value = true
 	}
 	const getdetails = () => {
 		details({
-			userId: uni.getStorageSync('user_info').id,
-			otherUserId: uni.getStorageSync('otherId')
+			senderId: uni.getStorageSync('user_info').id,
+			receiverId: receiverId.value
 		}).then(res => {
-			console.log(res, 'eeeee');
+			list.value = res.data
 		})
 	}
 	onMounted(() => {
+		getdetails()
+	})
+	onLoad((e) => {
+		receiverId.value = e.id
+		name.value = e.name
 		getdetails()
 	})
 </script>

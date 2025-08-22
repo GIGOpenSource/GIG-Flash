@@ -51,7 +51,7 @@
 	}, {
 		name: '设置'
 	}])
-	const tarbar = reactive(['动态', '视频', '互动'])
+	const tarbar = ref(['动态', '视频', '互动'])
 	const current = ref(0)
 	const clicks = (index) => {
 		current.value = index
@@ -64,6 +64,13 @@
 			url
 		})
 	}
+	onMounted(() => {
+		if(!props.isBack){
+			tarbar.value = ['动态', '视频', '互动']
+		}else{
+			 tarbar.value = ['动态', '视频']
+		}
+	})
 </script>
 
 <style lang="scss" scoped>
@@ -78,6 +85,7 @@
 
 	.tabs {
 		display: flex;
+		justify-content: space-around;
 		margin: 30rpx 0;
 
 		view {

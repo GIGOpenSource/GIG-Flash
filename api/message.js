@@ -8,10 +8,10 @@ export const getList = (params) => {
 }
 //创建消息
 export const addlist = (params) => {
-	return postRequest('/sessions', params)
+	return postRequest('/messages/write', params)
 }
 
 //获取会话详情
 export const details = (params) => {
-	return getRequest('/sessions', params)
+	return getRequest('/messages/query', params)
 }
