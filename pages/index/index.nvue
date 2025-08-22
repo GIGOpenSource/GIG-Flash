@@ -56,6 +56,9 @@ const deviceInfo = uni.getSystemInfoSync();
 import tabsPage from './tabs/tabs-page.vue';
 import commentPopup from '@/components/tsp-video/comment/comment-popup.vue';
 import forwardMenu from '@/components/tsp-video/forward-menu/forward-menu.vue';
+
+import { addComment } from '@/api/community';
+
 export default {
 	components: {
 		tabsPage,
@@ -167,8 +170,18 @@ export default {
 			}
 		},
 		/* 评论组件内容回调 */
-		submitComment(val) {
-			console.log(val);
+		async submitComment(val) {
+			console.log(val, this.commentInfo);
+			const params = {
+				targetId: this.commentInfo.id,
+				content: val.text,
+				commentType: 'SHOTVIDEOS',
+				userId: uni.getStorageSync('user_info').id
+			};
+			const res = await addComment(params);
+			console.log('res', res);
+			if (res.code === 200) {
+			}
 		},
 		onswiperscroll(e) {
 			// this.$refs.tabRef.onswiperscroll(e)
