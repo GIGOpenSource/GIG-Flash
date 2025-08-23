@@ -1,169 +1,242 @@
-# 视频播放页面
 
-基于Vue3 + JavaScript + uView Plus + uniApp开发的视频播放页面，严格按照设计稿实现。
+# GIG-Flash 项目配置与运行文档
 
-## 页面功能
+## 项目概述
 
-### 1. 视频播放器
-- **视频播放控制**: 播放/暂停、快进、倍速播放
-- **进度条**: 显示播放进度，支持解锁功能
-- **播放控制**: 切换线路、全屏播放
-- **购买提示**: 显示视频价格和会员优惠
+**GIG-Flash** 是一个基于 **uni-app** 框架开发的跨平台移动应用，支持多端部署（H5、小程序、App）。项目采用 Vue 3 + JavaScript 技术栈，集成了 uview-plus UI 组件库和 Pinia 状态管理。
 
-### 2. 互动功能
-- **点赞**: 支持点赞/取消点赞，实时更新数量
-- **不喜欢**: 标记不喜欢内容
-- **收藏**: 收藏/取消收藏视频
-- **分享**: 支持多平台分享
+## 技术架构
 
-### 3. 广告系统
-- **广告横幅**: 显示游戏广告，支持关闭
-- **下载统计**: 显示广告下载人数
+- **前端框架**: Vue 3 + uni-app
+- **UI组件库**: uview-plus
+- **状态管理**: Pinia
+- **样式预处理**: SCSS
+- **构建工具**: HBuilderX / uni-app CLI
+- **目标平台**: App
 
-### 4. 内容展示
-- **标签切换**: 简介和评论标签页
-- **用户信息**: 显示作者头像、用户名、粉丝数
-- **视频描述**: 支持展开/收起
-- **标签系统**: 显示相关标签
-- **评分系统**: 五星评分展示
+## 项目结构
 
-### 5. 评论系统
-- **评论列表**: 显示评论内容和用户信息
-- **回复功能**: 支持评论回复
-- **点赞评论**: 支持评论点赞
-- **时间显示**: 相对时间显示
-
-### 6. 推荐内容
-- **推荐视频**: 显示相关推荐视频
-- **缩略图**: 视频缩略图展示
-- **播放统计**: 显示播放量和时长
-- **作者信息**: 显示视频作者
-
-## 技术实现
-
-### 组件结构
 ```
-pages/video/
-├── video.vue              # 主页面
-├── components/
-│   └── comment-list/      # 评论列表组件
-│       └── comment-list.vue
+GIG-Flash/
+├── api/                    # API接口配置
+├── components/            # 公共组件
+├── config/               # 项目配置
+├── pages/                # 页面文件
+├── static/               # 静态资源
+├── store/                # 状态管理
+├── uni_modules/          # uni-app插件
+├── utils/                # 工具函数
+├── App.vue              # 应用入口
+├── main.js              # 主入口文件
+├── manifest.json        # 应用配置
+├── pages.json           # 页面路由配置
+└── uni.scss             # 全局样式变量
 ```
 
-### 组合式函数
-```
-composables/
-└── useVideo.js           # 视频播放逻辑
-```
+## 配置文件详解
 
-### API接口
-```
-utils/
-├── api.js                # API接口封装
-├── format.js             # 数据格式化
-├── constants.js          # 设计规范常量
-└── mockData.js           # 模拟数据
-```
+### 1. 环境配置 (config/config.js)
 
-## 数据结构
-
-### 视频数据
 ```javascript
+// 开发环境配置
+const develop = true;
+
+// API服务器地址
+let host = '';
+if (develop) host = 'http://192.168.0.109:8080/collide-all/api/v1';
+else '';
+
+// 生产环境关闭console输出
+console.log = develop ? console.log : () => {};
+console.info = develop ? console.info : () => {};
+```
+
+**配置说明**:
+- `develop`: 开发环境标识，控制API地址和日志输出
+- `host`: API服务器地址，开发环境指向本地服务器
+
+### 2. 应用配置 (manifest.json)
+
+**基本信息**:
+- 应用名称: appName
+- 应用ID: appId
+- 版本号: 1.0.0
+- 版本代码: 100
+
+**平台配置**:
+- **App端**: 支持Android和iOS，包含相机、视频播放等模块
+- **小程序端**: 支持微信、支付宝、百度、头条小程序
+- **权限配置**: 包含相机、网络、存储等必要权限
+
+### 3. 依赖配置 (package.json)
+
+```json
 {
-  id: 'video_001',
-  videoUrl: '/static/video/sample.mp4',
-  poster: '/static/video/poster.jpg',
-  title: '湖光山色，人间仙境',
-  description: '湖是神落在人间的镜子...',
-  duration: '03:45',
-  likes: 12000,
-  stars: 10000,
-  shares: 10000,
-  views: 156000,
-  commentCount: 121,
-  watchingCount: 1121,
-  isLiked: false,
-  isStarred: false,
-  isUnlocked: false,
-  price: 66,
-  memberPrice: 52,
-  tags: ['风景', '自然', '打卡'],
-  rating: 5,
-  user: {
-    id: 'user_001',
-    username: '路过人间',
-    followers: 112.6,
-    videoCount: 206,
-    avatar: '/static/avatar/user1.jpg'
+  "dependencies": {
+    "clipboard": "^2.0.11",    // 剪贴板操作
+    "dayjs": "^1.11.13",       // 日期处理
+    "pinia": "^3.0.3"          // 状态管理
   }
 }
 ```
 
-### 评论数据
+### 4. 主入口配置 (main.js)
+
 ```javascript
-{
-  id: 1,
-  user: {
-    id: 'user_002',
-    username: '用户001',
-    avatar: '/static/avatar/user2.jpg'
-  },
-  content: '这个视频太美了！',
-  createTime: Date.now() - 3600000,
-  likes: 156,
-  isLiked: false,
-  replies: [...]
+import App from './App'
+import uviewPlus from '@/uni_modules/uview-plus'
+import { createPinia } from 'pinia'
+
+// 创建Pinia实例
+const pinia = createPinia()
+
+// z-paging分页组件配置
+uni.$zp = {
+    config: {
+        'default-page-size': 20,
+    }
+}
+
+// Vue 3 应用创建
+export function createApp() {
+    const app = createSSRApp(App)
+    app.use(uviewPlus).use(pinia)
+    return { app }
 }
 ```
 
-## 交互功能
+## API配置详解
 
-### 视频控制
-- 点击播放按钮切换播放状态
-- 点击快进按钮快进10秒
-- 点击倍速按钮循环切换播放速度
-- 点击切换线路按钮切换播放线路
-- 点击全屏按钮进入全屏模式
+### 1. HTTP请求配置 (utils/http.js)
 
-### 互动操作
-- 点击点赞按钮切换点赞状态
-- 点击不喜欢按钮标记不喜欢
-- 点击收藏按钮切换收藏状态
-- 点击分享按钮弹出分享选项
+**请求配置**:
+- 基础URL: 从config.js获取
+- 请求头: 包含token认证、开发标识
+- 超时时间: 15秒
+- 加载提示: 800ms后显示loading
 
-### 内容浏览
-- 点击标签切换简介/评论内容
-- 点击展开按钮展开/收起描述
-- 点击推荐视频跳转到对应视频
-- 点击评论回复按钮回复评论
+**主要功能**:
+- 自动token管理
+- 请求防重复
+- 统一错误处理
+- 身份过期自动跳转
 
-## 样式设计
+**API方法**:
+- `request()`: 通用请求方法
+- `getRequest()`: GET请求
+- `postRequest()`: POST请求
+- `putRequest()`: PUT请求
 
-### 颜色规范
-- 主色调: #FF6B35
-- 背景色: #1A1A1A
-- 文字主色: #FFFFFF
-- 文字次要色: rgba(255, 255, 255, 0.6)
-- 金色: #FFD700
+### 2. API接口模块
 
-### 布局特点
-- 全屏视频播放器
-- 固定状态栏显示
-- 响应式互动按钮
-- 卡片式内容展示
-- 圆角设计风格
+#### 社区模块 (api/community.js)
+- 动态创建、查询、点赞、分享
+- 评论管理
+- 关注功能
 
-## 使用说明
+#### 内容模块 (api/content.js)
+- 内容列表获取
+- 收藏功能
+- 长视频相关
 
-1. 页面路由: `/pages/video/video`
-2. 支持参数传递: `videoId`
-3. 自动加载视频详情和评论
-4. 支持模拟数据测试
+#### 消息模块 (api/message.js)
+- 消息列表查询
+- 消息创建
+- 会话详情
+
+## 页面路由配置 (pages.json)
+
+**主要页面**:
+- 欢迎页: `/pages/welecome/index`
+- 引导页: `/pages/guide/guide`
+- 首页: `/pages/index/index` (App端) / `/pages/index/index-v` (其他端)
+- 发现页: `/pages/discover/discover`
+- 社区页: `/pages/community/community`
+- 个人中心: `/pages/my/my`
+
+## 样式配置 (uni.scss)
+
+**全局样式变量**:
+- 主题色彩系统
+- 尺寸规范
+- 间距标准
+- 透明度设置
+
+**集成组件**:
+- uview-plus主题样式
+- 自定义主题变量
+
+## 运行与开发
+
+### 开发环境要求
+
+1. **Node.js**: 建议版本 16+
+2. **HBuilderX**: 推荐使用HBuilderX进行开发
+3. **依赖安装**: `npm install`
+
+### 开发命令
+
+```bash
+# 安装依赖
+npm install
+
+# 开发模式 (HBuilderX中操作)
+# 1. 点击运行 -> 运行到浏览器
+# 2. 点击运行 -> 运行到手机或模拟器
+# 3. 点击发行 -> 原生App-云打包
+```
+
+### 调试配置
+
+**开发环境**:
+- API地址: `http://192.168.0.109:8080/collide-all/api/v1`
+- 开启console输出
+- 显示请求loading
+
+**生产环境**:
+- 关闭console输出
+- 隐藏开发标识
+
+## 打包配置
+
+### App端打包
+
+**Android配置**:
+- 支持架构: armeabi-v7a, arm64-v8a, x86
+- 权限: 相机、网络、存储等
+- 图标: 72x72, 96x96, 144x144, 192x192
+
+**iOS配置**:
+- 图标尺寸: 1024x1024 (App Store)
+- 支持iPhone和iPad
+
+
+## 部署说明
+
+### 开发部署
+
+1. 修改 `config/config.js` 中的API地址
+2. 在HBuilderX中运行到目标平台
+3. 检查网络请求和功能正常性
+
+### 生产部署
+
+1. 修改 `config/config.js` 中的 `develop` 为 `false`
+2. 配置生产环境API地址
+3. 使用HBuilderX进行云打包
+4. 上传到各应用商店或平台
 
 ## 注意事项
 
-1. 视频资源需要替换为实际URL
-2. 图片资源需要放置在static目录下
-3. API接口需要配置正确的后端地址
-4. 建议在真机上测试视频播放功能
-5. 注意处理网络异常和加载失败情况
+1. **API地址配置**: 开发和生产环境需要不同的API地址
+2. **权限管理**: App端需要配置相应的权限声明
+3. **跨平台兼容**: 注意不同平台的差异，使用条件编译
+4. **性能优化**: 生产环境关闭console输出，优化加载性能
+5. **版本管理**: 及时更新manifest.json中的版本信息
+
+## 常见问题
+
+1. **网络请求失败**: 检查API地址配置和网络连接
+2. **权限问题**: 确认manifest.json中的权限配置
+3. **打包失败**: 检查依赖版本兼容性和配置完整性
+4. **跨平台问题**: 使用条件编译处理平台差异
