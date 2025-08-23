@@ -28,8 +28,9 @@ export const dynamicsList = (id,params) => {
 }
 
 // 视频列表
-export const getVideoList = params => {
-	return getRequest('/content/core/list', params);
+export const getVideoList = (id,params)=> {
+	
+	return getRequest('/users/'+id + '/contents', params);
 }
 
 //互动列表

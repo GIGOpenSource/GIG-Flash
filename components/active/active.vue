@@ -144,6 +144,8 @@
 					title: '取消关注',
 					icon: 'none'
 				});
+				getlist(props.tabs)
+				         
 			})
 		} else {
 			addFollow(params).then(res => {
@@ -153,6 +155,7 @@
 					icon: 'none'
 				});
 			})
+			getlist(props.tabs)
 		}
 	};
 	const share = (index, id) => {
@@ -199,7 +202,8 @@
 		} else if (newVal == 4) {
 			res = await getDetails({
 				dynamic_id: props.detailId,
-				userId: userinfo.id
+				userId: userinfo.id,
+				currentUserId:userinfo.id
 			})
 			list.value = [res.data]
 		} else if (newVal == 6) {
@@ -230,6 +234,10 @@
 	}, {
 		immediate: true
 	});
+	//暴露
+	defineExpose({
+		getlist
+	})
 </script>
 
 <style lang="scss" scoped>

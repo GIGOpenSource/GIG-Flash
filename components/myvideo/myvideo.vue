@@ -1,10 +1,10 @@
 <template>
 	<scroll-view scroll-y="true" @scrolltolower="lower" style="max-height: 90vh">
-		<view class="tabs">
+		<!-- <view class="tabs">
 			<view v-for="(item,index) in tabs" :class="current == index ? 'current':''" @click="current = index">
 				{{item}}
 			</view>
-		</view>
+		</view> -->
 		<view class="con">
 			<view class="list" v-for="(item,index) in list" :key="index"
 				@click="uni.navigateTo({url:'/pages/video/video?id='+item.id})">
@@ -42,8 +42,8 @@
 		}
 	});
 	const getlist = () => {
-		getVideoList({
-			contentType: current ? 'SHORTVIDEO' : 'LONGVIDEO',
+		getVideoList(props.isfollow?uni.getStorageSync('otherId'):uni.getStorageSync('user_info').id,{
+			// contentType: current ? 'SHORTVIDEO' : 'LONGVIDEO',
 			authorId: props.isfollow?uni.getStorageSync('otherId'):uni.getStorageSync('user_info').id, //作者id
 			currentPage: page.value,
 			pageSize: 20

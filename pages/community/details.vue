@@ -15,7 +15,7 @@
 		</up-navbar>
 		<!-- 作品 -->
 		<view class="content">
-			<active :isList="false" :more="false" :isPath="true" :tabs="4" :detailId="detailId" />
+			<active :isList="false" :more="false" :isPath="true" :tabs="4" :detailId="detailId" ref="activelist"/>
 		</view>
 		<!-- 评论 -->
 		<comment ref="commentList" @onfocus="onfocus" :detailId="detailId"  />
@@ -53,6 +53,7 @@
 	const userid = ref(0)
 	const con = ref('')
 	const show = ref(false)
+	const activelist = ref(null)
 	const commentList = ref(null)
 	//发表评论
 	const publish = () => {
@@ -66,6 +67,7 @@
 			content: con.value,	
 		}).then(res => {
 			commentList.value.getlist()
+			activelist .value.getlist(4)
 			con.value = ''
 		})
 	

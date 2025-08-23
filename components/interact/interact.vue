@@ -7,10 +7,10 @@
 			<view class="bg">
 				<view class="top">
 					<view class="left">
-						<view @click.stop="topath(item.targetAuthorId)"><up-avatar :src="item.targetAuthorAvatar"
+						<view @click.stop="topath(item.authorId)"><up-avatar :src="item.authorAvatar"
 								size="40"></up-avatar></view>
 						<view class="message">
-							<text>{{item.targetAuthorNickname}}</text>
+							<text>{{item.authorNickname}}</text>
 						</view>
 					</view>
 					<view class="follow">
@@ -21,7 +21,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="title">{{item.targetTitle}}</view>
+				<view class="title">{{item.title}}</view>
 				<!-- <view class="images">
 					<image src="/static/tsp-icon/touxiang.jpg" mode=""></image>
 				</view> -->
