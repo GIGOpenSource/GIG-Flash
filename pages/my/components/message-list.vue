@@ -2,9 +2,9 @@
 	<view class="">
 		<view class="list" v-for="(item,index) in list" :key="index" @click="uni.navigateTo({url:'/pages/my/dialogue?id='+item.receiverId + '&name='+item.receiverNickname})">
 			<view class="left">
-				<up-avatar src="123445" size="40"></up-avatar>
+				<up-avatar :src="item.receiverAvatar" size="40"></up-avatar>
 				 <view style="margin-left: 20rpx;">
-					  <view class="">{{item.senderNickname || '暂无'}}</view>
+					  <view class="">{{item.receiverNickname || '暂无'}}</view>
 					  <view class="">{{item.content}}</view>
 				 </view>
 			</view>

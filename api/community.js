@@ -67,6 +67,11 @@ export const commentlike = (params) => {
 	return postRequest('/like/toggle', params)
 }
 
+//  获取关注列表
+export const followList = params =>{
+	console.log('params', params);
+	return getRequest(`/follow/following/${params.userId}`)
+}
 
 
 

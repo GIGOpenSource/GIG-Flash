@@ -7,7 +7,7 @@
 					<view class="" @click.stop="topath(item.userId)"><up-avatar :src="item.userAvatar"
 							size="40"></up-avatar></view>
 					<view class="message">
-						<text>{{item.userNickname || '用户已注销'}}</text>
+						<text>{{item.userNickname || item.followeeNickname||  '用户已注销'}}</text>
 						<text class="time">{{item.createTime}}</text>
 					</view>
 				</view>
@@ -58,6 +58,7 @@
 	import {
 		communityList,
 		getFollwingList,
+		followList,
 		getLatestList,
 		getDetails,
 		addLike,
@@ -143,7 +144,7 @@
 				uni.showToast({
 					title: '取消关注',
 					icon: 'none'
-				});
+				});A
 				getlist(props.tabs)
 				         
 			})
@@ -196,7 +197,8 @@
 			list.value = [...list.value, ...res.data.records]
 			total.value = res.data.total
 		} else if (newVal == 1) {
-			res = await getFollwingList(params)
+			// res = await getFollwingList(params)
+			res = await followList({userId: userinfo.id})
 			list.value = [...list.value, ...res.data.records]
 			total.value = res.data.total
 		} else if (newVal == 4) {
