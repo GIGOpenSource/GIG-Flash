@@ -14,12 +14,18 @@
 			:totalvod="totalvod"
 			@removeAllData="removeAllData"
 		></tw-videov>
-		<view class="automatic">
+		<!-- 	<view class="automatic">
 			<view class="automatic-item" @click="openAutomatic">点击{{ nextPlay ? '关闭自动播放' : '开启自动播放' }}</view>
 			<view class="automatic-item" @click="addVodData">点击在当前视频下标{{ currIndex }}后插入视频</view>
 			<view class="automatic-item" @click="removeVodData">点击删除视频</view>
 			<view class="automatic-item" @click="specifyPlay(currIndex + 1)">点击指定第{{ currIndex + 1 }}个视频播放</view>
-		</view>
+		</view> -->
+
+		<!-- 评论 -->
+		<comment-popup ref="commentRef" v-model="commentVisible" :commentInfo="commentInfo" @submitComment="submitComment" />
+
+		<!-- 转发弹窗 -->
+		<forwardMenu v-model="showForward" :forwardInfo="commentInfo"></forwardMenu>
 	</view>
 </template>
 
@@ -29,10 +35,14 @@
  */
 import twVideov from '@/components/tsp-video/tsp-video-list/video-v.vue';
 import { getVodData } from '@/static/js/vodData.js'; //假数据
+import commentPopup from '@/components/tsp-video/comment/comment-popup.vue';
+import forwardMenu from '@/components/tsp-video/forward-menu/forward-menu.vue';
 
 export default {
 	components: {
-		twVideov
+		twVideov,
+		commentPopup,
+		forwardMenu
 	},
 	props: {
 		/* 多个tab视频时需传入不同的类型id */
@@ -64,12 +74,34 @@ export default {
 			loopPlay: true,
 			tNum: 0,
 			currIndex: 0,
-			totalvod: 0 //视频总数量，有值才能滑动加载到最后一个视频并禁止循环滑动（仅H5、小程序支持）
+			totalvod: 0, //视频总数量，有值才能滑动加载到最后一个视频并禁止循环滑动（仅H5、小程序支持）
+			commentVisible: false, //是否显示评论弹窗
+			commentInfo: {},
+			openVodCommentIndex: null, //已经打开视频评论加载的下标
+			showForward: false //是否显示转发弹窗
 		};
 	},
 	created() {
 		this.videoData = getVodData();
 		this.initVod();
+
+		/* 监听打开评论*/
+		uni.$on('updateOpenComment', (data) => {
+			this.commentInfo = data.item;
+			this.commentVisible = true;
+			this.$nextTick(() => {
+				if (this.openVodCommentIndex != data.vodCurIndex) {
+					this.openVodCommentIndex = data.vodCurIndex;
+					this.$refs.commentRef.loadData(); //调用评论组件的加载方法
+				}
+			});
+		});
+
+		/* 监听打开转发*/
+		uni.$on('updateOpenForward', (data) => {
+			this.commentInfo = data.item;
+			this.showForward = true;
+		});
 	},
 	onShow() {
 		/* 播放视频 */

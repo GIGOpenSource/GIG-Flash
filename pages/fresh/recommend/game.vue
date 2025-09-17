@@ -20,7 +20,7 @@
 		<!-- z-paging默认铺满全屏，此时页面所有view都应放在z-paging标签内，否则会被盖住 -->
 		<!-- 需要固定在页面顶部的view请通过slot="top"插入，包括自定义的导航栏 -->
 		<view class="content">
-			<up-swiper height="166" radius="15" keyName="imageUrl" :list="bannerList" @click="handleClickSwiper"></up-swiper>
+			<up-swiper height="166" radius="15" keyName="imageUrl" :list="bannerList" @click="handleClickSwiper" v-if="bannerList.length > 0"></up-swiper>
 
 			<!-- 游戏分类 -->
 			<!-- 		<view class="game-category">
